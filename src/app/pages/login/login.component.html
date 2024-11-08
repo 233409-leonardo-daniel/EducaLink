@@ -1,0 +1,35 @@
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+  <div class="flex bg-[#3A00AE] text-white rounded-lg shadow-lg overflow-hidden w-[600px] h-[400px] md:w-[800px] md:h-[500px]">
+    <div class="flex-1 flex justify-center items-center p-8">
+      <img src="assets/logo.png" alt="EducaLink Logo" class="w-3/4">
+    </div>
+    
+    <div class="flex-1 p-8">
+      
+      <h2 class="text-2xl font-semibold mb-6 mt-4">Iniciar Sesión</h2>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium">Correo</label>
+          <input type="email" id="email" formControlName="email" 
+                 class="w-full p-2 mt-1 text-gray-800 bg-white rounded-md focus:outline-none">
+        </div>
+        
+        <div class="mb-6">
+          <label for="password" class="block text-sm font-medium">Contraseña</label>
+          <input type="password" id="password" formControlName="password" 
+                 class="w-full p-2 mt-1 text-gray-800 bg-white rounded-md focus:outline-none">
+        </div>
+        
+        <button type="submit" 
+                class="w-full bg-white text-[#3A00AE] py-2 rounded-md font-medium hover:bg-gray-200 transition mt-6">
+          Iniciar Sesión
+        </button>
+      </form>
+      
+      <p class="text-center text-sm mt-4">
+        <a href="#" class="underline">No tengo cuenta</a>
+      </p>
+    </div>
+  </div>
+</div>
