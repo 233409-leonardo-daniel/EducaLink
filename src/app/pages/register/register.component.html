@@ -1,0 +1,53 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-lg flex items-center justify-center z-50">
+    <div class="relative bg-[#3A00AE] text-white rounded-lg shadow-lg w-[500px] h-[750px] p-8">
+     
+      <button (click)="close()" class="absolute top-4 left-4 flex items-center text-white text-lg hover:text-gray-300">
+        <!-- SVG del ícono de regresar de la pagina de icnons Tailwind Toolbox-->
+        <svg class="h-8  w-8 text-white mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/>
+        </svg>
+        <span class="text-lg">Regresar</span>
+      </button>
+  
+      
+      <div class="flex justify-center mb-8">
+        <img src="assets/logo2.png" alt="EducaLink Logo" class="w-40 h-40 max-w-full max-h-full object-contain">
+      </div>
+      
+      <h2 class="text-center text-2xl font-semibold mb-6">Crear Cuenta</h2>
+  
+      <form>
+        <div class="mb-4">
+          <label for="nombre" class="block text-sm">Nombre</label>
+          <input type="text" id="nombre" class="w-full p-2 mt-1 text-gray-800 bg-white rounded-md focus:outline-none">
+        </div>
+        <div class="mb-4">
+          <label for="apellido" class="block text-sm">Apellido</label>
+          <input type="text" id="apellido" class="w-full p-2 mt-1 text-gray-800 bg-white rounded-md focus:outline-none">
+        </div>
+        <div class="mb-4">
+          <label for="correo" class="block text-sm">Correo</label>
+          <input type="email" id="correo" class="w-full p-2 mt-1 text-gray-800 bg-white rounded-md focus:outline-none">
+        </div>
+        <div class="mb-4">
+          <label for="nivel" class="block text-sm">Nivel Académico</label>
+          <select id="nivel" class="w-full p-2 mt-1 text-gray-800 bg-white rounded-md focus:outline-none">
+            <option value="">Seleccione nivel</option>
+            <option value="1">Preescolar</option>
+            <option value="2">Primaria</option>
+          </select>
+        </div>
+        <div class="mb-6">
+          <label for="contraseña" class="block text-sm">Contraseña</label>
+          <input type="password" id="contraseña" class="w-full p-2 mt-1 text-gray-800 bg-white rounded-md focus:outline-none">
+        </div>
+        
+       
+        <button type="button" (click)="close()" class="w-full bg-white text-[#3A00AE] py-2 rounded-md font-medium flex justify-center items-center hover:bg-gray-200 transition">
+          Crear Cuenta
+          <span class="ml-2 text-2xl font-bold">&#10132;</span>
+        </button>
+      </form>
+    </div>
+  </div>
+  
