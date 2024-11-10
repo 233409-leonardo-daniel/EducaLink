@@ -1,0 +1,18 @@
+<div>
+    
+        <div *ngFor="let forum of forums" class="border border-gray-300 rounded-lg p-4 mb-4 flex items-center space-x-4">
+          <img [src]="forum.image" alt="{{ forum.name }}" class="w-12 h-12 rounded-full">
+          <div class="flex-1">
+            <h2 class="text-lg font-bold">{{ forum.name }}</h2>
+            <p class="text-sm text-gray-600">Administrador: {{ forum.id_user }}</p>
+            <p class="text-sm" [ngClass]="forum.privacy ? 'text-green-500' : 'text-red-500'">
+              {{ forum.privacy ? 'Público' : 'Privado' }}
+            </p>
+              <p class="text-sm text-gray-600">{{ forum.description }}</p>
+          </div>
+          <button (click)="joinGroup(forum)" class="bg-[#3a00ae] text-white px-4 py-2 rounded hover:bg-blue-700">
+            Unirse
+          </button>
+        </div>
+      
+</div>
