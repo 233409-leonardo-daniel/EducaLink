@@ -14,7 +14,7 @@
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="mb-6">
           <label for="email" class="block text-lg font-medium">Correo</label>
-          <input type="email" id="email" formControlName="email" 
+          <input type="email" id="email" formControlName="username" 
                  class="w-full p-3 mt-1 text-gray-800 bg-white rounded-md focus:outline-none">
         </div>
         
@@ -24,7 +24,7 @@
                  class="w-full p-3 mt-1 text-gray-800 bg-white rounded-md focus:outline-none">
         </div>
         
-        <button type="submit" 
+        <button type="button" (click)="onSubmit()"
                 class="w-full bg-white text-[#3A00AE] py-3 rounded-md font-medium text-lg hover:bg-gray-200 transition mt-6">
           Iniciar Sesión
         </button>

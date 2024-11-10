@@ -1,15 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GroupService } from '../../../services/group.service';
-
-interface Group {
-  image: string;
-  name: string;
-  admin: string;
-  members: number;
-  isPublic: boolean;
-  description: string;
-}
+import { UserService } from '../../../services/user.service';
+import { IForum } from '../../../models/iforum';
 
 @Component({
   selector: 'app-register-group',
@@ -19,18 +12,21 @@ interface Group {
   styleUrl: './register-group.component.css'
 })
 export class RegisterGroupComponent implements OnInit {
-  groups: Group[] = [];
+  forums: IForum[] = [];
 
-  constructor(private groupService: GroupService) {}
-
-  ngOnInit(): void {
-    this.groupService.getGroups().subscribe((data) => {
-      this.groups = data;
+  constructor(readonly userService: UserService) {
+    this.userService.getForumSuggestions().subscribe((data) => {
+      console.log(data);
+      this.forums = data;
     });
   }
 
-  joinGroup(group: Group): void {
-    alert(`Unido al grupo ${group.name}`);
+  ngOnInit(): void {
+    
+  }
+
+  joinGroup(forum: IForum): void {
+    alert(`Unido al grupo ${forum.name}`);
   }
 
   finalize(): void {

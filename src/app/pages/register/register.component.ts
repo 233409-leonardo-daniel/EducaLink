@@ -25,8 +25,8 @@ export class RegisterComponent {
       mail: new FormControl('', [Validators.required, Validators.email]),
       education_level: new FormControl('', Validators.required),
       password: new FormControl('', [Validators.required, Validators.minLength(4)]),
-      user_type: new FormControl('User'),
-      state: new FormControl('Activo')
+      // user_type: new FormControl('User'), <- no se necesita PERO, EN EL BACKEND ESTA EL USER POR DEFECTO, SE PUEDE PONER ADMIN O USER
+      // state: new FormControl('Activo') <- no se necesita PERO, EN EL BACKEND ESTA ACTIVO POR DEFECTO
     });
   }
 
@@ -37,9 +37,8 @@ export class RegisterComponent {
       return of(error);
     })
    ).subscribe((res) => {
-    console.log(this.registerForm.value);
-    
-    console.log(res);
+    this.userService.setData(res.user);
+    this.router.navigate(['/groupregistration']);
    });
   }
 

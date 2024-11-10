@@ -5,5 +5,4 @@ export interface IUserData {
     education_level: string;
     password: string;
     user_type: string;
-    state: string;
 }
