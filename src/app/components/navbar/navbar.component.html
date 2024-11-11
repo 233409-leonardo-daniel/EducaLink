@@ -1,0 +1,32 @@
+
+<nav class="flex items-center justify-between bg-white shadow p-4">
+    <!-- Logo -->
+    <div class="flex items-center space-x-2">
+      <img src="assets/log.png" alt="Logo" class="w-20 h-20" />
+      <span class="font-bold text-purple-600">EducaLink</span>
+    </div>
+  
+    <!-- Search Bar -->
+    <div class="flex-1 flex justify-center mx-4">
+      <div class="relative w-5/8 max-w-2xl"> <!-- Cambiado a w-5/8 para hacer la barra un poco más grande -->
+        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+          <i class="fas fa-search"></i>
+        </span>
+        <input 
+          type="text" 
+          placeholder="Buscar" 
+          class="w-full pl-10 pr-4 py-2 rounded-full bg-gray-100 focus:outline-none"
+        />
+      </div>
+    </div>
+  
+    <!-- Icons and Profile -->
+    <div class="flex items-center text-purple-600">
+      <img src="assets/grupos.png" alt="Grupos" class="w-12 h-12 ml-24" />
+      <img src="assets/ventas.png" alt="Ventas" class="w-8 h-8 ml-24" />
+      <img src="assets/chats.png" alt="Chats" class="w-8 h-8 ml-24" />
+      <!-- Profile Component -->
+      <app-profile class="ml-24"></app-profile>
+    </div>
+  </nav>
+  

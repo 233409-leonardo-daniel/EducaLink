@@ -1,0 +1,23 @@
+<div class="bg-white rounded-lg shadow-md p-4 mb-4">
+    
+    <div class="flex items-center space-x-4 mb-4">
+      <img [src]="background_image_url" alt="{{ name }}" class="w-12 h-12 rounded-full">
+      <div class="flex-1">
+        <h3 class="text-lg font-semibold">{{ name }}</h3>
+        <p class="text-sm text-gray-500">{{ education_level }}</p>
+      </div>
+      <span class="text-sm text-gray-500">{{ creation_date | date:'dd/MM/yyyy' }}</span>
+    </div>
+    
+    <p class="text-gray-700 mb-4">{{ description }}</p>
+    <img [src]="image_url" alt="Post Image" class="w-full h-auto rounded-lg mb-4">
+    
+    <div class="flex space-x-2">
+      <div class="flex space-x-2">
+        <img src="assets/reaction1.jpg" alt="Reaction 1" class="w-6 h-6 rounded-full">
+        <img src="assets/reaction2.jpg" alt="Reaction 2" class="w-6 h-6 rounded-full">
+      </div>
+      <a href="#" class="text-purple-500 text-sm font-medium ml-2">Ver respuestas</a>
+    </div>
+  </div>
+  
