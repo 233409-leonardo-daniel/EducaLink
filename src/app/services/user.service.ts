@@ -45,5 +45,8 @@ export class UserService {
     return this.http.get<IForum[]>(`${this.url}/user/forums/${user_id}/`);
   }
 
+  getForumSuggestions (): Observable<IForum[]> {
+    return this.http.get<IForum[]>(`${this.url}/forum/education_level/${this.userData.education_level}/`);
+  }
   constructor(readonly http: HttpClient, readonly authService: AuthService) { }
 }
