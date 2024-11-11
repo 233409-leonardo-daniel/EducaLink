@@ -26,7 +26,14 @@
       <img src="assets/ventas.png" alt="Ventas" class="w-8 h-8 ml-24" />
       <img src="assets/chats.png" alt="Chats" class="w-8 h-8 ml-24" />
       <!-- Profile Component -->
-      <app-profile class="ml-24"></app-profile>
+      <div class="flex items-center bg-purple-700 text-white rounded-full py-1 px-3 space-x-3 max-w-xs">
+        <img [src]="profileImage" alt="Profile Picture" class="w-10 h-10 rounded-full" />
+        <div class="whitespace-nowrap">
+          <p class="font-semibold text-sm">{{user.name}}</p>
+          <p class="text-xs">{{user.education_level}}</p>
+        </div>
+        <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
+    </div>
     </div>
   </nav>
   
