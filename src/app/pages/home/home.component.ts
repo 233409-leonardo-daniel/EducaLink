@@ -10,6 +10,7 @@ import { GroupListComponent } from '../../components/group-list/group-list.compo
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { log } from 'console';
 import { IForum } from '../../models/iforum';
+import { Router } from '@angular/router';
 
 interface Post {
   name: string;
@@ -35,7 +36,7 @@ export class HomeComponent {
   idForums: number[] = [];
   forums: IForum[] = [];
 
-  constructor(readonly authService: AuthService, readonly userService: UserService, readonly postService : PostService) {
+  constructor(readonly authService: AuthService, readonly userService: UserService, readonly router: Router  , readonly postService : PostService) {
     const userItem = localStorage.getItem("user");
     if (userItem) {
       const objetoRecuperado = JSON.parse(userItem);
@@ -54,5 +55,9 @@ export class HomeComponent {
     } else {
       console.error("No se encontró el usuario en localStorage.");
     }
+  }
+
+  goPost() {
+    this.router.navigate(['/createpost']);
   }
 }

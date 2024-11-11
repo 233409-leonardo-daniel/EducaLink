@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
-import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [ProfileComponent],
+  imports: [],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-
+  user = JSON.parse(localStorage.getItem('user') || '{}');
+  name = this.user.name || 'Nombre no disponible';
+  education_level = this.user.education_level || 'Profesor de Primaria';
+  profileImage = 'https://via.placeholder.com/40';
 }

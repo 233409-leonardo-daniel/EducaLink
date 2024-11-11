@@ -1,4 +1,4 @@
-<div class="bg-white p-4 rounded-lg shadow-md flex flex-col space-y-4">
+<div class="bg-white p-4 rounded-lg shadow-md flex flex-col space-y-4 cursor-pointer">
     <div class="flex items-center space-x-4">
       <img src="assets/profile-picture.jpg" alt="Profile" class="w-12 h-12 rounded-full">
       <input
@@ -8,14 +8,15 @@
       />
     </div>
     <div class="flex space-x-4">
-      <button class="flex items-center space-x-2 text-purple-500 font-medium">
+      <button class="flex items-center space-x-2 text-purple-500 font-medium" (click)="goPost()">
         <i class="icon-documents"></i>
         <span>Subir Documentos</span>
       </button>
-      <button class="flex items-center space-x-2 text-purple-500 font-medium">
+      <a (click)="goPost()"><button class="flex items-center space-x-2 text-purple-500 font-medium"> 
         <i class="icon-image"></i>
         <span>Subir Imagen</span>
       </button>
+      </a>
     </div>
   </div>
   

@@ -3,19 +3,18 @@ import { IUserData } from '../models/iuser-data';
 import { IForum } from '../models/iforum';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
   private url = 'http://localhost:8000';
   httpOptions = {
     headers: new HttpHeaders(
       {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
       })
   };
 
@@ -46,5 +45,5 @@ export class UserService {
     return this.http.get<IForum[]>(`${this.url}/user/forums/${user_id}/`);
   }
 
-  constructor(readonly http: HttpClient) { }
+  constructor(readonly http: HttpClient, readonly authService: AuthService) { }
 }
