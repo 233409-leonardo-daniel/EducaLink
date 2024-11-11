@@ -1,7 +1,7 @@
 <div>
     
     <div *ngFor="let forum of forums" class="border border-gray-300 rounded-lg p-4 mb-4 flex items-center space-x-4">
-      <img [src]="forum.image" alt="{{ forum.name }}" class="w-12 h-12 rounded-full">
+      <img [src]="forum.image_url" alt="{{ forum.name }}" class="w-12 h-12 rounded-full">
       <div class="flex-1">
         <h2 class="text-lg font-bold">{{ forum.name }}</h2>
         <p class="text-sm text-gray-600">Administrador: {{ forum.id_user }}</p>
