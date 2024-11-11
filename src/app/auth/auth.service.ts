@@ -15,13 +15,26 @@ export class AuthService {
   private url = 'http://localhost:8000';
   httpOptions = {
     headers: new HttpHeaders(
-      { 'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+      {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${this.token}`
       })
   };
 
   isLogged(): boolean {
     return this.isLoggedIn;
+  }
+
+  setToken(token: string) {
+    this.token = token;
+    this.httpOptions.headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+  }
+
+  getToken(): string | null {
+    return this.token;
   }
 
   isAlreadyRegistered(correo: string): Observable<any> {
@@ -30,5 +43,13 @@ export class AuthService {
   register(data: IUserData): Observable<any> {
     return this.http.post<any>(`${this.url}/user/`, data, this.httpOptions);
   }
+
+  login(mail: string, password: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('username', mail);
+    formData.append('password', password);
+    
+    return this.http.post<any>(`${this.url}/login/`, formData);
+}
   constructor(private http: HttpClient) { }
 }

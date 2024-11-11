@@ -1,5 +1,7 @@
-<div class="bg-white rounded-lg shadow-md p-4">
+<div class="bg-white rounded-lg shadow-md p-4 w-auto">
     <h2 class="text-lg font-semibold mb-4">Grupos</h2>
-    <app-group-item></app-group-item>
-  </div>
+    <ng-container *ngFor="let forum of forums">
+      <app-group-item [forum]="forum"></app-group-item>
+    </ng-container>
+</div>
   

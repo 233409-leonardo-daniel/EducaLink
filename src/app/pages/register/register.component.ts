@@ -33,13 +33,18 @@ export class RegisterComponent {
   setData() {
    this.authService.register(this.registerForm.value).pipe(
     catchError((error) => {
-      console.log(error);
+      if (error.status === 400) {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'El correo ya está registrado' });
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Algo salió mal' });
+      }
       return of(error);
     })
    ).subscribe((res) => {
-    console.log(this.registerForm.value);
-    
     console.log(res);
+    this.authService.setToken(res.access_token);
+    this.userService.setData(res.token_data);
+    this.router.navigate(['/registergroup']);
    });
   }
 

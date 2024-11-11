@@ -9,14 +9,15 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent {
-  @Input() name: string = '';
-  @Input() description: string = '';
-  @Input() background_image_url: string = '';
-  @Input() image_url: string = '';
-  @Input() education_level: string = '';
-  @Input() privacy: string = '';
-  @Input() password: string = '';
-  @Input() id_forum: number = 0;
-  @Input() creation_date: string = '';
-  @Input() id_user: number = 0;
+  @Input() post = {
+    content: '',
+    forum_id: 0,
+    id_post: 0,
+    user_id: 0,
+    comment_count: 0,
+    user_name: '',
+    user_education_level: '',
+    user_profile_image_url: '',
+    publication_date: ''
+  }
 }
