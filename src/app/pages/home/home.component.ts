@@ -55,9 +55,24 @@ export class HomeComponent {
     } else {
       console.error("No se encontró el usuario en localStorage.");
     }
+
+       // Agregar un post estático de prueba
+       this.posts.push({
+        content: 'Este es un post de prueba para verificar la visualización.',
+        forum_id: 1,
+        id_post: 101,
+        user_id: 1,
+        comment_count: 5,
+        user_name: 'Juan Vicente',
+        user_education_level: 'Profesor de matemáticas',
+        user_profile_image_url: 'assets/profile.png',  // Ruta a una imagen de perfil
+        publication_date: new Date().toISOString() // Fecha de publicación actual
+      });
   }
 
   goPost() {
     this.router.navigate(['/createpost']);
   }
+
+  
 }
