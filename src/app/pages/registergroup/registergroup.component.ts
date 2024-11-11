@@ -9,5 +9,7 @@ import { GroupComponent } from '../../components/group/group.component';
   styleUrl: './registergroup.component.css'
 })
 export class RegistergroupComponent {
-
+  finalize(): void {
+    alert('Finalizado');
+  }
 }
