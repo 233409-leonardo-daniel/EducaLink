@@ -1,7 +1,9 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IUserData } from '../models/iuser-data';
+import { isPlatformBrowser } from '@angular/common';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +12,29 @@ export class AuthService {
   private isLoggedIn = false;
   private token: string | null = null;
   private url = 'http://localhost:8000';
+  private options = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin' : '*',
+      'Authorization': this.getToken() ? `Bearer ${this.getToken()}` : '',
+    })
+  };
 
-  constructor(private http: HttpClient) {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      this.setToken(storedToken);
-      this.isLoggedIn = true;
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    if (isPlatformBrowser(this.platformId)) {
+      const storedToken = localStorage.getItem('token');
+      if (storedToken) {
+        this.setToken(storedToken);
+        this.isLoggedIn = true;
+      }
     }
+  }
+
+  getOptions() {
+    return this.options;
   }
 
   isLogged(): boolean {
@@ -25,20 +43,33 @@ export class AuthService {
 
   setToken(token: string) {
     this.token = token;
-    localStorage.setItem('token', token);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('token', token);
+    }
   }
 
   getToken(): string | null {
-    return this.token || localStorage.getItem('token');
+    if (isPlatformBrowser(this.platformId)) {
+      return this.token || localStorage.getItem('token');
+    }
+    return this.token;
   }
 
-  private getHttpOptions() {
-    const token = this.getToken();
+  getHttpOptions() {
+    const headersConfig: any = {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    };
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = this.getToken();
+      if (token) {
+        headersConfig['Authorization'] = `Bearer ${token}`;
+      }
+    }
+
     return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': token ? `Bearer ${token}` : '',
-      })
+      headers: new HttpHeaders(headersConfig),
     };
   }
 
@@ -55,6 +86,6 @@ export class AuthService {
     formData.append('username', mail);
     formData.append('password', password);
 
-    return this.http.post<any>(`${this.url}/login/`, formData);
+    return this.http.post<any>(`${this.url}/token`, formData);
   }
 }

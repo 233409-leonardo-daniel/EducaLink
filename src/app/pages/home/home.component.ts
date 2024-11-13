@@ -37,11 +37,7 @@ export class HomeComponent {
   forums: IForum[] = [];
 
   constructor(readonly authService: AuthService, readonly userService: UserService, readonly router: Router  , readonly postService : PostService) {
-    const userItem = localStorage.getItem("user");
-    if (userItem) {
-      const objetoRecuperado = JSON.parse(userItem);
-      console.log(objetoRecuperado.id_user);
-      this.userService.getUserForums(objetoRecuperado.id_user).subscribe((data: any) => {
+      this.userService.getUserForums(this.userService.getData().id_user).subscribe((data: any) => {
         this.forums = data;
         console.log(this.forums);
         this.idForums = data.map((forum: any) => forum.id_forum);
@@ -52,9 +48,6 @@ export class HomeComponent {
         })
         
       });
-    } else {
-      console.error("No se encontró el usuario en localStorage.");
-    }
 
        // Agregar un post estático de prueba
        this.posts.push({

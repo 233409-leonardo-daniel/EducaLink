@@ -30,7 +30,7 @@ export class RegisterComponent {
     });
   }
 
-  setData() {
+  setData() {    
    this.authService.register(this.registerForm.value).pipe(
     catchError((error) => {
       if (error.status === 400) {
@@ -40,11 +40,15 @@ export class RegisterComponent {
       }
       return of(error);
     })
-   ).subscribe((res) => {
-    console.log(res);
-    this.authService.setToken(res.access_token);
-    this.userService.setData(res.token_data);
-    this.router.navigate(['/registergroup']);
+   ).subscribe(() => {
+    this.authService.login(this.registerForm.value.mail, this.registerForm.value.password).subscribe((res) => {
+      console.log(res);
+      
+      this.authService.setToken(res.access_token);
+      this.userService.setData(res.token_data);
+      localStorage.setItem('user', JSON.stringify(res.token_data));
+      this.router.navigate(['/registergroup']);
+    });
    });
   }
 

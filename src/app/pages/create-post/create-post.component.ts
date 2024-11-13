@@ -27,13 +27,10 @@ export class CreatePostComponent {
     readonly authService: AuthService,
     private router: Router
   ) {
-    const userItem = localStorage.getItem("user");
-    if (userItem) {
-      const objetoRecuperado = JSON.parse(userItem);
-      this.userService.getUserForums(objetoRecuperado.id_user).subscribe((data: any) => {
+      this.userService.getUserForums(this.userService.getData().id_user).subscribe((data: any) => {
         this.forums = data;
       });
-    }
+
 
     this.createPostForm = new FormGroup({
       forum: new FormControl('', Validators.required),
@@ -46,7 +43,7 @@ export class CreatePostComponent {
     let id = this.createPostForm.value.forum.id_forum;
     if (this.createPostForm.valid) {
       this.forums.forEach((forum: IForum) => {
-        if (forum.name === this.createPostForm.value.forum) {
+        if (forum.name === this.createPostForm.value.forum.name) {
           this.postService.createPost(this.createPostForm.value.title, this.createPostForm.value.content, id).subscribe((data: any) => {
             console.log(data);
           });

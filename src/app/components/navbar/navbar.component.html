@@ -1,11 +1,11 @@
 
 <nav class="flex items-center justify-between bg-white shadow p-4">
     <!-- Logo -->
-    <div class="flex items-center space-x-2">
-      <img src="assets/log.png" alt="Logo" class="w-20 h-20" />
+    <a [routerLink]="['/home']" routerLinkActive="router-link-active" ><div class="flex items-center space-x-2">
+     <img src="assets/log.png" alt="Logo" class="w-20 h-20" />
       <span class="font-bold text-purple-600">EducaLink</span>
     </div>
-  
+    </a>
     <!-- Search Bar -->
     <div class="flex-1 flex justify-center mx-4">
       <div class="relative w-5/8 max-w-2xl"> <!-- Cambiado a w-5/8 para hacer la barra un poco más grande -->
@@ -27,7 +27,7 @@
       <img src="assets/chats.png" alt="Chats" class="w-8 h-8 ml-24" />
       <!-- Profile Component -->
       <div class="flex items-center bg-purple-700 text-white rounded-full py-1 px-3 space-x-3 max-w-xs">
-        <img [src]="profileImage" alt="Profile Picture" class="w-10 h-10 rounded-full" />
+        <img [src]="profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full" />
         <div class="whitespace-nowrap">
           <p class="font-semibold text-sm">{{user.name}}</p>
           <p class="text-xs">{{user.education_level}}</p>
