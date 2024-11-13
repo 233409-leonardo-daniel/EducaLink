@@ -39,4 +39,8 @@ export class PostService {
     console.log(title, content, forum_id);
     return this.http.post<IPost>(`${this.url}/post/`, { title, content, forum_id }, this.getHttpOptions());
   }
+
+  getPostsByUser(user_id: number): Observable<IPost[]> {
+    return this.http.get<IPost[]>(`${this.url}/user/posts/${user_id}/`, this.getHttpOptions());
+  }
 }
