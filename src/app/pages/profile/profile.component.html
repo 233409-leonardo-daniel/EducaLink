@@ -1,0 +1,37 @@
+<app-navbar/>
+<main class="flex justify-center mt-14">
+    <section class="w-[50%] bg-white">
+        <div class="flex flex-col">
+            <div class="bg-red-400">
+                <img [src]="user.background_image_url" alt="background image" class="w-[100px] h-[100px] rounded-full">
+            </div>
+            <div class="flex p-10">
+                <div>
+                    <img [src]="user.profile_image_url" alt="profile picture" class="w-[100px] h-[100px] rounded-full">
+                </div>
+                <div>
+                    <h1>{{user.name}}</h1>
+                    <p>{{user.mail}}</p>
+                </div>
+            </div>
+            <div>
+                <button *ngIf="current_id == user.id_user" (click)="editProfile()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Editar
+                </button>
+                <button *ngIf="current_id != user.id_user" (click)="followUser(user.id_user)" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Seguir
+                </button>
+                <button *ngIf="current_id != user.id_user" (click)="contactUser(user.id_user)" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                    Contactar
+                </button>
+            </div>
+
+            
+        </div>
+    </section>
+
+    <section class="hidden lg:block px-16 w-[500px]">
+        <app-group-list [forums]="forums"></app-group-list>
+    </section>
+</main>
+

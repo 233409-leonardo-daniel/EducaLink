@@ -66,6 +66,5 @@ export class HomeComponent {
   goPost() {
     this.router.navigate(['/createpost']);
   }
-
   
 }

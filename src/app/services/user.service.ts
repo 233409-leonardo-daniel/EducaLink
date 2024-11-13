@@ -81,4 +81,14 @@ export class UserService {
       this.authService.getHttpOptions()
     );
   }
+
+  getUserById(id_user: number): Observable<IUserData> {
+    return this.http.get<IUserData>(`${this.url}/user/${id_user}/`);
+  }
+
+  followUser(id_user: number): Observable<any> {
+    console.log('This method is not in API');
+    
+    return this.http.post<any>(`${this.url}/user/follow/${id_user}/`, {}, this.authService.getHttpOptions());
+  }
 }
