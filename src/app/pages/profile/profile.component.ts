@@ -23,7 +23,9 @@ export class ProfileComponent {
   idForums: number[] = [];
   forums: IForum[] = [];
   user = JSON.parse(localStorage.getItem('user') || '{}')
-  current_id= this.user.id_user
+  current_id= 1
+  following: IUserData[] = [];
+  followers: IUserData[] = [];
   // user : IUserData = {} as IUserData;
   
   // user : IUserData = {
@@ -47,7 +49,7 @@ export class ProfileComponent {
     //   console.log(data)
     //   this.user = data;
     // });
-    console.log(this.user)
+    console.log(this.user.id_user)
     
     this.userService.getUserForums(this.user.id_user).subscribe((data: any) => {
       this.forums = data;
@@ -59,6 +61,16 @@ export class ProfileComponent {
     this.postService.getPostsByUser(this.user.id_user).subscribe((data: any) => {
       this.posts = data;
       console.log(this.posts);
+    });
+
+    this.userService.getFollowing(this.user.id_user).subscribe((data: any) => {
+      this.following = data;
+      console.log(this.following);
+    });
+
+    this.userService.getFollowers(this.user.id_user).subscribe((data: any) => {
+      this.followers = data;
+      console.log(this.followers);
     });
   }
 

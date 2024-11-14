@@ -33,7 +33,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value.username, this.loginForm.value.password).pipe(
         catchError((error) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Correo o contraseña incorrectos' });
+          this.toastr.error('El correo o la contraseña son incorrectos');
           return of(error);
         })
       ).subscribe(res => {

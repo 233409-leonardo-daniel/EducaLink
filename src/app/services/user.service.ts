@@ -86,9 +86,19 @@ export class UserService {
     return this.http.get<IUserData>(`${this.url}/user/${id_user}/`);
   }
 
-  followUser(id_user: number): Observable<any> {
-    console.log('This method is not in API');
-    
-    return this.http.post<any>(`${this.url}/user/follow/${id_user}/`, {}, this.authService.getHttpOptions());
+  followUser(user_id: number): Observable<any> {
+    return this.http.post<any>(`${this.url}/user/follow/${user_id}/`, {}, this.authService.getHttpOptions());
+  }
+
+  unfollowUser(user_id: number): Observable<any> {
+    return this.http.post<any>(`${this.url}/user/unfollow/${user_id}/`, {}, this.authService.getHttpOptions());
+  }
+
+  getFollowers(user_id: number): Observable<IUserData[]> {
+    return this.http.get<IUserData[]>(`${this.url}/user/followers/${user_id}/`);
+  }
+
+  getFollowing(user_id: number): Observable<IUserData[]> {
+    return this.http.get<IUserData[]>(`${this.url}/user/following/${user_id}/`);
   }
 }
