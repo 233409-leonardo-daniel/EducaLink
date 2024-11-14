@@ -7,6 +7,7 @@ import { MygroupsComponent } from './pages/mygroups/mygroups.component';
 import { RegistergroupComponent } from './pages/registergroup/registergroup.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MyprofileComponent } from './pages/myprofile/myprofile.component';
+import { VentasComponent } from './pages/ventas/ventas.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent },
@@ -17,4 +18,5 @@ export const routes: Routes = [
     { path: 'mygroup', component: MygroupsComponent},
     { path: 'profile/:id_user', component: ProfileComponent},
     { path: 'myprofile', component: MyprofileComponent},
+    { path: 'sale', component: VentasComponent}
 ];
