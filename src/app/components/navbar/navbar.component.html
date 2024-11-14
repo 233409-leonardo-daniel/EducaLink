@@ -24,8 +24,7 @@
     <div class="flex items-center text-purple-600">
       <img src="assets/grupos.png" alt="Grupos" class="w-12 h-12 ml-24" />
       <img src="assets/ventas.png" alt="Ventas" class="w-8 h-8 ml-24" />
-      <img src="assets/chats.png" alt="Chats" class="w-8 h-8 ml-24" />
-      <!-- Profile Component -->
+      <a [routerLink]="['/chat']" routerLinkActive="router-link-active"><img src="assets/chats.png" alt="Chats" class="w-8 h-8 ml-24" /></a>      <!-- Profile Component -->
       <div class="flex items-center bg-purple-700 text-white rounded-full py-1 px-3 space-x-3 max-w-xs">
         <img [src]="profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full" />
         <div class="whitespace-nowrap">
