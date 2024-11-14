@@ -37,10 +37,15 @@ export class LoginComponent {
           return of(error);
         })
       ).subscribe(res => {
-        this.authService.setToken(res.access_token);
-        this.userService.setData(res.token_data);
-        localStorage.setItem('user', JSON.stringify(res.token_data));
-        this.router.navigate(['/home']);
+        if (res.token_data) {
+          this.authService.setToken(res.access_token);
+          this.userService.setData(res.token_data);
+          localStorage.setItem('user', JSON.stringify(res.token_data));
+          this.router.navigate(['/home']);
+        } else {
+          console.log(res);
+          
+        }
       });
     } else {
       this.toastr.error('Formulario inválido');

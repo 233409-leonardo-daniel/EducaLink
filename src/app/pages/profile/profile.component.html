@@ -1,0 +1,46 @@
+<app-navbar/>
+<main class="flex justify-center mt-14">
+    <section class="w-[50%] ">
+        <div class="flex flex-col bg-white">
+            <div class="bg-red-400">
+                <img [src]="user.background_image_url" alt="background image" class="w-[100px] h-[100px] rounded-full">
+            </div>
+            <div class="flex px-10 py-10">
+                <div>
+                    <img src="assets/raul.jpg" alt="profile picture" class="w-[100px] h-[100px] rounded-full">
+                </div>
+                <div class="flex flex-col justify-center px-10">
+                    <h1 class="text-2xl font-bold">{{user.name}} {{user.lastname}}</h1>
+                    <p class="text-[#6D6D6D]">{{user.education_level}}</p>
+                    <!-- ESTA SECCIÓN NO ESTA HECHA CON LA API -->
+                    <!-- <p class="text-[#6D6D6D]">{{user.followers.length}} seguidores</p> 
+                    <p class="text-[#6D6D6D]">{{user.following.length}} seguidos</p> -->
+                </div>
+            </div>
+            <div class="flex justify-end p-4 h-min gap-4">
+                <button *ngIf="current_id == user.id_user" (click)="editProfile()" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
+                    <i class="pi pi-pen-to-square"></i> Editar
+                </button>
+                <button *ngIf="current_id != user.id_user" (click)="followUser(user.id_user)" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
+                    <i class="pi pi-user-plus"></i> Seguir
+                </button>
+                <button *ngIf="current_id != user.id_user" (click)="contactUser(user.id_user)" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
+                    <i class="pi pi-comment"></i> Contactar
+                </button>
+            </div>
+        </div>
+        <!-- SECCIÓN DE PUBLICACIONES -->
+        <section class="mt-10">
+            <h1 class="text-5xl font-bold">Publicaciones</h1>
+            <div class="flex flex-col mt-10">
+            <ng-container *ngFor="let post of posts">
+                <app-post [post]="post"></app-post>
+            </ng-container>
+            </div>
+        </section>
+    </section>
+    <section class="hidden lg:block px-16 w-[500px]">
+        <app-group-list [forums]="forums"></app-group-list>
+    </section>
+</main>
+
