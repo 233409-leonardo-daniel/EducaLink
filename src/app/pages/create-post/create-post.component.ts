@@ -8,6 +8,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { PostService } from '../../services/post.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-create-post',
@@ -25,6 +27,7 @@ export class CreatePostComponent {
     readonly userService: UserService, 
     readonly postService: PostService, 
     readonly authService: AuthService,
+    readonly toastr: ToastrService,
     private router: Router
   ) {
       this.userService.getUserForums(this.userService.getData().id_user).subscribe((data: any) => {
@@ -44,13 +47,28 @@ export class CreatePostComponent {
     if (this.createPostForm.valid) {
       this.forums.forEach((forum: IForum) => {
         if (forum.name === this.createPostForm.value.forum.name) {
-          this.postService.createPost(this.createPostForm.value.title, this.createPostForm.value.content, id).subscribe((data: any) => {
-            console.log(data);
+          this.postService.createPost(this.createPostForm.value.title, this.createPostForm.value.content, id).pipe(
+            catchError((error) => {
+              this.toastr.error('Error al crear la publicación');
+              return of(error);
+            })
+          ).subscribe({
+            next: () => {
+              //Posible solucion a S3 Bucket <- Queda pendiente
+              // this.selectedFiles.forEach((file: any) => {
+              //   this.postService.uploadFile(file, data.id_post).subscribe();
+              // });
+              // this.router.navigate(['/home']);
+              this.toastr.success('Publicación creada exitosamente');
+            },
+            error: () => {
+              this.toastr.error('Error al crear la publicación');
+            }
           });
         }
       });
     } else {
-      alert('Formulario inválido');
+      this.toastr.error('Formulario inválido');
     }
   }
 

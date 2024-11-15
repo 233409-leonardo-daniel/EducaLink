@@ -20,5 +20,5 @@ export const routes: Routes = [
     { path: 'profile/:id_user', component: ProfileComponent},
     { path: 'myprofile', component: MyprofileComponent},
     { path: 'sale', component: VentasComponent},
-    { path: 'chat', component: ChatComponent},
+    { path: 'chat', component: ChatComponent}
 ];

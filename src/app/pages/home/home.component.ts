@@ -29,12 +29,11 @@ export class HomeComponent {
   constructor(readonly authService: AuthService, readonly userService: UserService, readonly router: Router  , readonly postService : PostService) {
       this.userService.getUserForums(this.user.id_user).subscribe((data: any) => {
         this.forums = data;
-        console.log(this.forums);
+        
         this.idForums = data.map((forum: any) => forum.id_forum);
         this.postService.getPostByForum(this.idForums).subscribe((data: IPost[]) => {          
           this.posts = data.flat();
           console.log(this.posts);
-          
         })
         
       });

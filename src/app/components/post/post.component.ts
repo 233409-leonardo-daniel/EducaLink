@@ -16,18 +16,8 @@ export class PostComponent {
   user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {};
 
   constructor(private router: Router, private userService: UserService){ }
-  @Input() post = {
-    content: '',
-    forum_id: 0,
-    id_post: 0,
-    user_id: 0,
-    user_lastname: '',
-    comment_count: 0,
-    user_name: '',
-    user_education_level: '',
-    user_profile_image_url: '',
-    publication_date: ''
-  }
+  @Input() post!: IPost;
+
 
   goProfile(id_user: number) {
     // console.log(id_user);

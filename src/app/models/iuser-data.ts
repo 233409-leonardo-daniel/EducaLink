@@ -6,7 +6,6 @@ export interface IUserData {
     profile_image_url: string;
     mail: string;
     education_level: string;
-    password: string;
     user_type: string;
     creation_date: string;
     state: string;

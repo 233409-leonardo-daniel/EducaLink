@@ -35,7 +35,6 @@ export class UserService {
     profile_image_url: '',
     mail: '',
     education_level: '',
-    password: '',
     user_type: '',
     state: '',
     creation_date: ''

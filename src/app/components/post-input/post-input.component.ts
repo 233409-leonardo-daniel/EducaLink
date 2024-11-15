@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './post-input.component.css'
 })
 export class PostInputComponent {
-  
+  user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {};
 
   constructor(readonly router: Router) {}
 

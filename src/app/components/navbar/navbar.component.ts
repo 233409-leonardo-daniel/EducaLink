@@ -12,18 +12,20 @@ import { AuthService } from '../../auth/auth.service';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit{
-  user: IUserData = {} as IUserData
+  user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {};
   name: string = ''
   education_level: string = ''
   profile_image_url: string = ''
 
-  constructor(readonly userService: UserService, readonly authService: AuthService){}
-
-  ngOnInit(): void {
-    this.user = this.authService.getUser() || {} as IUserData
+  constructor(readonly userService: UserService, readonly authService: AuthService){
     this.name = this.user.name || 'Nombre no disponible';
     this.education_level = this.user.education_level || 'Profesor de Primaria';
     this.profile_image_url = this.user.profile_image_url || 'https://via.placeholder.com/40';
+  }
+
+  ngOnInit(): void {
+    // this.user = this.authService.getUser() || {} as IUserData
+    
   } 
   }
 

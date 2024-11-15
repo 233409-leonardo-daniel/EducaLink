@@ -1,12 +1,12 @@
+// models/ipost.ts
+import { IUserData } from "./iuser-data";
+
 export interface IPost {
-    content: string;
-    forum_id: number;
-    id_post: number;
-    user_id: number;
-    comment_count: number;
-    user_name: string;
-    user_lastname: string;
-    user_education_level: string;
-    user_profile_image_url: string;
-    publication_date: string;
+  id_post: number;
+  title: string;
+  content: string;
+  publication_date: string;
+  forum_id: number;
+  comment_count: number;
+  user: IUserData; // Ahora incluimos el usuario como un objeto anidado
 }
