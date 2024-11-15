@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { Router } from '@angular/router';
 import { IUserData } from '../../models/iuser-data';
@@ -10,6 +10,8 @@ import { PostService } from '../../services/post.service';
 import { CommonModule } from '@angular/common';
 import { PrimeIcons } from 'primeng/api';
 import { PostComponent } from "../../components/post/post.component";
+import { AuthService } from '../../auth/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -22,8 +24,13 @@ export class ProfileComponent {
   posts: IPost[] = [];
   idForums: number[] = [];
   forums: IForum[] = [];
-  user = JSON.parse(localStorage.getItem('user') || '{}')
-  current_id= this.user.id_user
+  followers = [];
+  following = [];
+  localuser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {};
+  user = {} as IUserData;
+  idTemp = 0
+  current_id= this.localuser.id_user
+  
   // user : IUserData = {} as IUserData;
   
   // user : IUserData = {
@@ -40,25 +47,30 @@ export class ProfileComponent {
   //   state: 'Activo'
   // }
 
-  constructor(private router: Router, private userService: UserService, private postService: PostService){
-    // this.user = this.userService.getData();
-
-    // this.userService.getUserById(this.user.id_user).subscribe((data: IUserData) => {
-    //   console.log(data)
-    //   this.user = data;
-    // });
-    console.log(this.user)
-    
-    this.userService.getUserForums(this.user.id_user).subscribe((data: any) => {
-      this.forums = data;
-      this.idForums = data.map((forum: any) => forum.id_forum);
-    });
-
-    console.log(this.user.id_user);
-    
-    this.postService.getPostsByUser(this.user.id_user).subscribe((data: any) => {
-      this.posts = data;
-      console.log(this.posts);
+  constructor(private toastr: ToastrService,private router: Router, private userService: UserService, private postService: PostService, private authService: AuthService) {
+    console.log(this.current_id);
+    this.idTemp = this.userService.getTempId()
+    this.userService.getUserById(this.idTemp).subscribe((data: IUserData) => {
+      console.log(data)
+      this.user = data;
+      console.log(this.user)
+      this.userService.getUserForums(this.user.id_user).subscribe((data: any) => {
+        this.forums = data;
+        this.idForums = data.map((forum: any) => forum.id_forum);
+      });
+      
+      this.postService.getPostsByUser(this.user.id_user).subscribe((data: any) => {
+        this.posts = data;
+        console.log(this.posts); 
+      });
+  
+      this.userService.getFollowers(this.user.id_user).subscribe((data: any) => {
+        this.followers = data;
+      });
+  
+      this.userService.getFollowing(this.user.id_user).subscribe((data: any) => {
+        this.following = data;
+      });
     });
   }
 
@@ -73,7 +85,7 @@ export class ProfileComponent {
   }
 
   contactUser(id_user: number) {
-    // Falta implementar la logica para mandar el id del usuario al chat
+    this.userService.setTempId(id_user);
     this.router.navigate(['/chat']);
   }
 

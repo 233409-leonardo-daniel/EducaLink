@@ -1,15 +1,15 @@
 <div class="bg-white rounded-lg shadow-md p-4 mb-4 w-[600px]">
-    <div class="flex items-center space-x-4 mb-4" (click)="goProfile(post.user_id)">
-      <div class="flex items-center space-x-4" (click)="id_user.emit(post.user_id)">
-        <div>
-          <img [src]="post.user_profile_image_url" alt="Profile picture" class="w-full h-auto rounded-lg mb-4">
+    <div class="flex justify-between mb-4" (click)="goProfile(post.user_id)">
+      <div class="flex" (click)="id_user.emit(post.user_id)">
+        <div class="w-32 h-32">
+          <img [src]="post.user_profile_image_url" alt="Profile picture" class="w-full h-full rounded-xl mb-4">
         </div>
-        <div>
-          <h3 class="text-lg font-semibold">{{ post.user_name }}</h3>
-          <p class="text-sm text-gray-500">{{ post.user_education_level }}</p>
+        <div class="ml-4 py-4">
+          <h3 class="text-2xl font-semibold">{{ post.user_name }} {{ post.user_lastname}}  </h3>
+          <p class="text-sm text-gray-500">Profesor de {{ post.user_education_level }}</p>
         </div>
       </div>
-      <div class="flex justify-end">
+      <div>
         <span class="text-sm text-gray-500">{{ post.publication_date | date:'dd/MM/yyyy' }}</span>
       </div>
     </div>

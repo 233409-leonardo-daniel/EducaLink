@@ -13,6 +13,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class UserService {
   private url = 'http://localhost:8000';
+  private idTemp = 0;
   httpOptions = {
     headers: new HttpHeaders(
       {
@@ -49,7 +50,6 @@ export class UserService {
   }
 
   getUserForums(user_id: number): Observable<IForum[]> { 
-    
     return this.http.get<IForum[]>(`${this.url}/user/forums/${user_id}/`);
   }
 
@@ -87,8 +87,26 @@ export class UserService {
   }
 
   followUser(id_user: number): Observable<any> {
-    console.log('This method is not in API');
-    
     return this.http.post<any>(`${this.url}/user/follow/${id_user}/`, {}, this.authService.getHttpOptions());
+  }
+
+  getFollowers(id_user: number): Observable<IUserData[]> {
+    console.log('Getting followers for user', id_user);
+    return this.http.get<IUserData[]>(`${this.url}/user/followers/${id_user}/`);
+  }
+
+  getFollowing(id_user: number): Observable<IUserData[]> {
+    return this.http.get<IUserData[]>(`${this.url}/user/following/${id_user}/`);
+  }
+
+  createChat(receiver_id: number): Observable<any> {
+    return this.http.post<any>(`${this.url}/chat/${receiver_id}/`, {}, this.authService.getHttpOptions());
+  }
+  setTempId(id: number) {
+    this.idTemp = id;
+  }
+
+  getTempId() {
+    return this.idTemp;
   }
 }

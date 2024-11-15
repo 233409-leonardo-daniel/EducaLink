@@ -12,17 +12,6 @@ import { log } from 'console';
 import { IForum } from '../../models/iforum';
 import { Router } from '@angular/router';
 
-interface Post {
-  name: string;
-  description: string;
-  background_image_url: string;
-  image_url: string;
-  education_level: string;
-  privacy: string;
-  creation_date: string;
-  id_user: number;
-}
-
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -35,9 +24,10 @@ export class HomeComponent {
   posts: IPost[] = [];
   idForums: number[] = [];
   forums: IForum[] = [];
+  user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {};
 
   constructor(readonly authService: AuthService, readonly userService: UserService, readonly router: Router  , readonly postService : PostService) {
-      this.userService.getUserForums(this.userService.getData().id_user).subscribe((data: any) => {
+      this.userService.getUserForums(this.user.id_user).subscribe((data: any) => {
         this.forums = data;
         console.log(this.forums);
         this.idForums = data.map((forum: any) => forum.id_forum);
@@ -47,19 +37,6 @@ export class HomeComponent {
           
         })
         
-      });
-
-       // Agregar un post estático de prueba
-       this.posts.push({
-        content: 'Este es un post de prueba para verificar la visualización.',
-        forum_id: 1,
-        id_post: 101,
-        user_id: 1,
-        comment_count: 5,
-        user_name: 'Juan Vicente',
-        user_education_level: 'Profesor de matemáticas',
-        user_profile_image_url: 'assets/profile.png',  // Ruta a una imagen de perfil
-        publication_date: new Date().toISOString() // Fecha de publicación actual
       });
   }
 

@@ -12,6 +12,7 @@ export class AuthService {
   private isLoggedIn = false;
   private token: string | null = null;
   private url = 'http://localhost:8000';
+  private user: IUserData | null = null;
   private options = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -88,4 +89,21 @@ export class AuthService {
 
     return this.http.post<any>(`${this.url}/token`, formData);
   }
+
+  setUser(user: IUserData) {
+    this.user = user;
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+  }
+
+  getUser(): IUserData | null {
+    if (isPlatformBrowser(this.platformId)) {
+      const user = localStorage.getItem('user');
+      if (user) {
+        return JSON.parse(user);
+      }
+    }
+    return this.user;
+  } 
 }
