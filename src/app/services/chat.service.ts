@@ -35,6 +35,8 @@ export class ChatService {
   }
 
   createMessage(message: IMessage): Observable<IMessage> {
+    console.log(message);
+    
     return this.http.post<IMessage>(`${this.apiUrl}/message/`, message, this.authService.getHttpOptions());
   }
 }

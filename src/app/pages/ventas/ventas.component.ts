@@ -23,6 +23,7 @@ export class VentasComponent implements OnInit {
 
   loadSalePosts(): void {
     this.saleService.getSalePosts().subscribe(data => {
+      console.log(data);
       this.salePosts = data;
     });
   }

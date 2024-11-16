@@ -5,6 +5,7 @@ import { IPost } from '../models/ipost';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IForum } from '../models/iforum';
+import { IUserData } from '../models/iuser-data';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,14 @@ export class PostService {
   getPostByForum(list: number[]): Observable<IPost[]> {
     const requests = list.map((id) => this.http.get<IPost>(`${this.url}/posts/forum/${id}`, this.getHttpOptions()));
     return forkJoin([...requests]);
+  }
+  
+  getForumPosts(forum_id: number): Observable<IPost[]> {
+    return this.http.get<IPost[]>(`${this.url}/posts/forum/${forum_id}`, this.getHttpOptions());
+  }
+
+  getUsersByForum(forum_id: number): Observable<IUserData[]> {
+    return this.http.get<IUserData[]>(`${this.url}/forum/${forum_id}/users/`, this.getHttpOptions());
   }
 
   createPost(title: string, content: string, forum_id: number): Observable<IPost> {

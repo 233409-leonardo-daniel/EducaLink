@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-group-list',
   standalone: true,
-  imports: [GroupItemComponent, CommonModule],
+  imports: [CommonModule, GroupItemComponent],
   templateUrl: './group-list.component.html',
   styleUrls: ['./group-list.component.css']
 })

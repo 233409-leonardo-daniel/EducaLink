@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ForumService } from '../../services/forum.service';
 
 @Component({
   selector: 'app-group-item',
@@ -22,4 +24,11 @@ export class GroupItemComponent {
     id_user: 0,
     users_count: 0
   }
+
+  goForum() {
+    this.forumService.setTempId(this.forum.id_forum);
+    this.router.navigate(['/forum']);
+  } 
+
+  constructor(private router: Router, private forumService : ForumService) { }
 }

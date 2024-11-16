@@ -1,0 +1,51 @@
+<app-navbar></app-navbar>
+<main class="flex justify-center mt-14">
+  <section class="w-[50%]">
+    <div class="flex flex-col bg-white">
+      <div class="bg-red-400">
+        <img [src]="forum.background_image_url" alt="Imagen de fondo" class="w-full h-60 object-cover">
+      </div>
+      <div class="flex px-10 py-10">
+        <div>
+          <img [src]="forum.image_url" alt="Imagen del foro" class="w-[100px] h-[100px] rounded-full">
+        </div>
+        <div class="flex flex-col justify-center px-10">
+          <h1 class="text-2xl font-bold">{{ forum.name }}</h1>
+          <p class="text-[#6D6D6D]">{{ forum.description }}</p>
+          <p class="text-[#6D6D6D]">{{ members.length }} miembros</p>
+          <p class="text-[#6D6D6D]">Nivel Educativo: {{ forum.education_level }}</p>
+        </div>
+      </div>
+      <div class="flex justify-end p-4 h-min gap-4">
+        <button *ngIf="current_id == forum.id_user" (click)="editForum()" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
+          <i class="pi pi-pen-to-square"></i> Editar
+        </button>
+        <button *ngIf="current_id != forum.id_user" (click)="joinForum(forum.id_forum)" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
+          <i class="pi pi-user-plus"></i> Unirse
+        </button>
+      </div>
+    </div>
+    <!-- SECCIÓN DE PUBLICACIONES -->
+    <section class="mt-10">
+      <h1 class="text-5xl font-bold">Publicaciones</h1>
+      <div class="flex flex-col mt-10">
+        <ng-container *ngFor="let post of posts">
+          <app-post [post]="post"></app-post>
+        </ng-container>
+      </div>
+    </section>
+  </section>
+  <!-- Sección para mostrar miembros u otra información -->
+  <section class="hidden lg:block px-16 w-[500px]">
+    <h2 class="text-2xl font-bold">Miembros ({{members.length}})</h2>
+    <ul class="mt-4 space-y-4">
+      <li *ngFor="let member of members" class="flex items-center">
+        <img [src]="member.profile_image_url" alt="{{ member.name }}" class="w-12 h-12 rounded-full mr-4">
+        <div>
+          <p class="font-bold">{{ member.name }} {{ member.lastname }}</p>
+          <p class="text-[#6D6D6D]">{{ member.education_level }}</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+</main>
