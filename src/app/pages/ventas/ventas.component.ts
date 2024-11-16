@@ -4,11 +4,12 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { PostventaComponent } from '../../components/postventa/postventa.component';
 import { ISalePost } from '../../models/isale-post';
 import { SaleService } from '../../services/sale.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-ventas',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, PostventaComponent],
+  imports: [CommonModule, NavbarComponent, PostventaComponent, RouterLink],
   templateUrl: './ventas.component.html',
   styleUrls: ['./ventas.component.css']
 })
