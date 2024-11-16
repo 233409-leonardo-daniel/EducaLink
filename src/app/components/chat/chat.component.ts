@@ -19,14 +19,14 @@ import { IUserData } from '../../models/iuser-data';
 
 export class ChatComponent implements OnInit {
   chats: IChat[] = [];
-  currentUser: IUserData = {} as IUserData
+  currentUser: IUserData = {} as IUserData;
+  currentChatUser: IUserData | null = null;
   messages: IMessage[] = [];
-  newMessage: string = ''; // Definimos newMessage como un string vacío
-  selectedChatId: number | null = null; // Definimos selectedChatId como null inicialmente
+  newMessage: string = '';
+  selectedChatId: number | null = null;
 
   constructor(private chatService: ChatService, private userService: UserService) {
     this.currentUser = this.userService.getData();
-    console.log(this.currentUser)
   }
 
   ngOnInit(): void {
@@ -34,18 +34,31 @@ export class ChatComponent implements OnInit {
   }
 
   getChatUsers() {
-    const id_user = this.userService.getData().id_user; 
+    const id_user = this.currentUser.id_user; 
     this.chatService.getChatUsers(id_user).subscribe(chats => {
-      console.log(chats)
-      this.chats = chats;
+      this.chats = chats.map(chat => {       
+        const otherUserId = chat.sender_id === id_user ? chat.receiver_id : chat.sender_id;
+        this.userService.getUserById(otherUserId).subscribe(user => {
+          chat.displayName = `${user.name} ${user.lastname}`; 
+        });
+  
+        return chat;
+      });
     });
   }
   
+
   selectChat(chatId: number) {
-    this.selectedChatId = chatId; 
-    console.log(this.selectedChatId)
+    this.selectedChatId = chatId;
+    const chat = this.chats.find(c => c.id_chat === chatId);
+    if (chat) {
+      const receiverId = chat.receiver_id;
+      this.userService.getUserById(receiverId).subscribe(user => {
+        this.currentChatUser = user;
+      });
+    }
+
     this.chatService.getMessagesByChatId(chatId).subscribe(messages => {
-      console.log(messages)
       this.messages = messages;
     });
   }
@@ -54,14 +67,14 @@ export class ChatComponent implements OnInit {
     if (this.selectedChatId !== null && this.newMessage.trim() !== '') {
       const newMessage: IMessage = {
         message: this.newMessage,
-        chat_id: this.selectedChatId, // `selectedChatId` ya está validado
+        chat_id: this.selectedChatId,
         date_message: new Date().toISOString(),
         id_message: 0,
-        sender_id : this.currentUser.id_user
+        sender_id: this.currentUser.id_user
       };
       this.chatService.createMessage(newMessage).subscribe(message => {
         this.messages.push(message);
-        this.newMessage = ''; // Limpiamos el input después de enviar el mensaje
+        this.newMessage = '';
       });
     } else {
       console.warn('No hay chat seleccionado o el mensaje está vacío.');
