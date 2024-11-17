@@ -12,12 +12,13 @@ import { PrimeIcons } from 'primeng/api';
 import { PostComponent } from "../../components/post/post.component";
 import { AuthService } from '../../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { RouterLink } from '@angular/router';
 import { error } from 'console';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [NavbarComponent, GroupListComponent, CommonModule, PostComponent],
+  imports: [NavbarComponent, GroupListComponent, CommonModule, PostComponent, RouterLink],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })

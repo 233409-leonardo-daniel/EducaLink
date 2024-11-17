@@ -11,6 +11,7 @@ import { VentasComponent } from './pages/ventas/ventas.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { ForumComponent } from './pages/forum/forum.component';
 import { CreateSalePostComponent } from './pages/create-sale-post/create-sale-post.component';
+import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { UserForumsComponent } from './pages/user-forums/user-forums.component';
 
 
@@ -27,6 +28,7 @@ export const routes: Routes = [
     { path: 'chat', component: ChatComponent },
     { path: 'forum', component: ForumComponent },
     { path: 'salepost', component: CreateSalePostComponent },
-    { path: 'user-forums', component: UserForumsComponent }
+    { path: 'user-forums', component: UserForumsComponent },
+    {path: 'editprofile', component: EditProfileComponent}
 
 ];

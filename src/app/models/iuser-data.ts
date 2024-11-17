@@ -9,4 +9,5 @@ export interface IUserData {
     user_type: string;
     creation_date: string;
     state: string;
+    password?: string; //recien lo agregue xd
 }
