@@ -11,6 +11,7 @@ import { VentasComponent } from './pages/ventas/ventas.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { ForumComponent } from './pages/forum/forum.component';
 import { CreateSalePostComponent } from './pages/create-sale-post/create-sale-post.component';
+import { UserForumsComponent } from './pages/user-forums/user-forums.component';
 
 
 export const routes: Routes = [
@@ -18,13 +19,14 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'home', component: HomeComponent },
     { path: 'createpost', component: CreatePostComponent },
-    { path: 'registergroup', component: RegistergroupComponent},
-    { path: 'mygroup', component: MygroupsComponent},
-    { path: 'profile/:id_user', component: ProfileComponent},
-    { path: 'myprofile', component: MyprofileComponent},
-    { path: 'sale', component: VentasComponent},
-    { path: 'chat', component: ChatComponent},
+    { path: 'registergroup', component: RegistergroupComponent },
+    { path: 'mygroup', component: MygroupsComponent },
+    { path: 'profile/:id_user', component: ProfileComponent },
+    { path: 'myprofile', component: MyprofileComponent },
+    { path: 'sale', component: VentasComponent },
+    { path: 'chat', component: ChatComponent },
     { path: 'forum', component: ForumComponent },
-    {path: 'salepost', component: CreateSalePostComponent}
+    { path: 'salepost', component: CreateSalePostComponent },
+    { path: 'user-forums', component: UserForumsComponent }
 
 ];

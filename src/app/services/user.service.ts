@@ -89,6 +89,10 @@ export class UserService {
     return this.http.post<any>(`${this.url}/user/follow/${id_user}/`, {}, this.authService.getHttpOptions());
   }
 
+  unFollowUser(user_id: number): Observable<any> {
+    return this.http.delete<any>(`${this.url}/user/unfollow/${user_id}/`, this.authService.getHttpOptions());
+  }
+
   getFollowers(id_user: number): Observable<IUserData[]> {
     console.log('Getting followers for user', id_user);
     return this.http.get<IUserData[]>(`${this.url}/user/followers/${id_user}/`);
@@ -110,6 +114,7 @@ export class UserService {
   }
 
   leaveForum(forum_id: number, user_id: number): Observable<any> {
-    return this.http.delete<any>(`${this.url}/user/leave_forum/${forum_id}/${user_id}/`, this.authService.getHttpOptions());
+    
+    return this.http.delete<any>(`${this.url}/user/leave_forum/${user_id}/${forum_id}/`, this.authService.getHttpOptions());
   }
 }

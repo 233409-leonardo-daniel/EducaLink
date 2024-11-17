@@ -12,6 +12,7 @@ import { PrimeIcons } from 'primeng/api';
 import { PostComponent } from "../../components/post/post.component";
 import { AuthService } from '../../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { error } from 'console';
 
 @Component({
   selector: 'app-profile',
@@ -30,6 +31,7 @@ export class ProfileComponent {
   user = {} as IUserData;
   idTemp = 0
   current_id= this.localuser.id_user
+  isCurrentUserFollowing = false;
   
   // user : IUserData = {} as IUserData;
   
@@ -66,6 +68,7 @@ export class ProfileComponent {
   
       this.userService.getFollowers(this.user.id_user).subscribe((data: any) => {
         this.followers = data;
+        this.isCurrentUserFollowing = data.some((follower: any) => follower.id_user === this.current_id);
       });
   
       this.userService.getFollowing(this.user.id_user).subscribe((data: any) => {
@@ -78,9 +81,27 @@ export class ProfileComponent {
     this.router.navigate(['/editprofile']);
   }
 
-  followUser(id_user : number) {
-    this.userService.followUser(id_user).subscribe((data: any) => {
-      console.log(data);
+  followUser(id_user: number): void {
+    this.userService.followUser(id_user).subscribe({
+      next: (data: any) => {
+        this.toastr.success('Siguiendo al usuario');
+      },
+      error: (error: any) => {
+        console.error('Error al seguir al usuario:', error);
+        this.toastr.error('Error al seguir al usuario');
+      }
+    });
+  }
+
+  unFollowUser(id_user: number): void {
+    this.userService.unFollowUser(id_user).subscribe({
+      next: (data: any) => {
+        this.toastr.success('Dejaste de seguir al usuario');
+      },
+      error: (error: any) => {
+        console.error('Error al dejar de seguir al usuario:', error);
+        this.toastr.error('Error al dejar de seguir al usuario');
+      }
     });
   }
 

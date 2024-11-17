@@ -46,7 +46,7 @@ export class ForumService {
 
   createForum(forumData: IForum): Observable<IForum> {
     return this.http.post<IForum>(
-      `${this.url}/forum/create/`,
+      `${this.url}/forum/`,
       forumData,
       this.authService.getHttpOptions()
     );

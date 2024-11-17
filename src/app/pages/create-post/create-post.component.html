@@ -12,7 +12,7 @@
     </div>
 
     <section class="bg-white w-1/2 p-10 rounded-lg">   
-        <form [formGroup]="createPostForm">
+        <form [formGroup]="createPostForm" (ngSubmit)="createPost()">
             <h1 class="text-2xl font-bold">Crear tu publicación</h1>
             <div class="flex flex-col mt-6">
                 <p>Grupo</p>
@@ -26,26 +26,19 @@
             </div>
             <div class="flex flex-col mt-4">
                 <p>Título</p>
-                <input type="text" formControlName="title" class="border border-gray-300 rounded-md p-2 w-full">
+                <input type="text" formControlName="title" class="border border-gray-300 rounded-md p-2 w-full" required>
             </div>
             <div class="flex space-x-4 mt-4">
                 <button type="button" (click)="selectFile('document')" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Subir Documento</button>
                 <button type="button" (click)="selectFile('image')" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Subir Imagen</button>
             </div>
 
-            <!-- Vista previa de archivos seleccionados -->
-            <div class="mt-4 grid grid-cols-3 gap-4 bg-gray-50 p-4 rounded-lg shadow">
-                <div *ngFor="let file of selectedFiles; let i = index" class="relative border p-2 rounded-lg w-24 h-24 flex flex-col items-center">
-                    <img *ngIf="file.preview" [src]="file.preview" alt="image preview" class="w-16 h-16 object-cover rounded mb-2" />
-                    <span class="block text-xs truncate w-full text-center">{{ file.name }}</span>
-                    <button (click)="removeFile(i)" class="absolute top-0 right-0 text-red-500 text-sm">&times;</button>
-                </div>
-            </div>
+            
 
             <div class="mt-4">
-                <textarea formControlName="content" placeholder="Escribe tu publicación aquí..." class="border border-gray-300 rounded-md p-2 w-full h-24"></textarea>
+                <textarea formControlName="content" placeholder="Escribe tu publicación aquí..." class="border border-gray-300 rounded-md p-2 w-full h-24" required></textarea>
             </div>
-            <button class="w-full bg-purple-500 text-white rounded-md p-2 mt-4" (click)="createPost()">Publicar</button>
+            <button class="w-full bg-purple-500 text-white rounded-md p-2 mt-4" [disabled]="createPostForm.invalid">Publicar</button>
         </form>
     </section>
 </main>

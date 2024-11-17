@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ForumService } from '../../services/forum.service';
+import { UserService } from '../../services/user.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-group-item',
@@ -9,7 +11,7 @@ import { ForumService } from '../../services/forum.service';
   templateUrl: './group-item.component.html',
   styleUrl: './group-item.component.css'
 })
-export class GroupItemComponent {
+export class GroupItemComponent implements OnInit {
   @Input() forum = {
     name: '',
     description:  '',	
@@ -25,10 +27,20 @@ export class GroupItemComponent {
     users_count: 0
   }
 
+  isCurrentUserProfile = false;
+
+
   goForum() {
     this.forumService.setTempId(this.forum.id_forum);
     this.router.navigate(['/forum']);
   } 
 
-  constructor(private router: Router, private forumService : ForumService) { }
+  ngOnInit() {
+    let id_user = this.authService.getUser()?.id_user;
+    if (id_user) {
+      this.isCurrentUserProfile = id_user == this.userService.getTempId();
+    }
+  }
+
+  constructor(private router: Router, private forumService : ForumService, private userService: UserService, private authService: AuthService) { }
 }

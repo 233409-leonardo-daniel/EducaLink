@@ -8,5 +8,6 @@ export interface IPost {
   publication_date: string;
   forum_id: number;
   comment_count: number;
+  image_urls: string[];
   user: IUserData; // Ahora incluimos el usuario como un objeto anidado
 }

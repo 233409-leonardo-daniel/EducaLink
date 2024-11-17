@@ -44,9 +44,12 @@ export class PostService {
     return this.http.get<IUserData[]>(`${this.url}/forum/${forum_id}/users/`, this.getHttpOptions());
   }
 
-  createPost(title: string, content: string, forum_id: number): Observable<IPost> {
-    console.log(title, content, forum_id);
-    return this.http.post<IPost>(`${this.url}/post/`, { title, content, forum_id }, this.getHttpOptions());
+  createPost(formData: FormData): Observable<IPost> {
+    return this.http.post<IPost>(`${this.url}/post/`, formData, {
+      headers: {
+        'Authorization': `Bearer ${this.authService.getToken()}`
+      }
+    });
   }
 
   getPostsByUser(user_id: number): Observable<IPost[]> {

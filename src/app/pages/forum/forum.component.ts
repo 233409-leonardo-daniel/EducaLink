@@ -108,15 +108,26 @@ export class ForumComponent {
   }
 
   leaveForum() {
-    this.userService.leaveForum(this.forum.id_forum, this.current_id).subscribe({
-      next: (data: any) => {
-        this.toastr.success('Has abandonado el foro exitosamente');
-        this.router.navigate(['/home']);
-      },
-      error: (error: any) => {
-        console.error('Error al abandonar el foro:', error);
-        this.toastr.error('Error al abandonar el foro');
+    this.userService.getUserForums(this.current_id).subscribe((data: IForum[]) => {
+      if (data.length === 1) {
+        this.toastr.error('No puedes abandonar tu último foro');
+        return;
       }
+      this.userService.leaveForum(this.forum.id_forum, this.current_id).subscribe({
+        next: (data: any) => {
+          this.toastr.success('Has abandonado el foro exitosamente');
+          this.router.navigate(['/home']);
+        },
+        error: (error: any) => {
+          console.error('Error al abandonar el foro:', error);
+          this.toastr.error('Error al abandonar el foro');
+        }
+      });
     });
+  }
+
+  goProfile(id_user: number) {
+    this.userService.setTempId(id_user);
+    this.router.navigate(['/profile', id_user]);
   }
 }

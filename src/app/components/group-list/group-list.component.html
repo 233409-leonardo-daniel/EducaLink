@@ -1,7 +1,11 @@
 <div class="bg-white rounded-lg shadow-md p-4 fixed mt-10 w-1/4">
-    <h2 class="text-lg font-semibold mb-4">Grupos</h2>
-    <ng-container *ngFor="let forum of forums">
-      <app-group-item [forum]="forum"></app-group-item>
-    </ng-container>
+  <div class="flex items-center justify-between pb-5">
+    <h2 class="text-lg font-semibold ">Grupos</h2>
+    <button (click)="goGroups()" class="rounded-full bg-[#3F008F] hover:bg-[#6e2ec2] text-white py-1 px-2">
+      Ver mas
+    </button>
+  </div>
+  <ng-container *ngFor="let forum of forums | slice:0:5">
+    <app-group-item [forum]="forum"></app-group-item>
+  </ng-container>
 </div>
-  

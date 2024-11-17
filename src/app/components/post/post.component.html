@@ -1,3 +1,4 @@
+<!-- src/app/components/post/post.component.html -->
 <div class="bg-white rounded-lg shadow-md p-4 mb-4 w-full">
   <!-- Encabezado del Post -->
   <div class="flex flex-col md:flex-row justify-between mb-4">
@@ -17,8 +18,23 @@
   <h3 class="text-base md:text-xl font-medium">{{ post.title }}</h3>
   <p class="text-sm text-gray-700 mb-4">{{ post.content }}</p>
 
+  <!-- Imágenes y PDFs del Post -->
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4" >
+    <ng-container *ngFor="let fileUrl of post.image_urls">
+      <ng-container *ngIf="isImage(fileUrl); else pdfTemplate">
+        <a [href]="fileUrl" target="_blank"><img [src]="fileUrl" alt="Post image" class="w-1/2 h-auto rounded-lg"></a>
+      </ng-container>
+      <ng-template #pdfTemplate>
+        <a [href]="fileUrl" target="_blank" class="flex items-center justify-center w-1/2 h-auto">
+          <i class="pi pi-file-pdf" style="font-size: 100px"></i>
+          <!-- <span class="text-sm text-gray-700 ml-2">Ver PDF</span> -->
+        </a>
+      </ng-template>
+    </ng-container>
+  </div>
+
   <!-- Pie del Post -->
   <div *ngIf="post.comment_count > 0">
-    <a href="#" class="text-purple-500 text-xs md:text-sm font-medium">Ver respuestas</a>
+    <a [routerLink]="['/comments']" routerLinkActive="router-link-active"  class="text-purple-500 text-xs md:text-sm font-medium">Ver respuestas</a>
   </div>
 </div>
