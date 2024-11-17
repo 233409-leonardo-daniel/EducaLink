@@ -27,6 +27,10 @@ export class UserService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
+  updateUser(user_id: number, userData: Partial<IUserData>): Observable<IUserData> {
+    return this.http.put<IUserData>(`${this.url}/user/${user_id}/`, userData, this.authService.getHttpOptions());
+  }
+
   private userData: IUserData = {
     id_user: 0,
     name: '',

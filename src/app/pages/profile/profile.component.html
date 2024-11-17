@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="flex justify-end p-4 h-min gap-4">
-                <button *ngIf="current_id == user.id_user" (click)="editProfile()" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
+                <button *ngIf="current_id == user.id_user" [routerLink]="['/editprofile']" (click)="editProfile()" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
                     <i class="pi pi-pen-to-square"></i> Editar
                 </button>
                 <button *ngIf="current_id != user.id_user" (click)="followUser(user.id_user)" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
