@@ -36,17 +36,14 @@ export class ForumService {
     return this.idTemp;
   }
 
-  // Obtener información de un foro por su ID
   getForumById(forum_id: number): Observable<IForum> {
     return this.http.get<IForum>(`${this.url}/forum/${forum_id}/`, this.authService.getHttpOptions());
   }
 
-  // Obtener la lista de miembros de un foro
   getForumMembers(id_forum: number): Observable<IUserData[]> {
     return this.http.get<IUserData[]>(`${this.url}/forum/${id_forum}/users/`, this.authService.getHttpOptions());
   }
 
-  // Crear un nuevo foro
   createForum(forumData: IForum): Observable<IForum> {
     return this.http.post<IForum>(
       `${this.url}/forum/create/`,

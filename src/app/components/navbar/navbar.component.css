@@ -1,0 +1,39 @@
+/* Ajustes generales para la barra de navegación */
+nav {
+    background-color: #ffffff;
+  }
+  
+  .top-0 {
+    top: 0;
+  }
+  
+  .bottom-0 {
+    bottom: 0;
+  }
+  
+  .z-10 {
+    z-index: 10;
+  }
+  
+  /* Ajustes para dispositivos móviles */
+  @media (max-width: 768px) {
+    .navbar-desktop {
+      display: none;
+    }
+  
+    .navbar-mobile {
+      display: flex;
+    }
+  }
+  
+  /* Ajustes para dispositivos de escritorio */
+  @media (min-width: 769px) {
+    .navbar-mobile {
+      display: none;
+    }
+  
+    .navbar-desktop {
+      display: flex;
+    }
+  }
+  

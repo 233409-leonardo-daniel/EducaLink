@@ -24,6 +24,8 @@ export class ForumComponent {
   members: any[] = [];
   localuser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {};
   current_id = this.localuser.id_user;
+  showMembers: boolean = false;
+  isCurrentUserMember: boolean = false;
 
   constructor(
     private router: Router,
@@ -41,6 +43,7 @@ export class ForumComponent {
       this.forumService.getForumMembers(this.forum.id_forum).subscribe((membersData: IUserData[]) => {
         console.log(membersData);
         this.members = membersData;
+        this.isCurrentUserMember = membersData.some(member => member.id_user === this.current_id);
       });
     });
   }
@@ -50,17 +53,70 @@ export class ForumComponent {
   }
 
   joinForum(id_forum: number) {
-    this.userService.joinForum(id_forum).subscribe(
-      (data: any) => {
-        console.log(data);
+    // Verificar si el usuario ya es miembro
+    const isMember = this.members.some(member => member.id_user === this.current_id);
+    if (isMember) {
+      this.toastr.warning('Ya eres miembro de este foro');
+      return;
+    }
+
+    this.userService.joinForum(id_forum).subscribe({
+      next: (data: any) => {
+        this.toastr.success('Te has unido al foro exitosamente');
+        // Actualizar la lista de miembros
         this.forumService.getForumMembers(this.forum.id_forum).subscribe((membersData: IUserData[]) => {
           this.members = membersData;
         });
       },
-      (error: any) => {
-        console.error(error);
+      error: (error: any) => {
+        console.error('Error al unirse al foro:', error);
         this.toastr.error('Error al unirse al foro');
       }
-    );
+    });
+  }
+
+  expelUser(id_user: number) {
+    // Verificar si el usuario actual es el creador del foro
+    if (this.current_id !== this.forum.id_user) {
+      this.toastr.error('No tienes permisos para expulsar usuarios');
+      return;
+    }
+
+    // No permitir expulsar al creador del foro
+    if (id_user === this.forum.id_user) {
+      this.toastr.error('No puedes expulsar al creador del foro');
+      return;
+    }
+
+    this.userService.leaveForum(this.forum.id_forum, id_user).subscribe({
+      next: (data: any) => {
+        this.toastr.success('Usuario expulsado exitosamente');
+        // Actualizar la lista de miembros
+        this.forumService.getForumMembers(this.forum.id_forum).subscribe((membersData: IUserData[]) => {
+          this.members = membersData;
+        });
+      },
+      error: (error: any) => {
+        console.error('Error al expulsar al usuario:', error);
+        this.toastr.error('Error al expulsar al usuario');
+      }
+    });
+  }
+
+  toggleMembers() {
+    this.showMembers = !this.showMembers;
+  }
+
+  leaveForum() {
+    this.userService.leaveForum(this.forum.id_forum, this.current_id).subscribe({
+      next: (data: any) => {
+        this.toastr.success('Has abandonado el foro exitosamente');
+        this.router.navigate(['/home']);
+      },
+      error: (error: any) => {
+        console.error('Error al abandonar el foro:', error);
+        this.toastr.error('Error al abandonar el foro');
+      }
+    });
   }
 }

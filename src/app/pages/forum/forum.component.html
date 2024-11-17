@@ -20,8 +20,11 @@
         <button *ngIf="current_id == forum.id_user" (click)="editForum()" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
           <i class="pi pi-pen-to-square"></i> Editar
         </button>
-        <button *ngIf="current_id != forum.id_user" (click)="joinForum(forum.id_forum)" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
+        <button *ngIf="!isCurrentUserMember" (click)="joinForum(forum.id_forum)" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
           <i class="pi pi-user-plus"></i> Unirse
+        </button>
+        <button *ngIf="isCurrentUserMember" (click)="leaveForum()" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
+          <i class="pi pi-user-minus"></i> Abandonar
         </button>
       </div>
     </div>
@@ -38,12 +41,19 @@
   <!-- Sección para mostrar miembros u otra información -->
   <section class="hidden lg:block px-16 w-[500px]">
     <h2 class="text-2xl font-bold">Miembros ({{members.length}})</h2>
-    <ul class="mt-4 space-y-4">
-      <li *ngFor="let member of members" class="flex items-center">
-        <img [src]="member.profile_image_url" alt="{{ member.name }}" class="w-12 h-12 rounded-full mr-4">
-        <div>
-          <p class="font-bold">{{ member.name }} {{ member.lastname }}</p>
-          <p class="text-[#6D6D6D]">{{ member.education_level }}</p>
+    <ul class="mt-4 space-y-4 bg-white">
+      <li *ngFor="let member of members" class="flex items-center justify-between rounded-lg">
+        <div class="flex items-center">
+          <img [src]="member.profile_image_url" alt="{{ member.name }}" class="w-12 h-12 rounded-full mr-4">
+          <div class="flex flex-col">
+            <p class="font-bold">{{ member.name }} {{ member.lastname }}</p>
+            <p class="text-[#6D6D6D]">{{ member.education_level }}</p>
+          </div>
+        </div>
+        <div class="flex items-center" *ngIf="forum.id_user == current_id">
+          <button (click)="expelUser(member.id_user)" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white rounded p-1.5">
+            <i class="pi pi-user-minus"></i> Expulsar
+          </button>
         </div>
       </li>
     </ul>

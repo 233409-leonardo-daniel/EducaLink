@@ -1,19 +1,72 @@
 <app-navbar></app-navbar>
-<main class="flex justify-center mt-14">
-  <section class="flex flex-col items-center space-y-4">
-    <div class="w-[600px]" (click)="goPost()">
+<main class="flex flex-col lg:flex-row justify-center lg:space-x-16">
+  <aside class="hidden lg:block w-1/4 p-4 bg-white shadow-md md:flex flex-col">
+    <h2 class="text-2xl font-bold mb-4 text-center">Busqueda Rápida</h2>
+  
+    <h3 class="text-lg font-semibold text-gray-600 mb-4 text-center">Filtros</h3>
+    <ul class="space-y-4">
+      <li class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <img src="assets/venta/material-escolar.png" alt="Material didáctico" class="w-12 h-12 rounded-full bg-gray-100 p-1">
+          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Material didáctico</a>
+        </div>
+        <i class="pi pi-angle-right text-gray-400"></i>
+      </li>
+      <li class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <img src="assets/venta/libros.png" alt="Recursos de clases" class="w-12 h-12 rounded-full bg-gray-100 p-1">
+          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Recursos de clases</a>
+        </div>
+        <i class="pi pi-angle-right text-gray-400"></i>
+      </li>
+      <li class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <img src="assets/venta/juguete-de-peluche.png" alt="Juguetes" class="w-12 h-12 rounded-full bg-gray-100 p-1">
+          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Juguetes</a>
+        </div>
+        <i class="pi pi-angle-right text-gray-400"></i>
+      </li>
+      <li class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <img src="assets/venta/mobiliario.png" alt="Mobiliario y equipo" class="w-12 h-12 rounded-full bg-gray-100 p-1">
+          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Mobiliario y equipo</a>
+        </div>
+        <i class="pi pi-angle-right text-gray-400"></i>
+      </li>
+      <li class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <img src="assets/venta/ropa.png" alt="Uniformes y ropa" class="w-12 h-12 rounded-full bg-gray-100 p-1">
+          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Uniformes y ropa</a>
+        </div>
+        <i class="pi pi-angle-right text-gray-400"></i>
+      </li>
+      <li class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <img src="assets/venta/fiesta.png" alt="Decoraciones" class="w-12 h-12 rounded-full bg-gray-100 p-1">
+          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Decoraciones</a>
+        </div>
+        <i class="pi pi-angle-right text-gray-400"></i>
+      </li>
+      <li class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <img src="assets/venta/electro.png" alt="Electrónica" class="w-12 h-12 rounded-full bg-gray-100 p-1">
+          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Electrónica</a>
+        </div>
+        <i class="pi pi-angle-right text-gray-400"></i>
+      </li>
+    </ul>
+  </aside>
+  <section class="flex flex-col items-center space-y-4 w-full lg:w-1/2">
+    <div class="w-full">
       <app-post-input></app-post-input>
     </div>
 
-    <div class="w-[600px] space-y-4">
-      <ng-container *ngFor="let post of posts">
-        <app-post [post]="post"></app-post>
-      </ng-container>
+    <div class="w-full lg:space-y-4 bg-transparent ">
+      <app-post *ngFor="let post of posts" [post]="post"></app-post>
     </div>
   </section>
-  
-  <section class="hidden lg:block px-16 w-[500px]">
+
+  <section class="hidden lg:block w-1/3">
     <app-group-list [forums]="forums"></app-group-list>
   </section>
 </main>
-

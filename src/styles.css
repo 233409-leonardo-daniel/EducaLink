@@ -9,4 +9,8 @@
 
 body {
     background-color: #F5F5F7;
+    margin: 0;
+    box-sizing: border-box;
 }
+
+

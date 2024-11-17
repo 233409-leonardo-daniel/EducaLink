@@ -1,38 +1,83 @@
+<nav class="hidden md:flex items-center justify-between bg-blue p-4 sticky top-0 w-full z-10">
+  <a [routerLink]="['/home']" routerLinkActive="router-link-active" class="flex items-center space-x-2">
+    <img src="assets/log.png" alt="Logo" class="w-12 h-12 md:w-16 md:h-16" />
+    <span class="font-bold text-purple-600 text-lg md:text-xl">EducaLink</span>
+  </a>
+  
+  <div class="flex-1 flex justify-center mx-4">
+    <div class="relative w-full max-w-md lg:max-w-lg">
+      <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+        <i class="pi pi-search"></i>
+      </span>
+      <input
+        type="text"
+        placeholder="Buscar"
+        class="w-full pl-10 pr-4 py-2 rounded-full bg-gray-100 focus:outline-none"
+      />
+    </div>
+  </div>
 
-<nav class="flex items-center justify-between bg-white shadow p-4">
-    <!-- Logo -->
-    <a [routerLink]="['/home']" routerLinkActive="router-link-active" ><div class="flex items-center space-x-2">
-     <img src="assets/log.png" alt="Logo" class="w-20 h-20" />
-      <span class="font-bold text-purple-600">EducaLink</span>
-    </div>
+  <div class="flex items-center text-purple-600 space-x-6">
+    <a [routerLink]="['/group']" routerLinkActive="router-link-active">
+      <i class="pi pi-users text-2xl"></i>
     </a>
-    <!-- Search Bar -->
-    <div class="flex-1 flex justify-center mx-4">
-      <div class="relative w-5/8 max-w-2xl"> <!-- Cambiado a w-5/8 para hacer la barra un poco más grande -->
-        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-          <i class="fas fa-search"></i>
-        </span>
-        <input 
-          type="text" 
-          placeholder="Buscar" 
-          class="w-full pl-10 pr-4 py-2 rounded-full bg-gray-100 focus:outline-none"
-        />
-      </div>
+    <a [routerLink]="['/sale']" routerLinkActive="router-link-active">
+      <i class="pi pi-shopping-cart text-2xl"></i>
+    </a>
+    <a [routerLink]="['/chat']" routerLinkActive="router-link-active">
+      <i class="pi pi-comments text-2xl"></i>
+    </a>
+  </div>
+
+  <div class="flex items-center bg-purple-700 text-white rounded-full py-1 px-3 space-x-3 max-w-xs ml-6">
+    <img [src]="profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full" />
+    <div class="whitespace-nowrap">
+      <p class="font-semibold text-sm">{{ name }}</p>
+      <p class="text-xs">{{ education_level }}</p>
     </div>
+    <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
+  </div>
+</nav>
+
+<!-- MOBILE PARTE CUIDADO AL MODIFICAR -->
+<div class="md:hidden sticky top-0 left-0 w-full bg-white p-4 flex items-center justify-between z-10">
+  <a [routerLink]="['/profile']" routerLinkActive="router-link-active" class="flex items-center space-x-2">
+    <img [src]="profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full" />
+  </a>
   
-    <!-- Icons and Profile -->
-    <div class="flex items-center text-purple-600">
-      <img src="assets/grupos.png" alt="Grupos" class="w-12 h-12 ml-24" />
-      <a [routerLink]="['/sale']"><img src="assets/ventas.png" alt="Ventas" class="w-8 h-8 ml-24" /></a>
-      <a [routerLink]="['/chat']" routerLinkActive="router-link-active"><img src="assets/chats.png" alt="Chats" class="w-8 h-8 ml-24" /></a>      <!-- Profile Component -->
-      <div class="flex items-center bg-purple-700 text-white rounded-full py-1 px-3 space-x-3 max-w-xs">
-        <img [src]="user.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full" />
-        <div class="whitespace-nowrap">
-          <p class="font-semibold text-sm">{{user.name}}</p>
-          <p class="text-xs">{{user.education_level}}</p>
-        </div>
-        <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
+  <div class="flex-1 flex justify-center mx-2">
+    <div class="relative w-full max-w-xs">
+      <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+        <i class="pi pi-search"></i>
+      </span>
+      <input
+        type="text"
+        placeholder="Buscar"
+        class="w-full pl-10 pr-4 py-2 rounded-full bg-gray-100 focus:outline-none"
+      />
     </div>
-    </div>
-  </nav>
-  
+  </div>
+
+  <button (click)="onAddPost()" class="text-purple-600 text-2xl">
+    <i class="pi pi-plus-circle"></i>
+  </button>
+</div>
+
+<div class="fixed bottom-0 left-0 w-full bg-white shadow-inner flex justify-around py-2 text-purple-600 md:hidden">
+  <a [routerLink]="['/home']" routerLinkActive="router-link-active" class="flex flex-col items-center">
+    <i class="pi pi-home text-2xl"></i>
+    <p class="text-xs">Inicio</p>
+  </a>
+  <a [routerLink]="['/group']" routerLinkActive="router-link-active" class="flex flex-col items-center">
+    <i class="pi pi-users text-2xl"></i>
+    <p class="text-xs">Grupos</p>
+  </a>
+  <a [routerLink]="['/sale']" routerLinkActive="router-link-active" class="flex flex-col items-center">
+    <i class="pi pi-shopping-cart text-2xl"></i>
+    <p class="text-xs">Ventas</p>
+  </a>
+  <a [routerLink]="['/chat']" routerLinkActive="router-link-active" class="flex flex-col items-center">
+    <i class="pi pi-comments text-2xl"></i>
+    <p class="text-xs">Chats</p>
+  </a>
+</div>

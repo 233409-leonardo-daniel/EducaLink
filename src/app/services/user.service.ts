@@ -108,4 +108,8 @@ export class UserService {
   getTempId() {
     return this.idTemp;
   }
+
+  leaveForum(forum_id: number, user_id: number): Observable<any> {
+    return this.http.delete<any>(`${this.url}/user/leave_forum/${forum_id}/${user_id}/`, this.authService.getHttpOptions());
+  }
 }
