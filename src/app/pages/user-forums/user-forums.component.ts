@@ -15,12 +15,15 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class UserForumsComponent implements OnInit {
   forums: IForum[] = []
-
+  currentUser: any;
+  id_user: any;
+  
   ngOnInit() {
     // this.authService.getUser();
-    let id_user = this.authService.getUser()?.id_user;
-    if (id_user) {
-      this.userService.getUserForums(id_user).subscribe((data) => {
+    this.currentUser = this.authService.getUser();
+    this.id_user = this.userService.getTempId()
+    if (this.id_user) {
+      this.userService.getUserForums(this.id_user).subscribe((data) => {
         this.forums = data;
       });
       

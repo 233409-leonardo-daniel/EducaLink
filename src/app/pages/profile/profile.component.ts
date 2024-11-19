@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { Router } from '@angular/router';
 import { IUserData } from '../../models/iuser-data';
@@ -13,82 +13,104 @@ import { PostComponent } from "../../components/post/post.component";
 import { AuthService } from '../../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { RouterLink } from '@angular/router';
-import { error } from 'console';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [NavbarComponent, GroupListComponent, CommonModule, PostComponent, RouterLink],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css'
+  styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   posts: IPost[] = [];
   idForums: number[] = [];
   forums: IForum[] = [];
-  followers = [];
-  following = [];
-  localuser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {};
+  followers: IUserData[] = [];
+  following: IUserData[] = [];
   user = {} as IUserData;
-  idTemp = 0
-  current_id= this.localuser.id_user
+  current_id: number = 0;
   isCurrentUserFollowing = false;
-  
-  // user : IUserData = {} as IUserData;
-  
-  // user : IUserData = {
-  //   id_user: 1,
-  //   name: 'Testname',
-  //   lastname: 'lastnameTest',
-  //   background_image_url: 'URL',
-  //   profile_image_url:  'URL2',
-  //   mail: 'mail',
-  //   education_level: 'Primaria',
-  //   password: '',
-  //   user_type: 'User',
-  //   creation_date: '13/11/2024',
-  //   state: 'Activo'
-  // }
 
-  constructor(private toastr: ToastrService,private router: Router, private userService: UserService, private postService: PostService, private authService: AuthService) {
-    console.log(this.current_id);
-    this.idTemp = this.userService.getTempId()
-    this.userService.getUserById(this.idTemp).subscribe((data: IUserData) => {
-      console.log(data)
-      this.user = data;
-      console.log(this.user)
-      this.userService.getUserForums(this.user.id_user).subscribe((data: any) => {
+  constructor(
+    private toastr: ToastrService,
+    private router: Router,
+    private userService: UserService,
+    private postService: PostService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    // Obtener usuario actual desde el servicio AuthService
+    const userData = this.authService.getUser();
+    if (userData) {
+      this.current_id = userData.id_user;
+      this.userService.getUserById(this.userService.getTempId()).subscribe({
+        next: (data: IUserData) => {
+          this.user = data;
+          this.loadUserDetails();
+        },
+        error: (err) => {
+          console.error('Error al obtener los datos del usuario:', err);
+        }
+      });
+    }
+  }
+
+  private loadUserDetails(): void {
+    this.userService.getUserForums(this.user.id_user).subscribe({
+      next: (data: IForum[]) => {
         this.forums = data;
-        this.idForums = data.map((forum: any) => forum.id_forum);
-      });
-      
-      this.postService.getPostsByUser(this.user.id_user).subscribe((data: any) => {
+        this.idForums = data.map((forum) => forum.id_forum);
+      },
+      error: (err) => {
+        console.error('Error al obtener foros del usuario:', err);
+      }
+    });
+
+    this.postService.getPostsByUser(this.user.id_user).subscribe({
+      next: (data: IPost[]) => {
         this.posts = data;
-        console.log(this.posts); 
-      });
-  
-      this.userService.getFollowers(this.user.id_user).subscribe((data: any) => {
+      },
+      error: (err) => {
+        console.error('Error al obtener publicaciones del usuario:', err);
+      }
+    });
+
+    this.userService.getFollowers(this.user.id_user).subscribe({
+      next: (data: IUserData[]) => {
         this.followers = data;
-        this.isCurrentUserFollowing = data.some((follower: any) => follower.id_user === this.current_id);
-      });
-  
-      this.userService.getFollowing(this.user.id_user).subscribe((data: any) => {
+        this.isCurrentUserFollowing = data.some(
+          (follower) => follower.id_user === this.current_id
+        );
+      },
+      error: (err) => {
+        console.error('Error al obtener los seguidores del usuario:', err);
+      }
+    });
+
+    this.userService.getFollowing(this.user.id_user).subscribe({
+      next: (data: IUserData[]) => {
         this.following = data;
-      });
+      },
+      error: (err) => {
+        console.error('Error al obtener los seguidos del usuario:', err);
+      }
     });
   }
 
-  editProfile(){
+  editProfile(): void {
     this.router.navigate(['/editprofile']);
   }
 
   followUser(id_user: number): void {
     this.userService.followUser(id_user).subscribe({
-      next: (data: any) => {
+      next: () => {
         this.toastr.success('Siguiendo al usuario');
+        this.isCurrentUserFollowing = true;
+        this.loadUserDetails(); 
       },
-      error: (error: any) => {
-        console.error('Error al seguir al usuario:', error);
+      error: (err) => {
+        console.error('Error al seguir al usuario:', err);
         this.toastr.error('Error al seguir al usuario');
       }
     });
@@ -96,20 +118,20 @@ export class ProfileComponent {
 
   unFollowUser(id_user: number): void {
     this.userService.unFollowUser(id_user).subscribe({
-      next: (data: any) => {
+      next: () => {
         this.toastr.success('Dejaste de seguir al usuario');
+        this.isCurrentUserFollowing = false;
+        this.loadUserDetails(); 
       },
-      error: (error: any) => {
-        console.error('Error al dejar de seguir al usuario:', error);
+      error: (err) => {
+        console.error('Error al dejar de seguir al usuario:', err);
         this.toastr.error('Error al dejar de seguir al usuario');
       }
     });
   }
 
-  contactUser(id_user: number) {
+  contactUser(id_user: number): void {
     this.userService.setTempId(id_user);
     this.router.navigate(['/chat']);
   }
-
-
 }

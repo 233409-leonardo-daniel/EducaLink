@@ -1,6 +1,6 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { IUserData } from '../models/iuser-data';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -106,4 +106,15 @@ export class AuthService {
     }
     return this.user;
   } 
+
+  logout(): Observable<boolean> {
+    this.isLoggedIn = false;
+    this.token = null;
+    this.user = null;
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }
+    return of(true);
+  }
 }

@@ -1,7 +1,7 @@
 <nav class="hidden md:flex items-center justify-between bg-blue p-4 sticky top-0 w-full z-10">
   <a [routerLink]="['/home']" routerLinkActive="router-link-active" class="flex items-center space-x-2">
     <img src="assets/log.png" alt="Logo" class="w-12 h-12 md:w-16 md:h-16" />
-    <span class="font-bold text-purple-600 text-lg md:text-xl">EducaLink</span>
+    <span class="font-bold text-[#3A00AE] text-lg md:text-xl">EducaLink</span>
   </a>
   
   <div class="flex-1 flex justify-center mx-4">
@@ -29,13 +29,21 @@
     </a>
   </div>
 
-  <div class="flex items-center bg-purple-700 text-white rounded-full py-1 px-3 space-x-3 max-w-xs ml-6">
-    <img [src]="profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full" />
-    <div class="whitespace-nowrap">
-      <p class="font-semibold text-sm">{{ name }}</p>
-      <p class="text-xs">{{ education_level }}</p>
+  <div class="relative" (click)="toggleMenu()">
+    <div class="flex items-center bg-[#3A00AE] text-white rounded-full py-1 px-3 space-x-3 max-w-xs ml-6 cursor-pointer">
+      <img [src]="profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full" />
+      <div class="whitespace-nowrap">
+        <p class="font-semibold text-sm">{{ name }}</p>
+        <p class="text-xs">{{ education_level }}</p>
+      </div>
+      <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
     </div>
-    <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
+    
+    <!-- Menú desplegable -->
+    <div *ngIf="menuOpen" class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md">
+      <a (click)="editProfile()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Editar perfil</a>
+      <a (click)="logout()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Cerrar sesión</a>
+    </div>
   </div>
 </nav>
 

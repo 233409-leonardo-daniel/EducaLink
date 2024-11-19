@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { IUserData } from '../models/iuser-data';
 import { IForum } from '../models/iforum';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-
+import { filter, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,7 @@ import { isPlatformBrowser } from '@angular/common';
 export class UserService {
   private url = 'http://localhost:8000';
   private idTemp = 0;
+  private userDataSubject = new BehaviorSubject<IUserData | null>(null);
   httpOptions = {
     headers: new HttpHeaders(
       {
@@ -26,9 +27,18 @@ export class UserService {
     private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
+  updateUser(user_id: number, userData: FormData): Observable<IUserData> {
+    console.log('User data:', userData);
+    return this.http.put<IUserData>(`${this.url}/user/${user_id}/`, userData, {
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
+        observe: 'body'
+    });
+  }
 
-  updateUser(user_id: number, userData: Partial<IUserData>): Observable<IUserData> {
-    return this.http.put<IUserData>(`${this.url}/user/${user_id}/`, userData, this.authService.getHttpOptions());
+  getUserDataObservable(): Observable<IUserData | null> {
+    return this.userDataSubject.asObservable();
   }
 
   private userData: IUserData = {

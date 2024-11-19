@@ -8,7 +8,6 @@ import { PostInputComponent } from '../../components/post-input/post-input.compo
 import { PostComponent } from '../../components/post/post.component';
 import { GroupListComponent } from '../../components/group-list/group-list.component';
 import { NavbarComponent } from "../../components/navbar/navbar.component";
-import { log } from 'console';
 import { IForum } from '../../models/iforum';
 import { Router } from '@angular/router';
 
@@ -20,27 +19,50 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css'],
   providers: [PostService]
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   posts: IPost[] = [];
   idForums: number[] = [];
   forums: IForum[] = [];
-  user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {};
+  user: any = {};
 
-  constructor(readonly authService: AuthService, readonly userService: UserService, readonly router: Router  , readonly postService : PostService) {
-      this.userService.getUserForums(this.user.id_user).subscribe((data: any) => {
-        this.forums = data;
-        
-        this.idForums = data.map((forum: any) => forum.id_forum);
-        this.postService.getPostByForum(this.idForums).subscribe((data: IPost[]) => {          
-          this.posts = data.flat();
-          console.log(this.posts);
-        })
-        
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+    private readonly router: Router,
+    private readonly postService: PostService
+  ) {}
+
+  ngOnInit(): void {
+    const userData = this.authService.getUser();
+    if (userData) {
+      this.user = userData;
+
+      this.userService.getUserForums(this.user.id_user).subscribe({
+        next: (data: IForum[]) => {
+          this.forums = data;
+          this.idForums = data.map((forum: IForum) => forum.id_forum);
+
+          this.postService.getPostByForum(this.idForums).subscribe({
+            next: (data: IPost[]) => {
+              this.posts = data.flat(); 
+              console.log(this.posts);
+            },
+            error: (err) => {
+              console.error('Error al obtener publicaciones:', err);
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Error al obtener foros del usuario:', err);
+        }
       });
+    } else {
+      console.error('Usuario no autenticado');
+      this.router.navigate(['/login']); 
+    }
   }
 
-  goPost() {
+  goPost(): void {
     this.router.navigate(['/createpost']);
   }
-  
 }

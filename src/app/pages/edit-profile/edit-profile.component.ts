@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { IUserData } from '../../models/iuser-data';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-profile',
@@ -24,13 +25,16 @@ export class EditProfileComponent implements OnInit {
     profile_image_url: '',
     mail: '',
     education_level: '',
-    user_type: '',
+    user_type: 'User',
     creation_date: '',
-    state: '',
+    state: 'Activo',
     password: '',
   };
 
-  constructor(private userService: UserService, private router: Router) {}
+  backgroundImageFile: File | null = null;
+  profileImageFile: File | null = null;
+
+  constructor(private userService: UserService, private router: Router, private toastr : ToastrService) {}
 
   ngOnInit(): void {
     const userId = this.getLoggedInUserId();
@@ -46,7 +50,23 @@ export class EditProfileComponent implements OnInit {
 
   saveChanges(form: NgForm): void {
     if (form.valid) {
-      this.userService.updateUser(this.userData.id_user, this.userData).subscribe({
+      const formData = new FormData();
+      formData.append('user_id', this.userData.id_user.toString());
+      formData.append('name', this.userData.name);
+      formData.append('lastname', this.userData.lastname);
+      formData.append('mail', this.userData.mail);
+      formData.append('education_level', this.userData.education_level);
+      if (this.userData.password) {
+        formData.append('password', this.userData.password);
+      }
+      if (this.backgroundImageFile) {
+        formData.append('background_image', this.backgroundImageFile);
+      }
+      if (this.profileImageFile) {
+        formData.append('profile_image', this.profileImageFile);
+      }
+
+      this.userService.updateUser(this.userData.id_user, formData).subscribe({
         next: () => {
           console.log('Perfil actualizado con éxito');
           this.router.navigate(['/profile', this.userData.id_user]);
@@ -56,7 +76,7 @@ export class EditProfileComponent implements OnInit {
         },
       });
     } else {
-      console.error('Formulario inválido');
+      this.toastr.error('Por favor, complete todos los campos obligatorios.');
     }
   }
 
@@ -71,15 +91,11 @@ export class EditProfileComponent implements OnInit {
   onImageSelected(event: Event, type: 'background' | 'profile'): void {
     const file = (event.target as HTMLInputElement)?.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (type === 'background') {
-          this.userData.background_image_url = reader.result as string;
-        } else if (type === 'profile') {
-          this.userData.profile_image_url = reader.result as string;
-        }
-      };
-      reader.readAsDataURL(file);
+      if (type === 'background') {
+        this.backgroundImageFile = file;
+      } else if (type === 'profile') {
+        this.profileImageFile = file;
+      }
     } else {
       console.warn('No se seleccionó un archivo o el archivo no es válido.');
     }
