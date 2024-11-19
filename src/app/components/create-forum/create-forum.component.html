@@ -1,0 +1,95 @@
+<div class="border border-gray-300 rounded-lg p-6 mb-6 flex flex-col space-y-6 w-[65%] mx-auto">
+    <h1 class="text-3xl font-bold mb-6 text-center">Crear Foro</h1>
+    <form [formGroup]="forumForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <!-- Nombre -->
+      <div>
+        <label for="name" class="block text-lg font-medium text-gray-700">Nombre</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+  
+      <!-- Descripción -->
+      <div>
+        <label for="description" class="block text-lg font-medium text-gray-700">Descripción</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        ></textarea>
+      </div>
+  
+      <!-- Nivel Educativo -->
+      <div>
+        <label for="education_level" class="block text-lg font-medium text-gray-700">Nivel Educativo</label>
+        <select
+          id="education_level"
+          formControlName="education_level"
+          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="Preescolar">Preescolar</option>
+          <option value="Primaria">Primaria</option>
+        </select>
+      </div>
+  
+      <!-- Privacidad -->
+      <div>
+        <label for="privacy" class="block text-lg font-medium text-gray-700">Privacidad</label>
+        <select
+          id="privacy"
+          formControlName="privacy"
+          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="Publico">Público</option>
+          <option value="Privado">Privado</option>
+        </select>
+      </div>
+  
+      <!-- Contraseña -->
+      <div>
+        <label for="password" class="block text-lg font-medium text-gray-700">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [disabled]="forumForm.get('privacy')?.value !== 'Privado'"
+        />
+      </div>
+  
+      <!-- Imagen de Fondo -->
+      <div>
+        <label for="background_image" class="block text-lg font-medium text-gray-700">Imagen de Fondo (Opcional)</label>
+        <input
+          type="file"
+          id="background_image"
+          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          (change)="onBackgroundImageSelected($event)"
+        />
+      </div>
+  
+      <!-- Imagen -->
+      <div>
+        <label for="image" class="block text-lg font-medium text-gray-700">Imagen (Opcional)</label>
+        <input
+          type="file"
+          id="image"
+          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          (change)="onImageSelected($event)"
+        />
+      </div>
+  
+      <!-- Botón -->
+      <button
+        type="submit"
+        class="bg-blue-500 text-white font-bold py-3 px-6 rounded w-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [disabled]="forumForm.invalid"
+      >
+        Crear Foro
+      </button>
+    </form>
+  </div>
+  

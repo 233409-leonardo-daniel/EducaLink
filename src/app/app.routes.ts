@@ -13,6 +13,7 @@ import { ForumComponent } from './pages/forum/forum.component';
 import { CreateSalePostComponent } from './pages/create-sale-post/create-sale-post.component';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
 import { UserForumsComponent } from './pages/user-forums/user-forums.component';
+import { NewforumComponent } from './pages/newforum/newforum.component';
 
 
 export const routes: Routes = [
@@ -29,6 +30,7 @@ export const routes: Routes = [
     { path: 'forum', component: ForumComponent },
     { path: 'salepost', component: CreateSalePostComponent },
     { path: 'user-forums', component: UserForumsComponent },
-    {path: 'editprofile', component: EditProfileComponent}
+    {path: 'editprofile', component: EditProfileComponent},
+    { path: 'createforum', component: NewforumComponent}
 
 ];
