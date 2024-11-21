@@ -18,7 +18,7 @@
   </div>
 
   <div class="flex items-center text-purple-600 space-x-6">
-    <a [routerLink]="['/group']" routerLinkActive="router-link-active">
+    <a [routerLink]="['/search-forum']" routerLinkActive="router-link-active">
       <i class="pi pi-users text-2xl"></i>
     </a>
     <a [routerLink]="['/sale']" routerLinkActive="router-link-active">
@@ -41,6 +41,7 @@
     
     <!-- Menú desplegable -->
     <div *ngIf="menuOpen" class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md">
+      <a (click)="goProfile()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Ver mi perfil</a>
       <a (click)="editProfile()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Editar perfil</a>
       <a (click)="logout()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Cerrar sesión</a>
     </div>

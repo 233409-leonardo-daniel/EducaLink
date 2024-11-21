@@ -31,6 +31,18 @@ export class ForumService {
     this.idTemp = id;
   }
 
+  getForumsByGradeAndEducationLevel(grade: number, education_level: string): Observable<IForum[]> {
+    return this.http.get<IForum[]>(`${this.url}/forum/grade/${grade}/education_level/${education_level}/`, this.authService.getHttpOptions());
+  }
+
+  getForumsByEducationLevel(education_level: string): Observable<IForum[]> {
+    return this.http.get<IForum[]>(`${this.url}/forum/education_level/${education_level}/`, this.authService.getHttpOptions());
+  }
+
+  getForumsByGrade(grade: number): Observable<IForum[]> {
+    return this.http.get<IForum[]>(`${this.url}/forum/grade/${grade}/`, this.authService.getHttpOptions());
+  }
+
   // Método para obtener el ID temporal almacenado
   getTempId(): number {
     return this.idTemp;
@@ -61,10 +73,18 @@ export class ForumService {
     );
   }
 
+  // User Join Forum
+  joinForum(forum_id: number): Observable<any> {
+    return this.http.post<any>(
+      `${this.url}/forum/${forum_id}/join/`,
+      this.authService.getHttpOptions()
+    );
+  }
+
   // Eliminar un foro
   deleteForum(id_forum: number): Observable<any> {
     return this.http.delete<any>(
-      `${this.url}/forum/${id_forum}/delete/`,
+      `${this.url}/forum/${id_forum}`,
       this.authService.getHttpOptions()
     );
   }

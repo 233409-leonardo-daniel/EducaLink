@@ -4,13 +4,14 @@ import { ForumService } from '../../services/forum.service';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IUserData } from '../../models/iuser-data';
+import { CommonModule } from '@angular/common';
 
 
 
 @Component({
   selector: 'app-editforum',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './editforum.component.html',
   styleUrl: './editforum.component.css'
 })

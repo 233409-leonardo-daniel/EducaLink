@@ -1,0 +1,10 @@
+aside {
+    position: sticky; /* O 'fixed' */
+    top: 0;
+    height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+    width: 250px; /* Ajusta el ancho según sea necesario */
+    overflow-y: auto; /* Permite el scroll interno si el contenido es mayor que la altura */
+    background-color: white; /* Asegúrate de que el fondo sea visible */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para destacar el aside */
+    margin-bottom: 16px; /* Agrega margen inferior */
+}

@@ -23,7 +23,6 @@ export class LoginComponent {
   isRegisterModalOpen = false;
 
   constructor(readonly authService: AuthService, readonly messageService: MessageService, readonly userService: UserService, readonly router: Router, readonly toastr: ToastrService) {
-      console.log('LoginComponent initialized');
       this.loginForm = new FormGroup({
           username: new FormControl('', [Validators.required, Validators.email]),
           password: new FormControl('', [Validators.required, Validators.minLength(4)])

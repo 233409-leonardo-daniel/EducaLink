@@ -41,19 +41,7 @@ export class UserService {
     return this.userDataSubject.asObservable();
   }
 
-  private userData: IUserData = {
-    id_user: 0,
-    name: '',
-    lastname: '',
-    background_image_url: '',
-    profile_image_url: '',
-    mail: '',
-    education_level: '',
-    user_type: '',
-    state: '',
-    creation_date: ''
-  };
-
+  private userData: IUserData = {} as IUserData;
   setData(data: IUserData) {
     this.userData = data;
   }

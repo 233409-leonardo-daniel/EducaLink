@@ -17,19 +17,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./edit-profile.component.css'],
 })
 export class EditProfileComponent implements OnInit {
-  userData: IUserData = {
-    id_user: 0,
-    name: '',
-    lastname: '',
-    background_image_url: '',
-    profile_image_url: '',
-    mail: '',
-    education_level: '',
-    user_type: 'User',
-    creation_date: '',
-    state: 'Activo',
-    password: '',
-  };
+  userData: IUserData = {} as IUserData;
 
   backgroundImageFile: File | null = null;
   profileImageFile: File | null = null;
