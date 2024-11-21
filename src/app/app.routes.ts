@@ -15,6 +15,7 @@ import { EditProfileComponent } from './pages/edit-profile/edit-profile.componen
 import { UserForumsComponent } from './pages/user-forums/user-forums.component';
 import { NewforumComponent } from './pages/newforum/newforum.component';
 import { SearchForumComponent } from './pages/search-forum/search-forum.component';
+import { MyfollowsComponent } from './pages/myfollows/myfollows.component';
 
 
 export const routes: Routes = [
@@ -34,5 +35,4 @@ export const routes: Routes = [
     { path: 'editprofile', component: EditProfileComponent},
     { path: 'createforum', component: NewforumComponent},
     { path: 'search-forum', component: SearchForumComponent}
-
 ];
