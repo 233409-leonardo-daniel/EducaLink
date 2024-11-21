@@ -10,6 +10,7 @@ import { GroupListComponent } from '../../components/group-list/group-list.compo
 import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { IForum } from '../../models/iforum';
 import { Router } from '@angular/router';
+import { IUserData } from '../../models/iuser-data';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,7 @@ export class HomeComponent implements OnInit {
   idForums: number[] = [];
   forums: IForum[] = [];
   user: any = {};
-
+  idFollowed: number[] = [];
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
@@ -60,6 +61,48 @@ export class HomeComponent implements OnInit {
       console.error('Usuario no autenticado');
       this.router.navigate(['/login']); 
     }
+  }
+
+  filterByRecommended(): void {
+    this.userService.getUserForums(this.user.id_user).subscribe({
+      next: (data: IForum[]) => {
+        this.forums = data;
+        this.idForums = data.map((forum: IForum) => forum.id_forum);
+
+        this.postService.getPostByForum(this.idForums).subscribe({
+          next: (data: IPost[]) => {
+            this.posts = data.flat(); 
+            console.log(this.posts);
+          },
+          error: (err) => {
+            console.error('Error al obtener publicaciones:', err);
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error al obtener foros del usuario:', err);
+      }
+    });
+  }
+
+  filterByFollowed(): void {
+    this.userService.getFollowing(this.user.id_user).subscribe({
+      next: (data: IUserData[]) => {
+        console.log(data);
+        this.idFollowed = data.map((user: IUserData) => user.id_user);
+        for (const id of this.idFollowed) {
+          this.postService.getPostsByUserWhereIsPrivateAndPublic(id).subscribe({
+            next: (data: IPost[]) => {
+              this.posts = data;
+              console.log(this.posts);
+            },
+            error: (err) => {
+            console.error('Error al obtener publicaciones:', err);
+            }
+          });
+        }
+      }
+    });
   }
 
   goPost(): void {

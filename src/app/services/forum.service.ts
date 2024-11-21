@@ -94,10 +94,7 @@ export class ForumService {
 
   // User Join Forum
   joinForum(forum_id: number): Observable<any> {
-    return this.http.post<any>(
-      `${this.url}/forum/${forum_id}/join/`,
-      this.authService.getHttpOptions()
-    );
+    return this.http.post<any>(`${this.url}/forum/${forum_id}/join/`, this.authService.getHttpOptions());
   }
 
   // Eliminar un foro

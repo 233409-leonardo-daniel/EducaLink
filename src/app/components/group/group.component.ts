@@ -2,6 +2,8 @@ import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { UserService } from '../../services/user.service'; 
 import { IForum } from '../../models/iforum';
+import { ForumService } from '../../services/forum.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -16,6 +18,8 @@ export class GroupComponent implements OnInit {
 
   constructor(
     readonly userService: UserService,
+    readonly forumService: ForumService,
+    private toastr: ToastrService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -31,8 +35,14 @@ export class GroupComponent implements OnInit {
   }
 
   joinGroup(id_forum: number): void {
-    this.userService.joinForum(id_forum).subscribe((res) => {
-      alert('Unido al grupo');
+    this.forumService.joinForum(id_forum).subscribe({
+      next: () => {
+        alert('Unido al grupo');
+      },
+      error: (err) => {
+        console.error('Error al unirse al grupo:', err);
+        this.toastr.error('Error al unirse al grupo, probablemente es contraseña, aun no se implementa');
+      }
     });
   }
 

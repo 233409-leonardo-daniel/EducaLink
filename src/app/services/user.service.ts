@@ -75,14 +75,6 @@ export class UserService {
     }
   }
 
-  joinForum(forum_id: number): Observable<any> {
-    return this.http.post<any>(
-      `${this.url}/user/join_forum/${forum_id}/`,
-      {},  // Cuerpo vacío si no se envían datos
-      this.authService.getHttpOptions()
-    );
-  }
-
   getUserById(id_user: number): Observable<IUserData> {
     return this.http.get<IUserData>(`${this.url}/user/${id_user}/`);
   }

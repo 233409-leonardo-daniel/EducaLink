@@ -98,7 +98,7 @@ export class ForumComponent implements OnInit {
       return;
     }
 
-    this.userService.joinForum(id_forum).subscribe({
+    this.forumService.joinForum(id_forum).subscribe({
       next: () => {
         this.toastr.success('Te has unido al foro exitosamente');
         this.isCurrentUserMember = true;

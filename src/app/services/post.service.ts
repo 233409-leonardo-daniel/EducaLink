@@ -28,6 +28,7 @@ export class PostService {
   }
 
 
+
   getPostByEducationLevel(education_level: string): Observable<IPost> {
     return this.http.get<IPost>(`${this.url}/post/education_level/${education_level}/`, this.getHttpOptions());
   }
@@ -56,5 +57,9 @@ export class PostService {
   getPostsByUser(user_id: number): Observable<IPost[]> {
     console.log(user_id);
     return this.http.get<IPost[]>(`${this.url}/post/user/${user_id}/`, this.getHttpOptions());
+  }
+
+  getPostsByUserWhereIsPrivateAndPublic(user_id: number): Observable<IPost[]> {
+    return this.http.get<IPost[]>(`${this.url}/post/user/${user_id}/private/`, this.getHttpOptions());
   }
 }
