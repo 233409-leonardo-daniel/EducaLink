@@ -1,4 +1,5 @@
 export interface IForum {
+    is_member: any;
 
 
     id_forum: number;

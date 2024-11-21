@@ -7,36 +7,47 @@
     <ul class="space-y-4">
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
-          <img src="assets/venta/material-escolar.png" alt="Material didáctico" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Recomendados para ti</a>
+          <i class="pi pi-star text-[#3A00AE]"></i>
+          <span class="text-[#3A00AE] cursor-pointer font-bold hover:underline" (click)="filterByRecommended()">Recomendados para ti</span>
         </div>
-        <i class="pi pi-angle-right text-gray-400"></i>
+        <i class="pi pi-angle-right text-[#3A00AE]"></i>
       </li>
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
-          <img src="assets/venta/libros.png" alt="Recursos de clases" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Grupos de preescolar</a>
+          <i class="pi pi-filter text-[#3A00AE]"></i>
+          <span class="text-[#3A00AE] cursor-pointer font-bold hover:underline" (click)="filterByEducationLevel('Preescolar')">Grupos de preescolar</span>
         </div>
-        <i class="pi pi-angle-right text-gray-400"></i>
+        <i class="pi pi-angle-right text-[#3A00AE]"></i>
       </li>
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
-          <img src="assets/venta/juguete-de-peluche.png" alt="Juguetes" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Grupos de primaria</a>
+          <i class="pi pi-filter text-[#3A00AE]"></i>
+          <span class="text-[#3A00AE] cursor-pointer font-bold hover:underline" (click)="filterByEducationLevel('Primaria')">Grupos de primaria</span>
         </div>
-        <i class="pi pi-angle-right text-gray-400"></i>
+        <i class="pi pi-angle-right text-[#3A00AE]"></i>
       </li>
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
-          <img src="assets/venta/mobiliario.png" alt="Mobiliario y equipo" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Todos</a>
+          <i class="pi pi-filter-slash text-[#3A00AE]"></i>
+          <span class="text-[#3A00AE] cursor-pointer font-bold hover:underline" (click)="getAllForums()">Todos</span>
         </div>
-        <i class="pi pi-angle-right text-gray-400"></i>
+        <i class="pi pi-angle-right text-[#3A00AE]"></i>
       </li>
-      
+      <h2 class="text-2xl font-bold mb-4 text-center">Grupos</h2>
+      <li class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <i class="pi pi-plus text-[#3A00AE]"></i>
+            <a routerLink="/createforum" class="text-[#3A00AE] font-bold cursor-pointer hover:underline">Crear grupo</a>
+        </div>
+      </li>
     </ul>
   </aside>
     <section class="flex-grow p-4">
-        
+        <h2 class="text-2xl font-bold mb-4">Nuevos grupos</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="bg-white p-4 rounded-lg shadow-md" *ngFor="let forum of forums">
+                <app-group-item [forum]="forum"></app-group-item>
+            </div>
+        </div>
     </section>
 </main>

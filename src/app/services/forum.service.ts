@@ -31,6 +31,25 @@ export class ForumService {
     this.idTemp = id;
   }
 
+  getForums(): Observable<IForum[]> {
+    return this.http.get<IForum[]>(`${this.url}/forum/`, this.authService.getHttpOptions());
+  }
+
+  // Obtenemos todos los foros disponibles para el usuario
+  getAvailableForums(user_id: number): Observable<IForum[]> {
+    return this.http.get<IForum[]>(`${this.url}/forum/user/${user_id}/not_in/`, this.authService.getHttpOptions());
+  }
+
+  // Obtenemos todos los foros disponibles para el usuario con filtro de grado y nivel de educación <- AVAILABLE quiere decir que el usuario no está en el foro
+  getAvailableForumsWithDoubleFilters(user_id: number, grade: number, education_level: string): Observable<IForum[]> {
+    return this.http.get<IForum[]>(`${this.url}/forum/user/${user_id}/not_in/${grade}/${education_level}/`, this.authService.getHttpOptions());
+  }
+
+  // Obtenemos todos los foros disponibles para el usuario con filtro de nivel de educación <- AVAILABLE quiere decir que el usuario no está en el foro
+  getAvailableForumsWithEducationLevelFilter(user_id: number, education_level: string): Observable<IForum[]> {
+    return this.http.get<IForum[]>(`${this.url}/forum/user/${user_id}/not_in/${education_level}/`, this.authService.getHttpOptions());
+  }
+
   getForumsByGradeAndEducationLevel(grade: number, education_level: string): Observable<IForum[]> {
     return this.http.get<IForum[]>(`${this.url}/forum/grade/${grade}/education_level/${education_level}/`, this.authService.getHttpOptions());
   }
