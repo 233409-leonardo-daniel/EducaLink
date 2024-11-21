@@ -7,4 +7,5 @@ export interface ISalePost {
     id_sale_post: number; 
     publication_date:string; 
     seller_id: number; 
+    sale_type?: string; 
 }

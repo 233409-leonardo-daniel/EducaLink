@@ -11,12 +11,10 @@ export class SaleService {
 
   constructor(private http: HttpClient) {}
 
-
   getSalePosts(): Observable<ISalePost[]> {
     return this.http.get<ISalePost[]>(this.apiUrl);
   }
 
-  
   createSalePost(salePost: ISalePost): Observable<ISalePost> {
     return this.http.post<ISalePost>(this.apiUrl, salePost);
   }
@@ -34,5 +32,10 @@ export class SaleService {
   // Eliminar un SalePost por ID
   deleteSalePost(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}${id}/`);
+  }
+
+  // Obtener SalePosts por tipo de categoría
+  getSalePostsByType(saleType: string): Observable<ISalePost[]> {
+    return this.http.get<ISalePost[]>(`${this.apiUrl}type/${saleType}`);
   }
 }
