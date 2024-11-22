@@ -7,6 +7,9 @@ import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { log } from 'console';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-forum',
@@ -24,7 +27,10 @@ export class CreateForumComponent {
   constructor(
     private fb: FormBuilder,
     private forumService: ForumService,
-    private userService: UserService
+    private userService: UserService,
+    private toastr: ToastrService,
+    private authService: AuthService,
+    private router: Router
   ) {
     this.forumForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -32,6 +38,7 @@ export class CreateForumComponent {
       education_level: ['Preescolar', [Validators.required]],
       privacy: ['Publico', [Validators.required]],
       password: [''], // Validación condicional
+      grade: ['0', [Validators.required]]
     });
 
     // Validación dinámica para la contraseña
@@ -48,7 +55,7 @@ export class CreateForumComponent {
 
   ngOnInit(): void {
     // Obtener datos del usuario actual
-    this.userData = this.userService.getData();
+    this.userData = this.authService.getUser();
     if (!this.userData || !this.userData.id_user) {
       console.error('No se encontró información del usuario actual');
     }
@@ -87,37 +94,49 @@ export class CreateForumComponent {
 
   onSubmit(): void {
     if (this.forumForm.valid && this.userData) {
-      // Prepara los datos según la interfaz IForum
-      const formData: Partial<IForum> = {
-        id_forum: 0, // Generado por el backend
-        name: this.forumForm.value.name,
-        description: this.forumForm.value.description,
-        education_level: this.forumForm.value.education_level,
-        privacy: this.forumForm.value.privacy,
-        password: this.forumForm.value.privacy === 'Privado' ? this.forumForm.value.password : '',
-        creation_date: new Date().toISOString(), // Fecha actual
-        id_user: this.userData.id_user, // Usamos el ID del usuario actual
-        user_name: this.userData.name, // Nombre del usuario actual
-        members: 0,
-        background_image_url: this.backgroundImageBase64 || '',
-        image_url: this.imageBase64 || '',
-        users_count: 0,
-      };
+      const formData = new FormData();
+      formData.append('name', this.forumForm.value.name);
+      formData.append('description', this.forumForm.value.description);
+      formData.append('education_level', this.forumForm.value.education_level);
+      formData.append('privacy', this.forumForm.value.privacy);
+      formData.append('password', this.forumForm.value.password);
+      formData.append('grade', this.forumForm.value.grade);
+      if (this.imageBase64) {
+        const imageBlob = this.dataURItoBlob(this.imageBase64);
+        formData.append('image', imageBlob, 'image.png');
+      }
+      if (this.backgroundImageBase64) {
+        const backgroundImageBlob = this.dataURItoBlob(this.backgroundImageBase64);
+        formData.append('background_image', backgroundImageBlob, 'background.png');
+      }
+  
 
-      console.log(formData);
-
-      this.forumService.createForum(formData as IForum).subscribe(
-        (response) => {
-          console.log('Foro creado exitosamente:', response);
-          alert('Foro creado con éxito');
+  
+      this.forumService.createForum(formData).subscribe({
+        next: (response) => {
+          this.toastr.success('Foro creado exitosamente');
+          this.forumService.setTempId(response.id_forum);
+          this.router.navigate(['/forum']);
         },
-        (error) => {
+        error: (error) => {
           console.error('Error al crear el foro:', error);
-          alert('Error al crear el foro');
+          this.toastr.error('Error al crear el foro');
         }
-      );
+      });
     } else {
-      console.error('Formulario inválido o datos de usuario faltantes');
+      this.toastr.error('Formulario inválido o datos de usuario faltantes');
     }
+  }
+
+  // Método para convertir base64 a Blob
+  dataURItoBlob(dataURI: string): Blob {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
   }
 }

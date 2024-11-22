@@ -34,6 +34,25 @@
           <option value="Primaria">Primaria</option>
         </select>
       </div>
+
+      <!-- Grado -->
+      <div>
+        <label for="grade" class="block text-lg font-medium text-gray-700">Grado</label>
+        <select
+          id="grade"
+          formControlName="grade"
+          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <div *ngIf="forumForm.get('education_level')?.value === 'Primaria'">
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </div>
+        </select>
+      </div>
   
       <!-- Privacidad -->
       <div>
@@ -49,14 +68,13 @@
       </div>
   
       <!-- Contraseña -->
-      <div>
-        <label for="password" class="block text-lg font-medium text-gray-700">Contraseña</label>
+      <div [hidden]="forumForm.get('privacy')?.value !== 'Privado'">
+        <label for="password" class="block text-lg font-medium text-gray-700" >Contraseña</label>
         <input
           type="password"
           id="password"
           formControlName="password"
           class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          [disabled]="forumForm.get('privacy')?.value !== 'Privado'"
         />
       </div>
   

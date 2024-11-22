@@ -17,9 +17,11 @@ export class SaleService {
   }
 
   createSalePost(formData: FormData): Observable<any> {
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
     return this.http.post<any>(`${this.apiUrl}`, formData, {
         headers: {
-            'enctype': 'multipart/form-data',
             'Authorization': `Bearer ${this.authService.getToken()}`
         }
     });

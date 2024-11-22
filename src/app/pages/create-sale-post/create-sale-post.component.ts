@@ -33,6 +33,7 @@ export class CreateSalePostComponent {
       description: new FormControl('', [Validators.required, Validators.maxLength(200)]),
       price: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]),
       category: new FormControl('', Validators.required),
+      image: new FormControl(null, Validators.required),
     });
   }
 
@@ -44,11 +45,9 @@ export class CreateSalePostComponent {
       formData.append('description', this.createPostForm.value.description);
       formData.append('price', this.createPostForm.value.price.toString());
       formData.append('type', this.createPostForm.value.category);
-
-      // Si hay un archivo de imagen seleccionado
-      const file = this.image;
-      if (file) {
-        formData.append('image', file);
+      
+      if (this.image) {
+        formData.append('image', this.image);
       } else {
         console.error('No se seleccionó ninguna imagen');
       }
@@ -84,9 +83,21 @@ export class CreateSalePostComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
         const file = input.files[0];
-        this.createPostForm.patchValue({ image: file });
+        this.image = file;
     }
   }
   
 
+  // Convertir archivo a base64
+  convertFileToBase64(file: File, callback: (base64: string | null) => void): void {
+    const reader = new FileReader();
+    reader.onload = () => {
+      callback(reader.result as string);
+    };
+    reader.onerror = () => {
+      console.error('Error al convertir el archivo a base64');
+      callback(null);
+    };
+    reader.readAsDataURL(file);
+  }
 }

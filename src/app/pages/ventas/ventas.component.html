@@ -21,7 +21,7 @@
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <img src="assets/venta/libros.png" alt="Recursos de clases" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Recursos_de_clases')">Recursos de clases</button>
+          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Recursos_de_clase')">Recursos de clases</button>
         </div>
         <i class="pi pi-angle-right text-gray-400"></i>
       </li>
@@ -35,21 +35,21 @@
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <img src="assets/venta/mobiliario.png" alt="Mobiliario y equipo" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Mobiliario_y_equipo')">Mobiliario y equipo</button>
+          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Mobiliario')">Mobiliario y equipo</button>
         </div>
         <i class="pi pi-angle-right text-gray-400"></i>
       </li>
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <img src="assets/venta/ropa.png" alt="Uniformes y ropa" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Uniformes_y_ropa')">Uniformes y ropa</button>
+          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Uniformes')">Uniformes y ropa</button>
         </div>
         <i class="pi pi-angle-right text-gray-400"></i>
       </li>
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <img src="assets/venta/fiesta.png" alt="Decoraciones" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Decoraciones')">Decoraciones</button>
+          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Decoracion')">Decoraciones</button>
         </div>
         <i class="pi pi-angle-right text-gray-400"></i>
       </li>
@@ -61,7 +61,14 @@
         <i class="pi pi-angle-right text-gray-400"></i>
       </li>
       <li class="flex items-center justify-between">
-        <button class="text-[#3A00AE] font-bold hover:underline w-full text-left" (click)="filterByCategory('Todos')">Mostrar todos</button>
+        <div class="flex items-center space-x-3">
+          <img src="assets/venta/libros.png" alt="Libros" class="w-12 h-12 rounded-full bg-gray-100 p-1">
+          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Libros')">Libros</button>
+        </div>
+        <i class="pi pi-angle-right text-gray-400"></i>
+      </li>
+      <li class="flex items-center justify-between">
+        <button class="text-[#3A00AE] font-bold hover:underline w-full text-left" (click)="filterByCategory('Otros')">Otros</button>
       </li>
     </ul>
   </aside>

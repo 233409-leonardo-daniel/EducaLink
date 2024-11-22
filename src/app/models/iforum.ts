@@ -15,4 +15,5 @@ export interface IForum {
     image_url: string;
     user_name: string;
     users_count: number;
+    grade: number;
 }

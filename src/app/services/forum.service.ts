@@ -75,12 +75,12 @@ export class ForumService {
     return this.http.get<IUserData[]>(`${this.url}/forum/${id_forum}/users/`, this.authService.getHttpOptions());
   }
 
-  createForum(forumData: IForum): Observable<IForum> {
-    return this.http.post<IForum>(
-      `${this.url}/forum/`,
-      forumData,
-      this.authService.getHttpOptions()
-    );
+  createForum(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.url}/forum/`, formData, {
+      headers: {
+        'Authorization': `Bearer ${this.authService.getToken()}`
+      }
+    });
   }
 
   // Editar un foro existente
