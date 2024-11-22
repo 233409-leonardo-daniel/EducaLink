@@ -12,80 +12,41 @@
   <section class="bg-white w-full lg:w-2/5 p-8 rounded-lg shadow-lg">
     <h1 class="text-2xl font-bold mb-6 text-center">Ventas</h1>
     
-    <div class="relative w-full h-48 rounded-lg border border-gray-300 bg-gray-100 flex justify-center items-center">
-      <img *ngIf="selectedImageUrl" [src]="selectedImageUrl" alt="Preview" class="absolute inset-0 w-full h-full object-cover rounded-lg">
-      <button *ngIf="!selectedImageUrl" (click)="triggerFileInput()" class="text-center">
-        <div class="text-purple-500 hover:text-purple-700">
-          <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-          </svg>
-          <span class="text-gray-600">Agregar imagen</span>
-        </div>
-      </button>
-      <input type="file" #imageInput (change)="onImageSelected($event)" class="hidden">
-    </div>
-
-    <form #createPostForm="ngForm" class="mt-6 space-y-4">
-      <input 
-        type="text" 
-        name="title" 
-        [(ngModel)]="formData.title" 
-        #title="ngModel" 
-        required 
-        maxlength="50"
-        placeholder="Título" 
-        class="w-full border border-gray-300 rounded-md p-3">
+    
+    <form [formGroup]="createPostForm" class="mt-6 space-y-4">
+      <div class="relative w-full h-48 rounded-lg border border-gray-300 bg-gray-100 flex justify-center items-center">
+        <img *ngIf="image" [src]="image" alt="Preview" class="absolute inset-0 w-full h-full object-cover rounded-lg">
+        <button *ngIf="!image" (click)="triggerFileInput()" class="text-center">
+          <div class="text-purple-500 hover:text-purple-700">
+            <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            <span class="text-gray-600">Agregar imagen</span>
+          </div>
+        </button>
+        <input type="file" #imageInput (change)="onFileSelected($event)" class="hidden" accept="image/*" formControlName="image">
+      </div> 
+      <input type="text" formControlName="title" placeholder="Título" class="w-full border border-gray-300 rounded-md p-3">
       
-      <textarea 
-        name="description" 
-        [(ngModel)]="formData.description" 
-        #description="ngModel" 
-        required 
-        maxlength="200"
-        placeholder="Descripción" 
+      <textarea formControlName="description" placeholder="Descripción" 
         class="w-full border border-gray-300 rounded-md p-3"></textarea>
-
-      <input 
-        type="number" 
-        name="price" 
-        [(ngModel)]="formData.price" 
-        #price="ngModel" 
-        required 
-        placeholder="Precio" 
-        class="w-full border border-gray-300 rounded-md p-3">
       
-      <select 
-        name="sale_type" 
-        [(ngModel)]="formData.sale_type" 
-        #sale_type="ngModel" 
-        required 
-        class="w-full border border-gray-300 rounded-md p-3">
+      <input type="number" formControlName="price" placeholder="Precio" class="w-full border border-gray-300 rounded-md p-3">
+      
+      <select formControlName="category" class="w-full border border-gray-300 rounded-md p-3">
         <option value="" disabled selected>Categoría</option>
         <option value="Material_didactico">Material didáctico</option>
         <option value="Recursos_de_clase">Recursos de clase</option>
         <option value="Juguetes">Juguetes</option>
         <option value="Mobiliario">Mobiliario y equipo</option>
-        <option value="Ropa">Uniformes y ropa</option>
-        <option value="Decoraciones">Decoraciones</option>
-        <option value="Electrónica">Electrónica</option>
+        <option value="Uniformes">Uniformes y ropa</option>
+        <option value="Decoracion">Decoracion</option>
+        <option value="Electronica">Electrónica</option>
         <option value="Libros">Libros</option>
+        <option value="Otros">Otros</option>
       </select>
 
-      <select 
-        name="status" 
-        [(ngModel)]="formData.status" 
-        #status="ngModel" 
-        required 
-        class="w-full border border-gray-300 rounded-md p-3">
-        <option value="" disabled selected>Estado-Artículo</option>
-        <option value="Vendido">Vendido</option>
-        <option value="Disponible">Disponible</option>
-      </select>
-
-      <button 
-        type="button" 
-        class="w-full bg-purple-500 text-white rounded-md p-3 mt-6" 
-        (click)="createPost()">
+      <button type="button" class="w-full bg-purple-500 text-white rounded-md p-3 mt-6" (click)="createPost()">
         Publicar
       </button>
     </form>

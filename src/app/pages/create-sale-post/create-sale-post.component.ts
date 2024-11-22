@@ -1,4 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { SaleService } from '../../services/sale.service';
@@ -6,33 +7,22 @@ import { ISalePost } from '../../models/isale-post';
 import { AuthService } from '../../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-create-sale-post',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, NavbarComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, NavbarComponent],
   templateUrl: './create-sale-post.component.html',
   styleUrls: ['./create-sale-post.component.css']
 })
 export class CreateSalePostComponent {
-  formData: ISalePost = {
-    title: '',
-    description: '',
-    price: 0,
-    image_url: '',
-    status: '',
-    id_sale_post: 0,
-    publication_date: '',
-    seller_id: 0,
-    sale_type: ''
-  };
-
-  selectedImageUrl: string | null = null;
+  createPostForm: FormGroup;
+  image:File | null = null;
 
   @ViewChild('imageInput') imageInput!: ElementRef;
 
   constructor(
+    private fb: FormBuilder,
     private saleService: SaleService,
     public router: Router,
     private authService: AuthService,
@@ -62,7 +52,7 @@ export class CreateSalePostComponent {
         console.error('No se seleccionó ninguna imagen');
       }
 
-      this.saleService.createSalePost(this.formData).subscribe({
+      this.saleService.createSalePost(formData).subscribe({
         next: () => {
           this.toastr.success('Publicación creada exitosamente');
           this.router.navigate(['/sale']);
@@ -73,36 +63,27 @@ export class CreateSalePostComponent {
         }
       });
     } else {
-      this.toastr.error('Por favor complete todos los campos correctamente', 'Formulario inválido');
+      console.log('Estado del formulario:', this.createPostForm.value);
+      console.log('Errores del formulario:', this.createPostForm.errors);
+      Object.keys(this.createPostForm.controls).forEach(key => {
+        const control = this.createPostForm.get(key);
+        console.log(`${key} válido:`, control?.valid);
+        console.log(`${key} errores:`, control?.errors);
+      });
+      
+      this.toastr.error('Por favor complete todos los campos correctamente');
     }
-  }
-
-  validateFormData(): boolean {
-    return (
-      this.formData.title.trim() !== '' &&
-      this.formData.description.trim() !== '' &&
-      this.formData.price > 0 &&
-      this.formData.sale_type.trim() !== '' &&
-      this.formData.status.trim() !== ''
-    );
   }
 
   triggerFileInput(): void {
     this.imageInput.nativeElement.click();
   }
 
-  onImageSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement)?.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.formData.image_url = reader.result as string; // Guardamos en image_url
-        this.selectedImageUrl = reader.result as string;
-        this.toastr.success('Imagen seleccionada correctamente');
-      };
-      reader.readAsDataURL(file);
-    } else {
-      this.toastr.warning('No se seleccionó ninguna imagen', 'Advertencia');
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+        const file = input.files[0];
+        this.image = file;
     }
   }
   
