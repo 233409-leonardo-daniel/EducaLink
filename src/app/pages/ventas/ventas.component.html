@@ -1,68 +1,72 @@
 <app-navbar></app-navbar>
 <main class="flex flex-col lg:flex-row p-4">
- 
+  <!-- Aside para filtros -->
   <aside class="w-full lg:w-1/4 p-4 bg-white rounded-lg shadow-md">
     <h2 class="text-2xl font-bold mb-4 text-center">Ventas</h2>
     <button 
-    [routerLink]="['/salepost']" 
-    class="w-full bg-[#3A00AE] text-white py-2 rounded-md mb-6 font-semibold">
-    Iniciar venta
-  </button>
+      [routerLink]="['/salepost']" 
+      class="w-full bg-[#3A00AE] text-white py-2 rounded-md mb-6 font-semibold">
+      Iniciar venta
+    </button>
   
     <h3 class="text-lg font-semibold text-gray-600 mb-4 text-center">Secciones</h3>
     <ul class="space-y-4">
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <img src="assets/venta/material-escolar.png" alt="Material didáctico" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Material didáctico</a>
+          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Material_didactico')">Material didáctico</button>
         </div>
         <i class="pi pi-angle-right text-gray-400"></i>
       </li>
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <img src="assets/venta/libros.png" alt="Recursos de clases" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Recursos de clases</a>
+          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Recursos_de_clases')">Recursos de clases</button>
         </div>
         <i class="pi pi-angle-right text-gray-400"></i>
       </li>
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <img src="assets/venta/juguete-de-peluche.png" alt="Juguetes" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Juguetes</a>
+          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Juguetes')">Juguetes</button>
         </div>
         <i class="pi pi-angle-right text-gray-400"></i>
       </li>
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <img src="assets/venta/mobiliario.png" alt="Mobiliario y equipo" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Mobiliario y equipo</a>
+          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Mobiliario_y_equipo')">Mobiliario y equipo</button>
         </div>
         <i class="pi pi-angle-right text-gray-400"></i>
       </li>
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <img src="assets/venta/ropa.png" alt="Uniformes y ropa" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Uniformes y ropa</a>
+          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Uniformes_y_ropa')">Uniformes y ropa</button>
         </div>
         <i class="pi pi-angle-right text-gray-400"></i>
       </li>
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <img src="assets/venta/fiesta.png" alt="Decoraciones" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Decoraciones</a>
+          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Decoraciones')">Decoraciones</button>
         </div>
         <i class="pi pi-angle-right text-gray-400"></i>
       </li>
       <li class="flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <img src="assets/venta/electro.png" alt="Electrónica" class="w-12 h-12 rounded-full bg-gray-100 p-1">
-          <a href="#" class="text-[#3A00AE] font-bold hover:underline">Electrónica</a>
+          <button class="text-[#3A00AE] font-bold hover:underline" (click)="filterByCategory('Electronica')">Electrónica</button>
         </div>
         <i class="pi pi-angle-right text-gray-400"></i>
+      </li>
+      <li class="flex items-center justify-between">
+        <button class="text-[#3A00AE] font-bold hover:underline w-full text-left" (click)="filterByCategory('Todos')">Mostrar todos</button>
       </li>
     </ul>
   </aside>
 
+  <!-- Sección de posts -->
   <section class="w-full lg:w-3/4 p-4">
     <h1 class="text-3xl font-bold mb-6 text-center">Explora los diferentes artículos</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

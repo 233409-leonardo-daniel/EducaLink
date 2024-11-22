@@ -13,8 +13,10 @@ import { RouterLink } from '@angular/router';
   templateUrl: './ventas.component.html',
   styleUrls: ['./ventas.component.css']
 })
+
 export class VentasComponent implements OnInit {
   salePosts: ISalePost[] = [];
+  originalPosts: ISalePost[] = []; // Para almacenar todos los posts originales.
 
   constructor(private saleService: SaleService) {}
 
@@ -24,8 +26,20 @@ export class VentasComponent implements OnInit {
 
   loadSalePosts(): void {
     this.saleService.getSalePosts().subscribe(data => {
-      console.log(data);
+      console.log('Todos los posts:', data);
       this.salePosts = data;
+      this.originalPosts = data; // Guardar los posts originales.
     });
+  }
+
+  filterByCategory(category: string): void {
+    if (category === 'Todos') {
+      this.salePosts = [...this.originalPosts]; // Mostrar todos los posts.
+    } else {
+      this.saleService.getSalePostsByType(category).subscribe(data => {
+        console.log(`Posts filtrados por categoría ${category}:`, data);
+        this.salePosts = data;
+      });
+    }
   }
 }

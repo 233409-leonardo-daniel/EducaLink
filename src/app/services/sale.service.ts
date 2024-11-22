@@ -12,12 +12,10 @@ export class SaleService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-
   getSalePosts(): Observable<ISalePost[]> {
     return this.http.get<ISalePost[]>(this.apiUrl, this.authService.getHttpOptions());
   }
 
-  
   createSalePost(formData: FormData): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}`, formData, {
         headers: {
@@ -41,4 +39,11 @@ export class SaleService {
   deleteSalePost(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}${id}/`, this.authService.getHttpOptions());
   }
+
+  // Obtener SalePosts por tipo de categoría
+  getSalePostsByType(saleType: string): Observable<ISalePost[]> {
+    return this.http.get<ISalePost[]>(`${this.apiUrl}type/${saleType}`);
+  }
+
+  
 }
