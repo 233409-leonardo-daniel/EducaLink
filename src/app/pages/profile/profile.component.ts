@@ -13,6 +13,8 @@ import { PostComponent } from "../../components/post/post.component";
 import { AuthService } from '../../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { RouterLink } from '@angular/router';
+import { ChatService } from '../../services/chat.service';
+import { IChat } from '../../models/ichat';
 
 @Component({
   selector: 'app-profile',
@@ -36,7 +38,8 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private postService: PostService,
-    private authService: AuthService
+    private authService: AuthService,
+    private chatService: ChatService
   ) {}
 
   ngOnInit() {
@@ -132,6 +135,19 @@ export class ProfileComponent implements OnInit {
 
   contactUser(id_user: number): void {
     this.userService.setTempId(id_user);
-    this.router.navigate(['/chat']);
+    this.chatService.createChat({ receiver_id : id_user, sender_id : this.current_id, id_chat : 0 }).subscribe({
+      next: () => {
+        this.router.navigate(['/chat']);
+      },
+      error: (err) => {
+        if (err.status === 400) {
+          this.userService.setTempId(id_user);
+          this.router.navigate(['/chat']);
+        } else {
+          this.toastr.error('Oops, ocurrio un error al crear el chat');
+          console.error('Error al crear el chat:', err);   
+        }
+      }
+    });
   }
 }

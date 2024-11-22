@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { UserService } from '../../services/user.service';
 import { IUserData } from '../../models/iuser-data';
+import { AuthService } from '../../auth/auth.service';
 
 
 @Component({
@@ -19,22 +20,26 @@ import { IUserData } from '../../models/iuser-data';
 
 export class ChatComponent implements OnInit {
   chats: IChat[] = [];
-  currentUser: IUserData = {} as IUserData;
+  // currentUser: IUserData = {} as IUserData;
   currentChatUser: IUserData | null = null;
   messages: IMessage[] = [];
   newMessage: string = '';
   selectedChatId: number | null = null;
+  user: IUserData = {} as IUserData;
 
-  constructor(private chatService: ChatService, private userService: UserService) {
-    this.currentUser = this.userService.getData();
-  }
+  constructor(
+    private chatService: ChatService,
+    private userService: UserService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
+    this.user = this.authService.getUser() as IUserData;
     this.getChatUsers();
   }
 
   getChatUsers() {
-    const id_user = this.currentUser.id_user; 
+    const id_user = this.user.id_user; 
     this.chatService.getChatUsers(id_user).subscribe(chats => {
       this.chats = chats.map(chat => {       
         const otherUserId = chat.sender_id === id_user ? chat.receiver_id : chat.sender_id;
@@ -70,7 +75,7 @@ export class ChatComponent implements OnInit {
         chat_id: this.selectedChatId,
         date_message: new Date().toISOString(),
         id_message: 0,
-        sender_id: this.currentUser.id_user
+        sender_id: this.user.id_user
       };
       this.chatService.createMessage(newMessage).subscribe(message => {
         this.messages.push(message);

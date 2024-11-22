@@ -31,6 +31,7 @@ export class ChatService {
   }
 
   createChat(chat: IChat): Observable<IChat> {
+    console.log(chat);
     return this.http.post<IChat>(`${this.apiUrl}/chat/`, chat, this.authService.getHttpOptions());
   }
 

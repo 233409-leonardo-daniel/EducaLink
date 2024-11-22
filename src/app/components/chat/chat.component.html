@@ -26,8 +26,8 @@
     <div class="flex-1 overflow-y-auto space-y-2 p-2 border rounded-lg max-h-[60vh]">
       <div *ngFor="let message of messages"
            [ngClass]="{
-             'self-end text-right bg-blue-100 ml-auto': message.sender_id === currentUser.id_user,
-             'self-start text-left bg-gray-100 mr-auto': message.sender_id !== currentUser.id_user
+             'self-end text-right bg-blue-100 ml-auto': message.sender_id === user.id_user,
+             'self-start text-left bg-gray-100 mr-auto': message.sender_id !== user.id_user
            }"
            class="p-2 rounded-lg">
         <p>{{ message.message }}</p>

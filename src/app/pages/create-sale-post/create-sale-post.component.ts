@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { SaleService } from '../../services/sale.service';
@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 })
 export class CreateSalePostComponent {
   createPostForm: FormGroup;
-  selectedImageUrl: string | null = null;
+  image:File | null = null;
 
   @ViewChild('imageInput') imageInput!: ElementRef;
 
@@ -28,29 +28,32 @@ export class CreateSalePostComponent {
     private authService: AuthService,
     private toastr: ToastrService
   ) {
-    this.createPostForm = this.fb.group({
-      title: ['', [Validators.required, Validators.maxLength(50)]],
-      description: ['', [Validators.required, Validators.maxLength(200)]],
-      price: ['', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]],
-      category: ['', Validators.required],
-      status: ['', Validators.required]
+    this.createPostForm = new FormGroup({
+      title: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+      description: new FormControl('', [Validators.required, Validators.maxLength(200)]),
+      price: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]),
+      category: new FormControl('', Validators.required),
     });
   }
 
   createPost(): void {
     if (this.createPostForm.valid) {
-      const newPost: ISalePost = {
-        title: this.createPostForm.value.title,
-        description: this.createPostForm.value.description,
-        price: parseFloat(this.createPostForm.value.price),
-        url: this.selectedImageUrl || '',
-        status: this.createPostForm.value.status,
-        id_sale_post: 0, 
-        publication_date: new Date().toISOString(),
-        seller_id: this.authService.getUser()?.id_user || 0
-      };
+      const formData = new FormData();
+      
+      formData.append('title', this.createPostForm.value.title);
+      formData.append('description', this.createPostForm.value.description);
+      formData.append('price', this.createPostForm.value.price.toString());
+      formData.append('type', this.createPostForm.value.category);
 
-      this.saleService.createSalePost(newPost).subscribe({
+      // Si hay un archivo de imagen seleccionado
+      const file = this.image;
+      if (file) {
+        formData.append('image', file);
+      } else {
+        console.error('No se seleccionó ninguna imagen');
+      }
+
+      this.saleService.createSalePost(formData).subscribe({
         next: () => {
           this.toastr.success('Publicación creada exitosamente');
           this.router.navigate(['/sale']);
@@ -61,7 +64,15 @@ export class CreateSalePostComponent {
         }
       });
     } else {
-      this.toastr.error('Por favor complete todos los campos correctamente', 'Formulario inválido');
+      console.log('Estado del formulario:', this.createPostForm.value);
+      console.log('Errores del formulario:', this.createPostForm.errors);
+      Object.keys(this.createPostForm.controls).forEach(key => {
+        const control = this.createPostForm.get(key);
+        console.log(`${key} válido:`, control?.valid);
+        console.log(`${key} errores:`, control?.errors);
+      });
+      
+      this.toastr.error('Por favor complete todos los campos correctamente');
     }
   }
 
@@ -69,17 +80,13 @@ export class CreateSalePostComponent {
     this.imageInput.nativeElement.click();
   }
 
-  onImageSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement)?.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.selectedImageUrl = reader.result as string;
-        this.toastr.success('Imagen seleccionada correctamente');
-      };
-      reader.readAsDataURL(file);
-    } else {
-      this.toastr.warning('No se seleccionó ninguna imagen', 'Advertencia');
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+        const file = input.files[0];
+        this.createPostForm.patchValue({ image: file });
     }
   }
+  
+
 }
