@@ -55,7 +55,7 @@ export class CreateSalePostComponent {
       this.saleService.createSalePost(formData).subscribe({
         next: () => {
           this.toastr.success('Publicación creada exitosamente');
-          this.router.navigate(['/sale']);
+          // this.router.navigate(['/sale']);
         },
         error: (err) => {
           this.toastr.error('Error creando publicación', 'Error');

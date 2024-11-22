@@ -41,7 +41,7 @@ export class EditforumComponent {
 
   // Carga la lista de foros del usuario
   loadUserForums(userId: number): void {
-    this.userService.getUserForums(userId).subscribe(
+    this.forumService.getForumsByUser(userId).subscribe(
       (forums) => {
         this.userForums = forums;
       },

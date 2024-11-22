@@ -1,4 +1,5 @@
 // models/ipost.ts
+import { IForum } from "./iforum";
 import { IUserData } from "./iuser-data";
 
 export interface IPost {
@@ -10,4 +11,5 @@ export interface IPost {
   comment_count: number;
   image_urls: string[];
   user: IUserData; // Ahora incluimos el usuario como un objeto anidado
+  forum: IForum;
 }

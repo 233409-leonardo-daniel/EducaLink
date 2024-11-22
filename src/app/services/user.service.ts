@@ -50,10 +50,6 @@ export class UserService {
     return this.userData;
   }
 
-  getUserForums(user_id: number): Observable<IForum[]> { 
-    return this.http.get<IForum[]>(`${this.url}/user/forums/${user_id}/`);
-  }
-
   getForumSuggestions(): Observable<IForum[]> {
     if (isPlatformBrowser(this.platformId)) {
       const user = JSON.parse(localStorage.getItem('user') || '{}');

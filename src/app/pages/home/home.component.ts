@@ -1,3 +1,4 @@
+import { ForumService } from './../../services/forum.service';
 import { IPost } from './../../models/ipost';
 import { PostService } from './../../services/post.service';
 import { UserService } from './../../services/user.service';
@@ -30,7 +31,8 @@ export class HomeComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly userService: UserService,
     private readonly router: Router,
-    private readonly postService: PostService
+    private readonly postService: PostService,
+    private readonly forumService: ForumService
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +40,7 @@ export class HomeComponent implements OnInit {
     if (userData) {
       this.user = userData;
 
-      this.userService.getUserForums(this.user.id_user).subscribe({
+      this.forumService.getForumsByUser(this.user.id_user).subscribe({
         next: (data: IForum[]) => {
           this.forums = data;
           this.idForums = data.map((forum: IForum) => forum.id_forum);
@@ -46,7 +48,6 @@ export class HomeComponent implements OnInit {
           this.postService.getPostByForum(this.idForums).subscribe({
             next: (data: IPost[]) => {
               this.posts = data.flat(); 
-              console.log(this.posts);
             },
             error: (err) => {
               console.error('Error al obtener publicaciones:', err);
@@ -64,7 +65,7 @@ export class HomeComponent implements OnInit {
   }
 
   filterByRecommended(): void {
-    this.userService.getUserForums(this.user.id_user).subscribe({
+    this.forumService.getForumsByUser(this.user.id_user).subscribe({
       next: (data: IForum[]) => {
         this.forums = data;
         this.idForums = data.map((forum: IForum) => forum.id_forum);
@@ -94,7 +95,6 @@ export class HomeComponent implements OnInit {
           this.postService.getPostsByUserWhereIsPrivateAndPublic(id).subscribe({
             next: (data: IPost[]) => {
               this.posts = data;
-              console.log(this.posts);
             },
             error: (err) => {
             console.error('Error al obtener publicaciones:', err);

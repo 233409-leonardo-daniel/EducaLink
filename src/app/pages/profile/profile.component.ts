@@ -15,11 +15,18 @@ import { ToastrService } from 'ngx-toastr';
 import { RouterLink } from '@angular/router';
 import { ChatService } from '../../services/chat.service';
 import { IChat } from '../../models/ichat';
+import { ISalePost } from '../../models/isale-post';
+import { SaleService } from '../../services/sale.service';
+import { CreateSalePostComponent } from "../create-sale-post/create-sale-post.component";
+import { PostventaComponent } from '../../components/postventa/postventa.component';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { FormsModule } from '@angular/forms';
+import { ForumService } from '../../services/forum.service';
 
 @Component({
   selector: 'app-profile',
-  standalone: true,
-  imports: [NavbarComponent, GroupListComponent, CommonModule, PostComponent, RouterLink],
+  standalone: true, 
+  imports: [NavbarComponent, GroupListComponent, CommonModule, PostComponent, RouterLink, PostventaComponent, SelectButtonModule, FormsModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
@@ -32,14 +39,24 @@ export class ProfileComponent implements OnInit {
   user = {} as IUserData;
   current_id: number = 0;
   isCurrentUserFollowing = false;
+  salePosts: ISalePost[] = [];
+  sectionSelected = 'posts';
+  options = [
+    { label: 'Publicaciones', value: 'posts' },
+    { label: 'Ventas', value: 'sales' }
+  ];
 
+  stateOptions: any[] = [{ label: 'Publicaciones', value: 'posts' },{ label: 'Ventas', value: 'sales' }];
+  value: string = 'off';
   constructor(
     private toastr: ToastrService,
     private router: Router,
     private userService: UserService,
     private postService: PostService,
     private authService: AuthService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private saleService: SaleService,
+    private forumService: ForumService
   ) {}
 
   ngOnInit() {
@@ -60,7 +77,7 @@ export class ProfileComponent implements OnInit {
   }
 
   private loadUserDetails(): void {
-    this.userService.getUserForums(this.user.id_user).subscribe({
+    this.forumService.getForumsByUser(this.user.id_user).subscribe({
       next: (data: IForum[]) => {
         this.forums = data;
         this.idForums = data.map((forum) => forum.id_forum);
@@ -76,6 +93,16 @@ export class ProfileComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al obtener publicaciones del usuario:', err);
+      }
+    });
+
+    this.saleService.getSalePostsByUser(this.user.id_user).subscribe({
+      next: (data: ISalePost[]) => {
+        console.log(data);
+        this.salePosts = data;
+      },
+      error: (err) => {
+        console.error('Error al obtener ventas del usuario:', err);
       }
     });
 
@@ -149,5 +176,9 @@ export class ProfileComponent implements OnInit {
         }
       }
     });
+  }
+
+  changeSection(section: string): void {
+    this.sectionSelected = section;
   }
 }

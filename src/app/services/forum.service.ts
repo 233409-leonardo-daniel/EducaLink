@@ -67,6 +67,10 @@ export class ForumService {
     return this.idTemp;
   }
 
+  getForumsByUser(user_id: number): Observable<IForum[]> {
+    return this.http.get<IForum[]>(`${this.url}/forum/user/${user_id}/`, this.authService.getHttpOptions());
+  }
+
   getForumById(forum_id: number): Observable<IForum> {
     return this.http.get<IForum>(`${this.url}/forum/${forum_id}/`, this.authService.getHttpOptions());
   }

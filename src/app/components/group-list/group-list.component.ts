@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { GroupItemComponent } from '../group-item/group-item.component';
 import { IForum } from '../../models/iforum';
 import { CommonModule } from '@angular/common';
@@ -16,6 +16,7 @@ import { AuthService } from '../../auth/auth.service';
 export class GroupListComponent {
   @Input() forums : IForum[] = []
 
+  
   goGroups() { 
     this.userService.getTempId();
     if (!this.userService.getTempId()) {

@@ -16,6 +16,10 @@ export class SaleService {
     return this.http.get<ISalePost[]>(this.apiUrl);
   }
 
+  getSalePostsByUser(id_user: number): Observable<ISalePost[]> {
+    return this.http.get<ISalePost[]>(`${this.apiUrl}user/${id_user}/`, this.authService.getHttpOptions());
+  }
+
   createSalePost(formData: FormData): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}`, formData, {
         headers: {

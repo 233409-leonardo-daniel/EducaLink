@@ -1,0 +1,12 @@
+.custom-select-button {
+    background-color: #3F008F; /* Cambia este color por el que desees */
+    color: white; /* Color del texto */
+}
+
+.custom-select-button .p-button {
+    border: none; /* Elimina el borde si es necesario */
+}
+
+.custom-select-button .p-button:hover {
+    background-color: #6e2ec2; /* Color al pasar el mouse */
+}

@@ -1,3 +1,5 @@
+import { IUserData } from "./iuser-data";
+
 export interface ISalePost {
     title: string; 
     description: string; 
@@ -8,4 +10,5 @@ export interface ISalePost {
     publication_date:string; 
     seller_id: number; 
     sale_type: string; 
+    seller: IUserData;
 }
