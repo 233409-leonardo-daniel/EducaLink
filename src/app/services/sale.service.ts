@@ -13,13 +13,10 @@ export class SaleService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getSalePosts(): Observable<ISalePost[]> {
-    return this.http.get<ISalePost[]>(this.apiUrl, this.authService.getHttpOptions());
+    return this.http.get<ISalePost[]>(this.apiUrl);
   }
 
   createSalePost(formData: FormData): Observable<any> {
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
     return this.http.post<any>(`${this.apiUrl}`, formData, {
         headers: {
             'Authorization': `Bearer ${this.authService.getToken()}`
@@ -27,25 +24,19 @@ export class SaleService {
     });
   }
 
-  // Obtener un SalePost por ID
   getSalePostById(id: number): Observable<ISalePost> {
-    return this.http.get<ISalePost>(`${this.apiUrl}${id}/`, this.authService.getHttpOptions());
+    return this.http.get<ISalePost>(`${this.apiUrl}${id}/`);
   }
 
-  // Actualizar un SalePost existente
   updateSalePost(id: number, salePost: Partial<ISalePost>): Observable<ISalePost> {
-    return this.http.put<ISalePost>(`${this.apiUrl}${id}/`, salePost, this.authService.getHttpOptions());
+    return this.http.put<ISalePost>(`${this.apiUrl}${id}/`, salePost);
   }
 
-  // Eliminar un SalePost por ID
   deleteSalePost(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}${id}/`, this.authService.getHttpOptions());
+    return this.http.delete<void>(`${this.apiUrl}${id}/`);
   }
 
-  // Obtener SalePosts por tipo de categoría
   getSalePostsByType(saleType: string): Observable<ISalePost[]> {
     return this.http.get<ISalePost[]>(`${this.apiUrl}type/${saleType}`);
   }
-
-  
 }
