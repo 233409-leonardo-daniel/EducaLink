@@ -5,21 +5,26 @@ import { UserService } from '../../services/user.service';
 import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IUserData } from '../../models/iuser-data';
 import { CommonModule } from '@angular/common';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { RouterLink } from '@angular/router';
 
 
 
 @Component({
   selector: 'app-editforum',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,NavbarComponent, RouterLink],
   templateUrl: './editforum.component.html',
   styleUrl: './editforum.component.css'
 })
 export class EditforumComponent {
   forumForm!: FormGroup;
   userForums: IForum[] = [];
-  selectedForum!: IForum;
+  selectedForum!: IForum | undefined; // "Valencia" agregue el undefined para que pueda usar el canceledit
   userData!: IUserData;
+
+  // "Valencia" propiedad para almacenar los grados disponibles
+  availableGrades: number[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -39,6 +44,12 @@ export class EditforumComponent {
     this.initForm();
   }
 
+  cancelEdit(): void {
+    this.selectedForum = undefined; 
+    this.forumForm.reset(); 
+  }
+  
+
   // Carga la lista de foros del usuario
   loadUserForums(userId: number): void {
     this.forumService.getForumsByUser(userId).subscribe(
@@ -57,11 +68,24 @@ export class EditforumComponent {
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.maxLength(255)]],
       education_level: ['', Validators.required],
+      grade: [''], 
       privacy: ['', Validators.required],
       password: [''],
       background_image_url: [''],
       image_url: ['']
     });
+  }
+
+   // Agregue este nuevo Método para cambiar los grados disponibles según el nivel educativo seleccionado
+   onEducationLevelChange(event: Event): void {
+    const selectedLevel = (event.target as HTMLSelectElement).value;
+    if (selectedLevel === 'Preescolar') {
+      this.availableGrades = [1, 2, 3];
+    } else if (selectedLevel === 'Primaria') {
+      this.availableGrades = [1, 2, 3, 4, 5, 6];
+    } else {
+      this.availableGrades = [];
+    }
   }
 
   // Cargar los datos del foro seleccionado en el formulario
@@ -99,4 +123,5 @@ export class EditforumComponent {
       }
     );
   }
+  
 }
