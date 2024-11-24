@@ -11,6 +11,7 @@ import { isPlatformBrowser } from '@angular/common';
 export class AuthService {
   private isLoggedIn = false;
   private token: string | null = null;
+  // private url = 'http://98.85.11.22:8000';
   private url = 'http://localhost:8000';
   private user: IUserData | null = null;
   private options = {

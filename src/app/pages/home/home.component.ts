@@ -108,4 +108,8 @@ export class HomeComponent implements OnInit {
   goPost(): void {
     this.router.navigate(['/createpost']);
   }
+
+  onPostDeleted(id_post: number) {
+    this.posts = this.posts.filter(post => post.id_post !== id_post);
+  }
 }

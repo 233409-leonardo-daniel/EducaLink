@@ -116,7 +116,7 @@ export class CreateForumComponent {
         next: (response) => {
           this.toastr.success('Foro creado exitosamente');
           this.forumService.setTempId(response.id_forum);
-          this.router.navigate(['/forum']);
+          // this.router.navigate(['/forum']);
         },
         error: (error) => {
           console.error('Error al crear el foro:', error);

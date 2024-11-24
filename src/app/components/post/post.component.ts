@@ -8,41 +8,44 @@ import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../auth/auth.service';
 import { IUserData } from '../../models/iuser-data';
-
-
+import { PostService } from '../../services/post.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-post',
   standalone: true,
-  imports: [DatePipe, CommonModule, RouterLink, MenuModule],
+  imports: [DatePipe, CommonModule, MenuModule],
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
-  items: MenuItem[] = [];
+  items: MenuItem[] | undefined;
   user!: IUserData;
-  constructor(private router: Router, private userService: UserService, private forumService: ForumService, private menu: MenuModule, private authService: AuthService){ }
+  
+  constructor(private router: Router, private userService: UserService, private forumService: ForumService, private authService: AuthService, private postService: PostService, private toastr: ToastrService) { }
+
   @Input() post!: IPost;
+
+  @Output() postDeleted = new EventEmitter<number>();
 
   ngOnInit(): void {
     this.user = this.authService.getUser() as IUserData;
     this.items = [
-      { label: 'Eliminar', icon: 'pi pi-trash', command: () => this.deletePost() }
+      {
+        items: [
+          {
+            label: 'Eliminar',
+            icon: 'pi pi-trash',
+            command: () => this.deletePost(this.post.id_post)
+          }
+        ]
+      }
     ];
   }
 
   goProfile(id_user: number) {
-    // console.log(id_user);
-    // console.log(this.userService.getData().id_user);
-    
     this.userService.setTempId(id_user);
-    if (id_user == this.user.id_user) {
-      this.router.navigate(['/profile', id_user])
-    } else {
-      console.log('oops, este es otro perfil');
-      
-      this.router.navigate(['/profile', id_user]);
-    }
+    this.router.navigate(['/profile', id_user]);
   }
 
   goForum(id_forum: number) {
@@ -59,11 +62,23 @@ export class PostComponent implements OnInit {
     console.log('showOptions');
   }
 
-  menuToggle(event: any) {
-    console.log('menuToggle', event);
+  deletePost(id_post: number) {
+    this.postService.deletePost(id_post).subscribe({
+      next: (res: any) => {
+        this.toastr.success('Post eliminado correctamente');
+        this.postDeleted.emit(id_post);
+        this.id_user.emit(this.user.id_user);
+      },
+      error: (error: any) => {
+        this.toastr.error('Error al eliminar el post');
+      }
+    }); 
   }
 
-  deletePost() {
-    console.log('deletePost');
+  goComments(id_post: number) {
+    this.userService.setTempId(id_post);
+    this.router.navigate(['/comments']);
   }
+
+  @Output() id_post = new EventEmitter<number>();
 }

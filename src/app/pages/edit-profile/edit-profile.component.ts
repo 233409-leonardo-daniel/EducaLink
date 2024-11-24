@@ -44,14 +44,22 @@ export class EditProfileComponent implements OnInit {
       formData.append('lastname', this.userData.lastname);
       formData.append('mail', this.userData.mail);
       formData.append('education_level', this.userData.education_level);
+      formData.append('grade', this.userData.grade.toString());
+      formData.append('state', this.userData.state);
+      formData.append('user_type', this.userData.user_type);
       if (this.userData.password) {
         formData.append('password', this.userData.password);
       }
       if (this.backgroundImageFile) {
         formData.append('background_image', this.backgroundImageFile);
-      }
-      if (this.profileImageFile) {
+    } else {
+        console.warn('No se seleccionó una imagen de fondo.');
+    }
+
+    if (this.profileImageFile) {
         formData.append('profile_image', this.profileImageFile);
+    } else {
+        console.warn('No se seleccionó una imagen de perfil.');
       }
 
       this.userService.updateUser(this.userData.id_user, formData).subscribe({

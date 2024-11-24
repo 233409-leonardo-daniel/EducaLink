@@ -31,12 +31,8 @@
                 </button>
             </div>
         </div>
-<!-- 
-        <div class="mx-10">
-            
-        </div> -->
         <!-- SECCIÓN DE PUBLICACIONES -->
-        <section class="mt-10" >
+        <section class="mt-10">
             <p-selectButton 
             [options]="options" 
             [(ngModel)]="sectionSelected"
@@ -46,13 +42,12 @@
             ></p-selectButton>
             <div class="flex flex-col mt-10" *ngIf="sectionSelected == 'posts'">
                 <ng-container *ngFor="let post of posts">
-                    <app-post [post]="post"></app-post>
+                    <app-post [post]="post" (postDeleted)="onPostDeleted($event)"></app-post>
                 </ng-container>
             </div>
         </section>
         <!-- SECCIÓN DE LAS VENTAS DEL USUARIO -->
-        <section class="mt-10" >
-            <!-- <h1 class="text-5xl font-bold">Ventas</h1> -->
+        <section class="mt-10">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" *ngIf="sectionSelected == 'sales'">
                 <ng-container *ngFor="let post of salePosts">
                     <app-postventa [salePost]="post"></app-postventa>

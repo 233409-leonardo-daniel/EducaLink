@@ -8,7 +8,7 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root'
 })
 export class SaleService {
-  private apiUrl = 'http://localhost:8000/sale-post/'; // Ruta base para la API de SalePost
+  private apiUrl = 'http://98.85.11.22:8000/sale-post/'; // Ruta base para la API de SalePost
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

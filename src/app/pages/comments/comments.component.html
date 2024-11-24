@@ -1,0 +1,53 @@
+<app-navbar></app-navbar>
+<main class="flex justify-center items-center">
+    <section class="w-1/2 mt-4">
+        <app-post [post]="post"></app-post>
+        <div class="mt-4">
+            <h2 class="text-2xl font-bold">Comentarios</h2>
+            <form [formGroup]="commentForm">
+                <div class="flex items-center gap-2 bg-white p-4 rounded-lg">
+                    <img [src]="user.profile_image_url" alt="avatar" class="w-10 h-10 rounded-full">
+                    <input pInputText id="comment" class="flex-auto border-none outline-none h-full" autocomplete="off" formControlName="comment" 
+                    placeholder="Escribe un comentario" 
+                    />
+                    <button buttonType="button" label="Enviar" (click)="onSubmit(post.id_post)">
+                        Enviar <i class="pi pi-comment" ></i>
+                    </button>
+                </div>
+            </form>
+            <div class="mt-4">
+                <div *ngFor="let comment of comments" class="border-b bg-white pb-4 rounded-lg">  
+                    <div class="flex items-center justify-between mb-2 p-4">
+                        <div class="flex items-center gap-2" (click)="goToUser(comment.user.id_user)">
+                            <img [src]="comment.user.profile_image_url" alt="avatar" class="w-10 h-10 rounded-full cursor-pointer hover:opacity-80">
+                            <p class="cursor-pointer hover:opacity-80 hover:underline" (click)="goToUser(comment.user.id_user)">
+                                {{ comment.user.name | titlecase }} {{ comment.user.lastname | titlecase }}
+                            </p>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            {{ comment.comment_date | date:'dd/MM/yyyy' }}
+                            <i class="pi pi-trash" style="color: red;" (click)="deleteComment(comment.id_comment)"
+                            *ngIf="comment.user.id_user == user.id_user || user.user_type == 'Admin' || post.user.id_user == user.id_user"></i>
+                        </div>
+                    </div>
+                    <div class="px-4">
+                        {{ comment.comment_text }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-5">Di lo que piensas</span>
+    <form [formGroup]="commentForm">
+        <div class="flex align-items-center gap-3 mb-5">
+            <input pInputText id="comment" class="flex-auto" autocomplete="off" formControlName="comment"/>
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <button pButton label="Cancel" severity="secondary" (onClick)="visible = false"></button>
+            <button pButton label="Save" (onClick)="onSubmit(post.id_post)"></button>
+        </div>
+    </form>
+</p-dialog>

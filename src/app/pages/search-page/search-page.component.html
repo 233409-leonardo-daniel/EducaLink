@@ -1,0 +1,77 @@
+<app-navbar></app-navbar>
+<main class="flex flex-col lg:flex-row justify-center lg:space-x-16">
+    <aside class="hidden lg:block w-1/4 p-4 bg-white shadow-md md:flex flex-col h-screen sticky">
+        <h2 class="text-2xl font-bold mb-4 text-center">Filtros de Búsqueda</h2>
+        <h3 class="text-lg font-semibold text-gray-600 mb-4 text-center">Grupos</h3>
+        <ul class="space-y-4">
+            <li class="flex items-center justify-between">
+                <span class="text-[#3A00AE] cursor-pointer font-bold hover:underline" (click)="filterByGroups()">Grupos</span>
+            </li>
+            <h3 class="text-lg font-semibold text-gray-600 mb-4 text-center">Usuarios</h3>
+            <li class="flex items-center justify-between">
+                <span class="text-[#3A00AE] cursor-pointer font-bold hover:underline" (click)="filterByUsers()">Usuarios</span>
+            </li>
+            <h3 class="text-lg font-semibold text-gray-600 mb-4 text-center">Publicaciones</h3>
+            <li class="flex items-center justify-between">
+                <span class="text-[#3A00AE] cursor-pointer font-bold hover:underline" (click)="filterByPosts()">Publicaciones</span>
+            </li>
+            <li class="flex items-center justify-between">
+                <span class="text-[#3A00AE] cursor-pointer font-bold hover:underline" (click)="filterByUsersAndForums()">Ambos</span>
+            </li>
+        </ul>
+    </aside>
+    <section class="flex-grow p-4 py-16">
+        <h1 class="text-2xl font-bold mb-4">Resultados de Búsqueda</h1>
+        <div *ngIf="noResults">
+            <h2 class="text-xl font-bold">No se encontraron resultados</h2>
+        </div>
+        <div *ngIf="currentSelection === 'both'">
+            <div *ngIf="forums.length > 0">
+                <h2 class="text-xl font-bold">Grupos</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <app-group-item *ngFor="let forum of forums" [forum]="forum"></app-group-item>
+                </div>
+            </div>
+            <div *ngIf="users.length > 0">
+                <h2 class="text-xl font-bold">Usuarios</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <app-user-card *ngFor="let user of users" [user]="user"></app-user-card>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!noResults && currentSelection === 'forums'">
+            <div class="flex flex-col space-y-4">
+                <h2 class="text-xl font-bold">Grupos</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <app-group-item *ngFor="let forum of forums" [forum]="forum"></app-group-item>
+                </div>
+            </div>
+            <div *ngIf="forums.length === 0">
+                <h2 class="text-xl font-bold">No se encontraron grupos</h2>
+            </div>
+        </div>
+        <div *ngIf="!noResults && currentSelection === 'users'">
+            <div class="flex flex-col space-y-4">
+                <h2 class="text-xl font-bold">Usuarios</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <app-user-card *ngFor="let user of users" [user]="user"></app-user-card>
+                </div>
+            </div>
+            <div *ngIf="users.length === 0">
+                <h2 class="text-xl font-bold">No se encontraron usuarios</h2>
+            </div>
+        </div>
+        <div *ngIf="!noResults && currentSelection === 'posts'">
+            <div class="flex flex-col space-y-4">
+                <h2 class="text-xl font-bold">Publicaciones</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <app-post *ngFor="let post of posts" [post]="post"></app-post>
+                </div>
+            </div>
+            <div *ngIf="posts.length === 0">
+                <h2 class="text-xl font-bold">No se encontraron publicaciones</h2>
+            </div>
+        </div>
+    </section>
+</main>
+

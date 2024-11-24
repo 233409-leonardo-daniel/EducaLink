@@ -13,6 +13,8 @@
         type="text"
         placeholder="Buscar"
         class="w-full pl-10 pr-4 py-2 rounded-full bg-gray-100 focus:outline-none"
+        (keyup.enter)="goSearch()"
+        [(ngModel)]="search"
       />
     </div>
   </div>

@@ -11,11 +11,13 @@ import { AuthService } from '../../auth/auth.service';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { PostComponent } from '../../components/post/post.component';
-
+import { DialogModule } from 'primeng/dialog';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 @Component({
   selector: 'app-forum',
   standalone: true,
-  imports: [NavbarComponent, CommonModule, PostComponent],
+  imports: [NavbarComponent, CommonModule, PostComponent, DialogModule, FormsModule, ButtonModule],
   templateUrl: './forum.component.html',
   styleUrls: ['./forum.component.css']
 })
@@ -25,7 +27,8 @@ export class ForumComponent implements OnInit {
   members: IUserData[] = [];
   current_id: number = 0;
   isCurrentUserMember: boolean = false;
-
+  visible: boolean = false;
+  password: string = '';
   constructor(
     private router: Router,
     private forumService: ForumService,
@@ -92,21 +95,26 @@ export class ForumComponent implements OnInit {
     this.router.navigate(['/editforum']);
   }
 
-  joinForum(id_forum: number): void {
+  joinForum(id_forum: number, password: string): void {
     if (this.isCurrentUserMember) {
       this.toastr.warning('Ya eres miembro de este foro');
       return;
     }
 
-    this.forumService.joinForum(id_forum).subscribe({
+    this.forumService.joinForum(id_forum, password).subscribe({
       next: () => {
         this.toastr.success('Te has unido al foro exitosamente');
+        this.visible = false;
         this.isCurrentUserMember = true;
         this.loadForumMembers(); 
       },
       error: (err) => {
+        if (err.error.detail == 'Contraseña incorrecta') {
+          this.toastr.error('Contraseña incorrecta');
+        } else {
+          this.toastr.error('Error al unirse al foro');
+        }
         console.error('Error al unirse al foro:', err);
-        this.toastr.error('Error al unirse al foro');
       }
     });
   }
@@ -125,7 +133,18 @@ export class ForumComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al abandonar el foro:', err);
-        this.toastr.error('Error al abandonar el foro');
+        if (err.error && err.error.detail) {
+          const errorMessage = err.error.detail;
+          if (errorMessage === 'No eres miembro de este foro') {
+            this.toastr.error('No eres miembro de este foro');
+          } else if (errorMessage === 'Debes permanecer a al menos 1 foro') {
+            this.toastr.error('Debes permanecer a al menos 1 foro');
+          } else {
+            this.toastr.error('Error al abandonar el foro: ' + errorMessage);
+          }
+        } else {
+          this.toastr.error('Error al abandonar el foro');
+        }
       }
     });
   }
@@ -151,5 +170,9 @@ export class ForumComponent implements OnInit {
   goProfile(id_user: number): void {
     this.userService.setTempId(id_user);
     this.router.navigate(['/profile', id_user]);
+  }
+
+  showDialog() {
+    this.visible = true;
   }
 }

@@ -10,7 +10,7 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root'
 })
 export class ChatService {
-  private apiUrl = 'http://localhost:8000'; // Reemplaza con tu URL de API
+  private apiUrl = 'http://98.85.11.22:8000'; // Reemplaza con tu URL de API
 
   constructor(private http: HttpClient, private authService:AuthService) {}
 

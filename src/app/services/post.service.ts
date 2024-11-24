@@ -1,18 +1,19 @@
 import { AuthService } from './../auth/auth.service';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { IPost } from '../models/ipost';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IForum } from '../models/iforum';
 import { IUserData } from '../models/iuser-data';
+import { IComment } from '../models/icomment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
   private url = 'http://localhost:8000';
-
+  private tempId: number = 0;
   constructor(private http: HttpClient, readonly authService: AuthService) {}
 
   // Método para obtener los encabezados dinámicamente
@@ -27,7 +28,21 @@ export class PostService {
     };
   }
 
+  setTempId(id: number) {
+    this.tempId = id;
+  }
 
+  getTempId(): number {
+    return this.tempId;
+  }
+
+  getCommentsByPostId(id_post: number): Observable<IComment[]> {
+    return this.http.get<IComment[]>(`${this.url}/comments/post/${id_post}/`, this.getHttpOptions());
+  }
+
+  getPostById(id_post: number): Observable<IPost> {
+    return this.http.get<IPost>(`${this.url}/post/${id_post}/`, this.getHttpOptions());
+  }
 
   getPostByEducationLevel(education_level: string): Observable<IPost> {
     return this.http.get<IPost>(`${this.url}/post/education_level/${education_level}/`, this.getHttpOptions());
@@ -61,5 +76,9 @@ export class PostService {
 
   getPostsByUserWhereIsPrivateAndPublic(user_id: number): Observable<IPost[]> {
     return this.http.get<IPost[]>(`${this.url}/post/user/${user_id}/private/`, this.getHttpOptions());
+  }
+
+  deletePost(id_post: number): Observable<any> {
+    return this.http.delete(`${this.url}/post/${id_post}/`, this.getHttpOptions());
   }
 }

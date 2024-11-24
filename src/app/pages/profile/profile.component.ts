@@ -87,7 +87,7 @@ export class ProfileComponent implements OnInit {
       }
     });
 
-    this.postService.getPostsByUser(this.user.id_user).subscribe({
+    this.postService.getPostsByUserWhereIsPrivateAndPublic(this.user.id_user).subscribe({
       next: (data: IPost[]) => {
         this.posts = data;
       },
@@ -180,5 +180,11 @@ export class ProfileComponent implements OnInit {
 
   changeSection(section: string): void {
     this.sectionSelected = section;
+  }
+
+  onPostDeleted(id_post: number) {
+    this.userService.setTempId(this.user.id_user);
+    this.router.navigate(['/profile', this.user.id_user]);
+    this.posts = this.posts.filter(post => post.id_post !== id_post);
   }
 }

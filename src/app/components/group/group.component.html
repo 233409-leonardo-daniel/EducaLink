@@ -5,14 +5,33 @@
       <div class="flex-1">
         <h2 class="text-lg font-bold">{{ forum.name }}</h2>
         <p class="text-sm text-gray-600">Administrador: {{ forum.id_user }}</p>
-        <p class="text-sm" [ngClass]="forum.privacy ? 'text-green-500' : 'text-red-500'">
-          {{ forum.privacy ? 'Público' : 'Privado' }}
+        <p class="text-sm text-green-500" *ngIf="forum.privacy == 'Publico'" >
+          Público
+        </p>
+        <p class="text-sm text-red-500" *ngIf="forum.privacy == 'Privado'">
+          Privado
         </p>
           <p class="text-sm text-gray-600">{{ forum.description }}</p>
       </div>
       <button (click)="joinGroup(forum.id_forum)" class="bg-[#3a00ae] text-white px-4 py-2 rounded hover:bg-blue-700">
         Unirse
       </button>
+
+
+      <div class="card flex justify-content-center">
+        <p-button (onClick)="showDialog()" label="Ingresar contraseña" />
+        <p-dialog header="Unirse al grupo" [(visible)]="visible" [style]="{ width: '25rem' }">
+            <div class="flex align-items-center gap-3 mb-3 mt-1">
+                <label for="password" class="font-semibold w-6rem">Contraseña</label>
+                <input pInputText id="password" class="flex-auto" autocomplete="off" [(ngModel)]="password" />
+            </div>
+            <div class="flex justify-content-end justify-between gap-2">
+                <p-button label="Cancel" severity="secondary" (onClick)="visible = false" />
+                <p-button label="Save" (onClick)="joinGroup(forum.id_forum, password)" />
+            </div>
+        </p-dialog>
+      </div>
     </div>
   
 </div>
+

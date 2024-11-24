@@ -10,6 +10,7 @@ import { IUserData } from '../models/iuser-data';
   providedIn: 'root'
 })
 export class ForumService {
+  // private url = 'http://98.85.11.22:8000';
   private url = 'http://localhost:8000';
   private idTemp = 0;
   httpOptions = {
@@ -98,7 +99,14 @@ export class ForumService {
 
   // User Join Forum
   joinForum(forum_id: number, password?: string): Observable<any> {
-    return this.http.post<any>(`${this.url}/forum/${forum_id}/join/`, {password},this.authService.getHttpOptions());
+    const params = password ? { params: { password } } : {};
+    return this.http.post<any>(`${this.url}/forum/${forum_id}/join/`, null, { ...this.authService.getHttpOptions(), ...params });
+  }
+
+  // Salir o expulsar un usuario del foro
+  leaveForum(forum_id: number, user_id: number): Observable<any> {
+    const params = { params: { user_id } };
+    return this.http.delete<any>(`${this.url}/forum/${forum_id}/leave/`, { ...this.authService.getHttpOptions(), ...params });
   }
 
   // Eliminar un foro

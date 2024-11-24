@@ -3,9 +3,13 @@
         <img src="assets/logo.png" alt="EducaLink" class="h-[70px]" >
     </div>
 </header>
-<div class="container mx-auto p-4 w-[500px]">
-<app-group></app-group>
-<button (click)="finalizar()" class="w-full bg-[#3a00ae] text-white py-2 rounded mt-4">
-    Finalizar
-  </button>
+<div class="container mx-auto p-4 w-full ">
+    <div class="w-1/5 grid grid-cols-3 gap-4">
+        <app-group></app-group>
+    </div>
+    <div class="w-4/5">
+        <button (click)="finalizar()" class="w-full bg-[#3a00ae] text-white py-2 rounded mt-4">
+            Finalizar
+        </button>
+    </div>
 </div>

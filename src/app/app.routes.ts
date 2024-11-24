@@ -16,6 +16,8 @@ import { UserForumsComponent } from './pages/user-forums/user-forums.component';
 import { NewforumComponent } from './pages/newforum/newforum.component';
 import { SearchForumComponent } from './pages/search-forum/search-forum.component';
 import { MyfollowsComponent } from './pages/myfollows/myfollows.component';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { CommentsComponent } from './pages/comments/comments.component';
 
 
 export const routes: Routes = [
@@ -34,5 +36,7 @@ export const routes: Routes = [
     { path: 'user-forums', component: UserForumsComponent },
     { path: 'editprofile', component: EditProfileComponent},
     { path: 'createforum', component: NewforumComponent},
-    { path: 'search-forum', component: SearchForumComponent}
+    { path: 'search-forum', component: SearchForumComponent},
+    { path: 'search', component: SearchPageComponent},
+    { path: 'comments', component: CommentsComponent}
 ];

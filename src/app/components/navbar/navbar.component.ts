@@ -5,11 +5,12 @@ import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
@@ -19,6 +20,7 @@ export class NavbarComponent implements OnInit {
   name: string = '';
   education_level: string = '';
   profile_image_url: string = '';
+  search: string = '';
 
   constructor(readonly authService: AuthService, readonly userService: UserService, private router: Router, private toastr : ToastrService) {
 
@@ -38,6 +40,11 @@ export class NavbarComponent implements OnInit {
           console.error('Error al obtener los datos del usuario:', err);
         }})
     }
+  }
+
+  goSearch() {
+    localStorage.setItem('search', this.search);
+    this.router.navigate(['/search']);
   }
 
   onAddPost(): void {
