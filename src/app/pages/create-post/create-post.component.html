@@ -1,19 +1,21 @@
 <app-navbar></app-navbar>
-<main class="flex flex-col items-center h-screen">
+<main class="flex flex-col items-center">
+    <section class="w-full md:w-1/2">
     <!-- Botón de Cancelar con flecha y texto -->
-    <div class="flex items-center mb-4 mt-8 w-1/2">
-      <button (click)="goToHome()" class="flex items-center text-purple-500 hover:text-purple-700">
-        <!-- Ícono de flecha -->
-        <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-        </svg>
-        <span>Cancelar</span>
-      </button>
+    <div class="flex items-center mb-4 mt-8 w-full ">
+        <button (click)="goToHome()" class="flex items-center text-purple-500 hover:text-purple-700">
+            <!-- Ícono de flecha -->
+
+            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+            <span>Cancelar</span>
+        </button>
     </div>
 
-    <section class="bg-white w-1/2 p-10 rounded-lg">   
+    <section class="bg-white w-full p-6 rounded-lg shadow-md">   
         <form [formGroup]="createPostForm" (ngSubmit)="createPost()">
-            <h1 class="text-2xl font-bold">Crear tu publicación</h1>
+            <h1 class="text-2xl font-bold text-center">Crear tu publicación</h1>
             <div class="flex flex-col mt-6">
                 <p>Grupo</p>
                 <p-dropdown 
@@ -32,12 +34,11 @@
                 <p>Etiqueta</p>
                 <input type="text" formControlName="tag" class="border border-gray-300 rounded-md p-2 w-full" placeholder="#Etiqueta">
             </div>
-            <div class="flex space-x-4 mt-4">
-                <button type="button" (click)="selectFile('document')" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Subir Documento</button>
-                <button type="button" (click)="selectFile('image')" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Subir Imagen</button>
+            <div class="flex space-x-4 mt-4 flex-wrap">
+                <button type="button" (click)="selectFile('document')" class="flex-1 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Subir Documento</button>
+                <button type="button" (click)="selectFile('image')" class="flex-1 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Subir Imagen</button>
             </div>
 
-            <!-- ESTO HAY QUE HABLARLO Y DECIDIR COMO LO MOSTRAMOS, SOLO ES UNA PRUEBA -->
             <div class="mt-4">
                 <p-editor formControlName="content" [style]="{ height: '150px' }">
                     <ng-template pTemplate="header">
@@ -49,13 +50,9 @@
                     </ng-template>
                 </p-editor>
             </div>
-            
 
-            <!-- <div class="mt-4">
-                <textarea formControlName="content" placeholder="Escribe tu publicación aquí..." class="border border-gray-300 rounded-md p-2 w-full h-24" required></textarea>
-            </div> -->
-            
             <button class="w-full bg-purple-500 text-white rounded-md p-2 mt-4" [disabled]="createPostForm.invalid">Publicar</button>
         </form>
+    </section>
     </section>
 </main>

@@ -22,7 +22,7 @@
     </ul>
   </aside>
   <section class="flex flex-col items-center space-y-4 w-full lg:w-1/2">
-    <div class="w-full">
+    <div class="hidden lg:block w-full ">
       <app-post-input></app-post-input>
     </div>
 
@@ -31,7 +31,11 @@
     </div>
   </section>
 
-  <section class="hidden lg:block w-1/3">
-    <app-group-list [forums]="forums"></app-group-list>
+  <section class="hidden lg:block w-1/3 space-y-4">
+    <!-- <app-group-list [forums]="forums"></app-group-list>
+    <div class="mt-4">
+      <app-following-side></app-following-side>
+    </div> -->
+    <app-right-side-panel [forums]="forums" [user]="user"></app-right-side-panel> 
   </section>
 </main>

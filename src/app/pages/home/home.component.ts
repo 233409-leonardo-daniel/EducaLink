@@ -12,11 +12,13 @@ import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { IForum } from '../../models/iforum';
 import { Router } from '@angular/router';
 import { IUserData } from '../../models/iuser-data';
+import { FollowingSideComponent } from '../../components/following-side/following-side.component';
+import { RightSidePanelComponent } from "../../components/right-side-panel/right-side-panel.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, PostInputComponent, PostComponent, GroupListComponent, NavbarComponent],
+  imports: [CommonModule, PostInputComponent, PostComponent, GroupListComponent, NavbarComponent, FollowingSideComponent, RightSidePanelComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   providers: [PostService]

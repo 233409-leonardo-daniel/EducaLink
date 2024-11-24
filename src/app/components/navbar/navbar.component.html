@@ -65,11 +65,13 @@
         type="text"
         placeholder="Buscar"
         class="w-full pl-10 pr-4 py-2 rounded-full bg-gray-100 focus:outline-none"
+        (keyup.enter)="goSearch()"
+        [(ngModel)]="search"
       />
     </div>
   </div>
 
-  <button (click)="onAddPost()" class="text-purple-600 text-2xl">
+  <button routerLink="/createpost" class="text-purple-600 text-2xl">
     <i class="pi pi-plus-circle"></i>
   </button>
 </div>
@@ -79,7 +81,7 @@
     <i class="pi pi-home text-2xl"></i>
     <p class="text-xs">Inicio</p>
   </a>
-  <a [routerLink]="['/group']" routerLinkActive="router-link-active" class="flex flex-col items-center">
+  <a [routerLink]="['/search-forum']" routerLinkActive="router-link-active" class="flex flex-col items-center">
     <i class="pi pi-users text-2xl"></i>
     <p class="text-xs">Grupos</p>
   </a>
