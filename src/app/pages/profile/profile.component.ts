@@ -161,9 +161,10 @@ export class ProfileComponent implements OnInit {
   }
 
   contactUser(id_user: number): void {
-    this.userService.setTempId(id_user);
-    this.chatService.createChat({ receiver_id : id_user, sender_id : this.current_id, id_chat : 0 }).subscribe({
+    this.chatService.createChat(id_user).subscribe({
       next: () => {
+        
+        this.userService.setTempId(id_user);
         this.router.navigate(['/chat']);
       },
       error: (err) => {

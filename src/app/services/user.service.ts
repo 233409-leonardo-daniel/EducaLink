@@ -12,7 +12,8 @@ import { filter, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UserService {
-  private url = 'http://localhost:8000';
+  // private url = 'http://localhost:8000';
+  private url = 'http://98.85.11.22:8000';
   private idTemp = 0;
   private userDataSubject = new BehaviorSubject<IUserData | null>(null);
   httpOptions = {
@@ -32,6 +33,7 @@ export class UserService {
     return this.http.put<IUserData>(`${this.url}/user/${user_id}/`, userData, {
         headers: {
             'Access-Control-Allow-Origin': '*',
+            'Authorization': `Bearer ${this.authService.getToken()}`
         },
         observe: 'body'
     });

@@ -5,8 +5,8 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root'
 })
 export class SearchService {
-  // private url = 'http://98.85.11.22:8000';
-  private url = 'http://localhost:8000';
+  private url = 'http://98.85.11.22:8000';
+  // private url = 'http://localhost:8000';
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   searchForumsByName(name: string) {

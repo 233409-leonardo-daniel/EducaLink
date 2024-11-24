@@ -38,7 +38,7 @@ export const routes: Routes = [
     { path: 'editprofile', component: EditProfileComponent},
     { path: 'createforum', component: NewforumComponent},
     { path: 'search-forum', component: SearchForumComponent},
-    { path: 'ediforum', component: EditforumComponent},
+    { path: 'editforum', component: EditforumComponent},
     { path: 'search', component: SearchPageComponent},
     { path: 'comments', component: CommentsComponent}
 ];

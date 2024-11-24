@@ -10,7 +10,8 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root'
 })
 export class ChatService {
-  private apiUrl = 'http://98.85.11.22:8000'; // Reemplaza con tu URL de API
+  private apiUrl = 'http://98.85.11.22:8000';
+  // private apiUrl = 'http://localhost:8000';
 
   constructor(private http: HttpClient, private authService:AuthService) {}
 
@@ -30,14 +31,14 @@ export class ChatService {
     return this.http.get<IMessage>(`${this.apiUrl}/message/${id_message}`,this.authService.getHttpOptions());
   }
 
-  createChat(chat: IChat): Observable<IChat> {
-    console.log(chat);
-    return this.http.post<IChat>(`${this.apiUrl}/chat/`, chat, this.authService.getHttpOptions());
+  createChat(receiver_id: number): Observable<IChat> {
+    return this.http.post<IChat>(`${this.apiUrl}/chat/${receiver_id}/`, {}, this.authService.getHttpOptions());
   }
 
-  createMessage(message: IMessage): Observable<IMessage> {
-    console.log(message);
-    
-    return this.http.post<IMessage>(`${this.apiUrl}/message/`, message, this.authService.getHttpOptions());
+  createMessage(messageData: { message: string; chat_id: number }): Observable<IMessage> {
+    return this.http.post<IMessage>(`${this.apiUrl}/message/${messageData.chat_id}/`, null, {
+        params: { message: messageData.message },
+        headers: this.authService.getHttpOptions().headers
+    });
   }
 }

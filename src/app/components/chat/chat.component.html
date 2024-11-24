@@ -5,12 +5,12 @@
   <div class="w-1/3 p-4 border-r overflow-y-auto">
     <h2 class="text-xl font-bold mb-4">Contactos</h2>
     <ul>
-      <ul>
-        <li *ngFor="let chat of chats" (click)="selectChat(chat.id_chat)" class="cursor-pointer p-2 border-b hover:bg-gray-200">
-          {{ chat.displayName }}
-        </li>
-      </ul>
-      
+      <li *ngFor="let chat of chats" (click)="selectChat(chat.id_chat)" class="cursor-pointer p-2 border-b hover:bg-gray-200">
+        <div class="flex items-center">
+          <img [src]="chat.receiver.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full mr-2">
+          <span>{{ chat.receiver.name }} {{ chat.receiver.lastname }}</span>
+        </div>
+      </li>
     </ul>
   </div>
 
@@ -24,26 +24,38 @@
 
     <!-- Contenedor de mensajes -->
     <div class="flex-1 overflow-y-auto space-y-2 p-2 border rounded-lg max-h-[60vh]">
-      <div *ngFor="let message of messages"
+      <div *ngFor="let message of messages" 
            [ngClass]="{
-             'self-end text-right bg-blue-100 ml-auto': message.sender_id === user.id_user,
-             'self-start text-left bg-gray-100 mr-auto': message.sender_id !== user.id_user
+             'self-end text-right bg-blue-100 ml-auto': message.sender.id_user === user.id_user,
+             'self-start text-left bg-gray-100 mr-auto': message.sender.id_user !== user.id_user
            }"
-           class="p-2 rounded-lg">
-        <p>{{ message.message }}</p>
-        <span class="text-xs text-gray-500"> {{ message.date_message | date: 'dd/MM/yyyy HH:mm'}}</span>
+           class="p-2 rounded-lg flex flex-col ">
+       
+       <div *ngIf="message.sender.id_user !== user.id_user" class="flex items-center mb-2">
+          <img [src]="message.sender.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full mr-2">
+          <p>{{ message.message }}</p>
+       </div>
+       
+       <div *ngIf="message.sender.id_user === user.id_user" class="flex items-center ml-auto mb-2">
+          <p>{{ message.message }}</p>
+          <img [src]="message.sender.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full ml-2">
+       </div>
+       
+        <span class="text-xs text-gray-500"> {{ message.date_message | date: 'dd/MM/yyyy'}}</span>
       </div>
     </div>
 
     <!-- Barra de entrada de mensajes -->
     <div *ngIf="selectedChatId !== null" class="flex items-center mt-4 space-x-2">
-      <input [(ngModel)]="newMessage" 
+      <form [formGroup]="messageForm" (ngSubmit)="sendMessage(selectedChatId)" class="flex items-center space-x-2 w-full">
+        <input formControlName="message" 
              placeholder="Escribe un mensaje..." 
              class="flex-1 p-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" />
-      <button (click)="sendMessage()" 
-              class="p-2 bg-[#3a00ae] text-white rounded-lg hover:bg-blue-600">
-        Enviar
-      </button>
+        <button type="submit" 
+                class="p-2 bg-[#3a00ae] text-white rounded-lg hover:opacity-80 w-1/6">
+          Enviar
+        </button>
+      </form>
     </div>
   </div>
 </div>

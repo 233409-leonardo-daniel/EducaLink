@@ -10,8 +10,8 @@ import { IUserData } from '../models/iuser-data';
   providedIn: 'root'
 })
 export class ForumService {
-  // private url = 'http://98.85.11.22:8000';
-  private url = 'http://localhost:8000';
+  private url = 'http://98.85.11.22:8000';
+  // private url = 'http://localhost:8000';
   private idTemp = 0;
   httpOptions = {
     headers: new HttpHeaders(

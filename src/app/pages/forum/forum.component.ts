@@ -92,6 +92,7 @@ export class ForumComponent implements OnInit {
   }
 
   editForum(): void {
+    localStorage.setItem('forumId', this.forum.id_forum.toString());
     this.router.navigate(['/editforum']);
   }
 

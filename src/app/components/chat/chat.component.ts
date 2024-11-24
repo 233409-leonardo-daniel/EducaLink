@@ -3,7 +3,7 @@ import { ChatService } from '../../services/chat.service';
 import { IChat } from '../../models/ichat';
 import { IMessage } from '../../models/imessage';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { UserService } from '../../services/user.service';
 import { IUserData } from '../../models/iuser-data';
@@ -13,7 +13,7 @@ import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, NavbarComponent, ReactiveFormsModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
@@ -26,12 +26,17 @@ export class ChatComponent implements OnInit {
   newMessage: string = '';
   selectedChatId: number | null = null;
   user: IUserData = {} as IUserData;
+  messageForm: FormGroup;
 
   constructor(
     private chatService: ChatService,
     private userService: UserService,
     private authService: AuthService
-  ) { }
+  ) { 
+    this.messageForm = new FormGroup({
+      message: new FormControl('', Validators.required)
+    });
+  }
 
   ngOnInit(): void {
     this.user = this.authService.getUser() as IUserData;
@@ -40,15 +45,14 @@ export class ChatComponent implements OnInit {
 
   getChatUsers() {
     const id_user = this.user.id_user; 
-    this.chatService.getChatUsers(id_user).subscribe(chats => {
-      this.chats = chats.map(chat => {       
-        const otherUserId = chat.sender_id === id_user ? chat.receiver_id : chat.sender_id;
-        this.userService.getUserById(otherUserId).subscribe(user => {
-          chat.displayName = `${user.name} ${user.lastname}`; 
-        });
-  
-        return chat;
-      });
+    this.chatService.getChatUsers(id_user).subscribe({
+      next: (chats: IChat[]) => {
+        this.chats = chats;
+        console.log(this.chats);
+      },
+      error: (error) => {
+        console.error(error);
+      }
     });
   }
   
@@ -57,7 +61,7 @@ export class ChatComponent implements OnInit {
     this.selectedChatId = chatId;
     const chat = this.chats.find(c => c.id_chat === chatId);
     if (chat) {
-      const receiverId = chat.receiver_id;
+      const receiverId = chat.receiver.id_user;
       this.userService.getUserById(receiverId).subscribe(user => {
         this.currentChatUser = user;
       });
@@ -68,18 +72,13 @@ export class ChatComponent implements OnInit {
     });
   }
 
-  sendMessage() {
-    if (this.selectedChatId !== null && this.newMessage.trim() !== '') {
-      const newMessage: IMessage = {
-        message: this.newMessage,
-        chat_id: this.selectedChatId,
-        date_message: new Date().toISOString(),
-        id_message: 0,
-        sender_id: this.user.id_user
-      };
-      this.chatService.createMessage(newMessage).subscribe(message => {
+  sendMessage(chatId: number) {
+    if (this.selectedChatId !== null && this.messageForm.valid) {
+     
+      this.chatService.createMessage({message: this.messageForm.value.message, chat_id: chatId}).subscribe(message => {
         this.messages.push(message);
-        this.newMessage = '';
+        this.messageForm.reset();
+
       });
     } else {
       console.warn('No hay chat seleccionado o el mensaje está vacío.');

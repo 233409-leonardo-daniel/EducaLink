@@ -20,6 +20,7 @@ import { RouterLink } from '@angular/router';
 export class EditforumComponent {
   forumForm!: FormGroup;
   userForums: IForum[] = [];
+  forumId!: number;
   selectedForum!: IForum | undefined; // "Valencia" agregue el undefined para que pueda usar el canceledit
   userData!: IUserData;
 
@@ -34,6 +35,7 @@ export class EditforumComponent {
 
   ngOnInit(): void {
     // Obtén los datos del usuario
+    this.forumId = parseInt(localStorage.getItem('forumId') || '0');
     this.userData = this.userService.getData();
     const userId = this.userData.id_user;
 

@@ -12,7 +12,8 @@ import { IComment } from '../models/icomment';
   providedIn: 'root'
 })
 export class PostService {
-  private url = 'http://localhost:8000';
+  // private url = 'http://localhost:8000';
+  private url = 'http://98.85.11.22:8000';
   private tempId: number = 0;
   constructor(private http: HttpClient, readonly authService: AuthService) {}
 
