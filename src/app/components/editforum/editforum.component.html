@@ -1,82 +1,113 @@
-<div class="container mx-auto p-4">
-    <!-- Lista de grupos -->
-    <h2 class="text-lg font-bold mb-4">Mis Grupos</h2>
-    <ul class="list-disc list-inside">
-      <li
-        *ngFor="let forum of userForums"
-        (click)="loadForumData(forum)"
-        class="cursor-pointer text-blue-500 hover:underline"
-      >
-        {{ forum.name }}
-      </li>
-    </ul>
-  
-    <!-- Formulario de edición -->
-    <div *ngIf="selectedForum" class="mt-6">
-      <h3 class="text-lg font-bold">Editar Grupo: {{ selectedForum.name }}</h3>
-      <form [formGroup]="forumForm" (ngSubmit)="saveChanges()">
-        <div class="mb-4">
-          <label for="name" class="block font-medium">Nombre</label>
-          <input
-            id="name"
-            type="text"
-            formControlName="name"
-            class="w-full p-2 border rounded"
-          />
-        </div>
-  
-        <div class="mb-4">
-          <label for="description" class="block font-medium">Descripción</label>
-          <textarea
-            id="description"
-            formControlName="description"
-            class="w-full p-2 border rounded"
-          ></textarea>
-        </div>
-  
-        <div class="mb-4">
-          <label for="education_level" class="block font-medium">Nivel Educativo</label>
-          <select
-            id="education_level"
-            formControlName="education_level"
-            class="w-full p-2 border rounded"
-          >
-            <option value="preescolar">Preescolar</option>
-            <option value="primaria">Primaria</option>
-          </select>
-        </div>
-  
-        <div class="mb-4">
-          <label for="privacy" class="block font-medium">Privacidad</label>
-          <select
-            id="privacy"
-            formControlName="privacy"
-            class="w-full p-2 border rounded"
-          >
-            <option value="public">Público</option>
-            <option value="private">Privado</option>
-          </select>
-        </div>
-  
-        <div class="mb-4" *ngIf="forumForm.get('privacy')?.value === 'private'">
-          <label for="password" class="block font-medium">Contraseña</label>
-          <input
-            id="password"
-            type="password"
-            formControlName="password"
-            class="w-full p-2 border rounded"
-          />
-        </div>
-  
-        <div class="flex gap-4">
-          <button
-            type="submit"
-            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-            Guardar Cambios
-          </button>
-        </div>
-      </form>
+<app-navbar></app-navbar>
+
+<div class="mt-16 max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+  <!-- Botón Cancelar -->
+  <button [routerLink]="['/search-forum']" routerLinkActive="router-link-active" (click)="cancelEdit()" class="text-gray-500 mb-4 hover:text-gray-700 flex items-center">
+    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+    </svg>
+    <span>Cancelar</span>
+  </button>
+
+  <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Editar Grupo</h1>
+
+  <form [formGroup]="forumForm" (ngSubmit)="saveChanges()">
+    <!-- Título -->
+    <div class="mb-6">
+      <label class="block text-gray-700 font-medium mb-2">Título</label>
+      <input
+        type="text"
+        formControlName="name"
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        placeholder="Escribe el nombre del grupo"
+      />
     </div>
-  </div>
-  
+
+    <!-- Descripción -->
+    <div class="mb-6">
+      <label class="block text-gray-700 font-medium mb-2">Descripción</label>
+      <input
+        type="text"
+        formControlName="description"
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        placeholder="Escribe una breve descripción"
+      />
+    </div>
+
+    <!-- Imagen de Grupo -->
+    <div class="mb-6 text-center">
+      <label class="block text-gray-700 font-medium mb-2">Subir Imagen de grupo</label>
+      <div class="relative w-full flex justify-center items-center h-20 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+        <input
+          type="file"
+          formControlName="image_url"
+          class="absolute inset-0 opacity-0 cursor-pointer"
+        />
+        <span class="material-icons text-purple-500">image</span>
+        <span class="text-gray-500 ml-2">Subir Imagen de grupo</span>
+      </div>
+    </div>
+
+    <!-- Imagen de Fondo -->
+    <div class="mb-6 text-center">
+      <label class="block text-gray-700 font-medium mb-2">Subir Imagen de Fondo</label>
+      <div class="relative w-full flex justify-center items-center h-20 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+        <input
+          type="file"
+          formControlName="background_image_url"
+          class="absolute inset-0 opacity-0 cursor-pointer"
+        />
+        <span class="material-icons text-purple-500">image</span>
+        <span class="text-gray-500 ml-2">Subir Imagen de Fondo</span>
+      </div>
+    </div>
+
+    <!-- Contraseña -->
+    <div class="mb-6">
+      <label class="block text-gray-700 font-medium mb-2">Contraseña</label>
+      <input
+        type="password"
+        formControlName="password"
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+        placeholder="Contraseña del grupo"
+      />
+    </div>
+
+    <!-- Nivel Educativo -->
+    <div class="mb-6">
+      <label class="block text-gray-700 font-medium mb-2">Nivel Educativo</label>
+      <select
+        formControlName="education_level"
+        (change)="onEducationLevelChange($event)"
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+      >
+        <option value="Preescolar">Preescolar</option>
+        <option value="Primaria">Primaria</option>
+
+      </select>
+    </div>
+
+    <!-- Grado -->
+    <div class="mb-6" *ngIf="availableGrades.length">
+      <label class="block text-gray-700 font-medium mb-2">Grado</label>
+      <select
+        formControlName="grade"
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+      >
+        <option *ngFor="let grade of availableGrades" [value]="grade">{{ grade }}</option>
+      </select>
+    </div>
+
+    <!-- Botón Guardar Cambios -->
+    <div class="text-center">
+      <button
+        type="submit"
+        [routerLink]="['/search-forum']"
+        routerLinkActive="router-link-active"
+        class="bg-purple-700 text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200"
+      >
+        Guardar Cambios →
+      </button>
+    </div>
+  </form>
+</div>
