@@ -26,7 +26,7 @@ import { UserCardComponent } from "../../components/user-card/user-card.componen
   styleUrl: './search-page.component.css'
 })
 export class SearchPageComponent implements OnInit{
-  search = localStorage.getItem('search') || '';
+  searchValue = localStorage.getItem('search') || '';
   forums: IForum[] = [];
   users: IUserData[] = [];
   posts: IPost[] = [];
@@ -35,22 +35,22 @@ export class SearchPageComponent implements OnInit{
   constructor(private searchService: SearchService) {}
 
   ngOnInit() {
-    this.searchService.searchForumsByName(this.search).subscribe((data: any) => {
+    this.searchService.searchForumsByName(this.searchValue).subscribe((data: any) => {
       this.forums = data;
       this.updateNoResults();
     });
-    this.searchService.searchUsersByName(this.search).subscribe((data: any) => {
+    this.searchService.searchUsersByName(this.searchValue).subscribe((data: any) => {
       this.users = data;
       this.updateNoResults();
     });
-    this.searchService.searchPostsByTitle(this.search).subscribe((data: any) => {
+    this.searchService.searchPostsByTitle(this.searchValue).subscribe((data: any) => {
       this.posts = data;
       this.updateNoResults();
     });
   }
 
   filterByGroups() {
-    this.searchService.searchForumsByName(this.search).subscribe((data: any) => {
+    this.searchService.searchForumsByName(this.searchValue).subscribe((data: any) => {
       this.forums = data;
       this.noResults = false;
       this.users = [];
@@ -60,7 +60,7 @@ export class SearchPageComponent implements OnInit{
   }
 
   filterByUsers() {
-    this.searchService.searchUsersByName(this.search).subscribe((data: any) => {
+    this.searchService.searchUsersByName(this.searchValue).subscribe((data: any) => {
       this.users = data;
       this.noResults = false;
       this.forums = [];
@@ -70,7 +70,7 @@ export class SearchPageComponent implements OnInit{
   }
 
   filterByPosts() {
-    this.searchService.searchPostsByTitle(this.search).subscribe((data: any) => {
+    this.searchService.searchPostsByTitle(this.searchValue).subscribe((data: any) => {
       this.posts = data;
       this.noResults = false;
       this.forums = [];
@@ -81,10 +81,10 @@ export class SearchPageComponent implements OnInit{
   }
 
   filterByUsersAndForums() {
-    this.searchService.searchUsersByName(this.search).subscribe((data: any) => {
+    this.searchService.searchUsersByName(this.searchValue).subscribe((data: any) => {
       this.users = data;
     });
-    this.searchService.searchForumsByName(this.search).subscribe((data: any) => {
+    this.searchService.searchForumsByName(this.searchValue).subscribe((data: any) => {
       this.forums = data;
     });
     this.posts = [];
@@ -98,7 +98,13 @@ export class SearchPageComponent implements OnInit{
   }
 
   updateSearch(search: string) {
-    this.search = search;
+    this.searchValue = search;
+    this.ngOnInit();
+  }
+
+  search(search: string) {
+    console.log(search);
+    this.searchValue = search;
     this.ngOnInit();
   }
 }

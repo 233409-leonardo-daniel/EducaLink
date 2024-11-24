@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   posts: IPost[] = [];
   idForums: number[] = [];
   forums: IForum[] = [];
-  user: any = {};
+  user: IUserData = {} as IUserData;
   idFollowed: number[] = [];
   constructor(
     private readonly authService: AuthService,
@@ -39,38 +39,20 @@ export class HomeComponent implements OnInit {
     const userData = this.authService.getUser();
     if (userData) {
       this.user = userData;
-
-      this.forumService.getForumsByUser(this.user.id_user).subscribe({
-        next: (data: IForum[]) => {
-          this.forums = data;
-          this.idForums = data.map((forum: IForum) => forum.id_forum);
-
-          this.postService.getPostByForum(this.idForums).subscribe({
-            next: (data: IPost[]) => {
-              this.posts = data.flat(); 
-            },
-            error: (err) => {
-              console.error('Error al obtener publicaciones:', err);
-            }
-          });
-        },
-        error: (err) => {
-          console.error('Error al obtener foros del usuario:', err);
-        }
-      });
+      this.filterByRecommended(userData);
     } else {
       console.error('Usuario no autenticado');
       this.router.navigate(['/login']); 
     }
   }
 
-  filterByRecommended(): void {
-    this.forumService.getForumsByUser(this.user.id_user).subscribe({
+  filterByRecommended(user: IUserData): void {
+    this.forumService.getForumsByUser(user.id_user).subscribe({
       next: (data: IForum[]) => {
         this.forums = data;
         this.idForums = data.map((forum: IForum) => forum.id_forum);
-
-        this.postService.getPostByForum(this.idForums).subscribe({
+        console.log(this.idForums);
+        this.postService.getPostsByForumExcludeUser(this.idForums, user.id_user).subscribe({
           next: (data: IPost[]) => {
             this.posts = data.flat(); 
             console.log(this.posts);

@@ -1,5 +1,5 @@
 import { IUserData } from './../../models/iuser-data';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
@@ -44,8 +44,11 @@ export class NavbarComponent implements OnInit {
 
   goSearch() {
     localStorage.setItem('search', this.search);
+    this.searchEvent.emit(this.search);
     this.router.navigate(['/search']);
   }
+
+  @Output() searchEvent = new EventEmitter<string>();
 
   onAddPost(): void {
     // Aquí puedes agregar la lógica para redirigir al usuario a la página de crear publicación

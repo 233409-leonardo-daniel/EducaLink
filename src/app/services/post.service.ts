@@ -12,8 +12,8 @@ import { IComment } from '../models/icomment';
   providedIn: 'root'
 })
 export class PostService {
-  // private url = 'http://localhost:8000';
   private url = 'http://98.85.11.22:8000';
+  // private url = 'http://localhost:8000';
   private tempId: number = 0;
   constructor(private http: HttpClient, readonly authService: AuthService) {}
 
@@ -81,5 +81,10 @@ export class PostService {
 
   deletePost(id_post: number): Observable<any> {
     return this.http.delete(`${this.url}/post/${id_post}/`, this.getHttpOptions());
+  }
+
+  getPostsByForumExcludeUser(list: number[], user_id: number): Observable<IPost[]> {
+    const requests = list.map((forum_id) => this.http.get<IPost>(`${this.url}/post/forum/${forum_id}/exclude/${user_id}`, this.getHttpOptions()));
+    return forkJoin([...requests]);
   }
 }

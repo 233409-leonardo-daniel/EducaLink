@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<app-navbar (searchEvent)="updateSearch($event)"></app-navbar>
 <main class="flex flex-col lg:flex-row justify-center lg:space-x-16">
     <aside class="hidden lg:block w-1/4 p-4 bg-white shadow-md md:flex flex-col h-screen sticky">
         <h2 class="text-2xl font-bold mb-4 text-center">Filtros de Búsqueda</h2>

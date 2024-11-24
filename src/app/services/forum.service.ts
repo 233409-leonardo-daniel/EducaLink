@@ -10,8 +10,8 @@ import { IUserData } from '../models/iuser-data';
   providedIn: 'root'
 })
 export class ForumService {
-  private url = 'http://98.85.11.22:8000';
   // private url = 'http://localhost:8000';
+  private url = 'http://98.85.11.22:8000';
   private idTemp = 0;
   httpOptions = {
     headers: new HttpHeaders(
@@ -89,12 +89,12 @@ export class ForumService {
   }
 
   // Editar un foro existente
-  editForum(id_forum: number, forumData: IForum): Observable<IForum> {
-    return this.http.put<IForum>(
-      `${this.url}/forum/${id_forum}/edit/`,
-      forumData,
-      this.authService.getHttpOptions()
-    );
+  editForum(id_forum: number, forumData: FormData): Observable<IForum> {
+    return this.http.put<IForum>(`${this.url}/forum/${id_forum}`, forumData, {
+      headers: {
+        'Authorization': `Bearer ${this.authService.getToken()}`
+      }
+    });
   }
 
   // User Join Forum

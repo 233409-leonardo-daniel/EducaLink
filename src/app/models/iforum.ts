@@ -1,7 +1,7 @@
+import { IUserData } from "./iuser-data";
+
 export interface IForum {
     is_member: any;
-
-
     id_forum: number;
     name: string;
     description: string;
@@ -16,4 +16,5 @@ export interface IForum {
     user_name: string;
     users_count: number;
     grade: number;
+    creator: IUserData;
 }

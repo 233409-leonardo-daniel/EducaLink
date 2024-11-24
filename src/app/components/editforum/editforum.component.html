@@ -2,7 +2,7 @@
 
 <div class="mt-16 max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
   <!-- Botón Cancelar -->
-  <button [routerLink]="['/search-forum']" routerLinkActive="router-link-active" (click)="cancelEdit()" class="text-gray-500 mb-4 hover:text-gray-700 flex items-center">
+  <button [routerLink]="['/forum']" routerLinkActive="router-link-active" (click)="cancelEdit()" class="text-gray-500 mb-4 hover:text-gray-700 flex items-center">
     <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
     </svg>
@@ -14,7 +14,7 @@
   <form [formGroup]="forumForm" (ngSubmit)="saveChanges()">
     <!-- Título -->
     <div class="mb-6">
-      <label class="block text-gray-700 font-medium mb-2">Título</label>
+      <label class="block text-gray-700 font-medium mb-2">Nombre del grupo</label>
       <input
         type="text"
         formControlName="name"
@@ -25,7 +25,7 @@
 
     <!-- Descripción -->
     <div class="mb-6">
-      <label class="block text-gray-700 font-medium mb-2">Descripción</label>
+      <label class="block text-gray-700 font-medium mb-2">Descripción del grupo</label>
       <input
         type="text"
         formControlName="description"
@@ -42,6 +42,7 @@
           type="file"
           formControlName="image_url"
           class="absolute inset-0 opacity-0 cursor-pointer"
+          (change)="onImageSelected($event, 'group')"
         />
         <span class="material-icons text-purple-500">image</span>
         <span class="text-gray-500 ml-2">Subir Imagen de grupo</span>
@@ -56,6 +57,7 @@
           type="file"
           formControlName="background_image_url"
           class="absolute inset-0 opacity-0 cursor-pointer"
+          (change)="onImageSelected($event, 'background')"
         />
         <span class="material-icons text-purple-500">image</span>
         <span class="text-gray-500 ml-2">Subir Imagen de Fondo</span>
@@ -63,7 +65,7 @@
     </div>
 
     <!-- Contraseña -->
-    <div class="mb-6">
+    <div class="mb-6" *ngIf="selectedForum?.privacy === 'Privado'">
       <label class="block text-gray-700 font-medium mb-2">Contraseña</label>
       <input
         type="password"
@@ -78,7 +80,6 @@
       <label class="block text-gray-700 font-medium mb-2">Nivel Educativo</label>
       <select
         formControlName="education_level"
-        (change)="onEducationLevelChange($event)"
         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
       >
         <option value="Preescolar">Preescolar</option>
@@ -88,13 +89,18 @@
     </div>
 
     <!-- Grado -->
-    <div class="mb-6" *ngIf="availableGrades.length">
+    <div class="mb-6">
       <label class="block text-gray-700 font-medium mb-2">Grado</label>
       <select
         formControlName="grade"
         class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
       >
-        <option *ngFor="let grade of availableGrades" [value]="grade">{{ grade }}</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
       </select>
     </div>
 
@@ -102,8 +108,6 @@
     <div class="text-center">
       <button
         type="submit"
-        [routerLink]="['/search-forum']"
-        routerLinkActive="router-link-active"
         class="bg-purple-700 text-white px-6 py-2 rounded-lg font-medium hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200"
       >
         Guardar Cambios →

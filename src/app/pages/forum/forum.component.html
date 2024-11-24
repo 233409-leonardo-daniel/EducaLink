@@ -11,9 +11,10 @@
         </div>
         <div class="flex flex-col justify-center px-10">
           <h1 class="text-2xl font-bold">{{ forum.name }}</h1>
-          <p class="text-[#6D6D6D]">{{ forum.description }}</p>
+          <p class="text-[#6D6D6D]">Creado por {{ forum.creator.name | titlecase }} {{ forum.creator.lastname | titlecase }}</p>
           <p class="text-[#6D6D6D]">{{ members.length }} miembros</p>
           <p class="text-[#6D6D6D]">Nivel Educativo: {{ forum.education_level }}</p>
+          <p class="text-[#6D6D6D]">{{ forum.description }}</p>
         </div>
       </div>
       <div class="flex justify-end p-4 h-min gap-4">
