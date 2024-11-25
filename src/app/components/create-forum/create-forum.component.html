@@ -1,151 +1,149 @@
-<div class="flex items-center justify-center md:w-3/5">
+<div class="flex items-center justify-center md:w-3/5 w-full px-4">
   <div class="flex items-center">
-    <button [routerLink]="['/seach-forum']" routerLinkActive="router-link-active"  class="flex items-center text-[#3A00AE] hover:underline hover:opacity-80">
+    <button [routerLink]="['/seach-forum']" routerLinkActive="router-link-active" class="flex items-center text-[#3A00AE] hover:underline hover:opacity-80">
       <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
       </svg>
       <span>Cancelar</span>
     </button>
   </div>
 </div>
-<div class="bg-white border border-gray-300 rounded-lg p-6 mb-6 flex flex-col space-y-6 w-[50%] mx-auto shadow-lg">
-  
-    <h1 class="text-3xl font-bold text-center">Crear Foro</h1>
-    <form [formGroup]="forumForm" (submit)="onSubmit()" class="space-y-6">
-      <!-- Nombre -->
-      <div>
-        <div class="flex items-center">
-            <label for="name" class="block text-lg font-medium text-gray-700">Nombre</label><label class="text-red-500">*</label>
-        </div>
-        <input
-          type="text"
-          id="name"
-          placeholder="Escribe el nombre del foro"
-          formControlName="name"
-          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+<div class="bg-white border border-gray-300 rounded-lg p-6 mb-6 flex flex-col space-y-6 w-full max-w-3xl mx-auto shadow-lg">
+  <h1 class="text-2xl md:text-3xl font-bold text-center">Crear Foro</h1>
+  <form [formGroup]="forumForm" (submit)="onSubmit()" class="space-y-6">
+    <!-- Nombre -->
+    <div>
+      <div class="flex items-center">
+        <label for="name" class="block text-base md:text-lg font-medium text-gray-700">Nombre</label><label class="text-red-500">*</label>
       </div>
-  
-      <!-- Descripción -->
-      <div>
-        <div class="flex items-center">
-            <label for="description" class="block text-lg font-medium text-gray-700">Descripción</label>
-            <label class="text-red-500">*</label>
-        </div>
-        <textarea
-          id="description"
-          placeholder="Escribe la descripción del foro"
-          formControlName="description"
-          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-        ></textarea>
-      </div>
-  
-      <!-- Nivel Educativo -->
-      <div>
-        <div class="flex items-center">
-            <label for="education_level" class="block text-lg font-medium text-gray-700">Nivel Educativo</label>
-            <label class="text-red-500">*</label>
-        </div>
-        <select
-          id="education_level"
-          placeholder="Selecciona el nivel educativo"
-          formControlName="education_level"
-          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="Preescolar">Preescolar</option>
-          <option value="Primaria">Primaria</option>
-        </select>
-      </div>
+      <input
+        type="text"
+        id="name"
+        placeholder="Escribe el nombre del foro"
+        formControlName="name"
+        class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
 
-      <!-- Grado -->
-      <div>
-        <div class="flex items-center">
-            <label for="grade" class="block text-lg font-medium text-gray-700">Grado</label>
-            <label class="text-red-500">*</label>
-        </div>
-        <select
-          id="grade"
-          placeholder="Selecciona el grado"
-          formControlName="grade"
-          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <div *ngIf="forumForm.get('education_level')?.value === 'Primaria'">
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-          </div>
-        </select>
+    <!-- Descripción -->
+    <div>
+      <div class="flex items-center">
+        <label for="description" class="block text-base md:text-lg font-medium text-gray-700">Descripción</label>
+        <label class="text-red-500">*</label>
       </div>
-  
-      <!-- Privacidad -->
-      <div>
-        <div class="flex items-center">
-            <label for="privacy" class="block text-lg font-medium text-gray-700">Privacidad</label>
-            <label class="text-red-500">*</label>
-        </div>
-        <select
-          id="privacy"
-          placeholder="Selecciona la privacidad"
-          formControlName="privacy"
-          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="Publico">Público</option>
-          <option value="Privado">Privado</option>
-        </select>
+      <textarea
+        id="description"
+        placeholder="Escribe la descripción del foro"
+        formControlName="description"
+        class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+      ></textarea>
+    </div>
+
+    <!-- Nivel Educativo -->
+    <div>
+      <div class="flex items-center">
+        <label for="education_level" class="block text-base md:text-lg font-medium text-gray-700">Nivel Educativo</label>
+        <label class="text-red-500">*</label>
       </div>
-  
-      <!-- Contraseña -->
-      <div [hidden]="forumForm.get('privacy')?.value !== 'Privado'">
-        <div class="flex items-center">
-            <label for="password" class="block text-lg font-medium text-gray-700" >Contraseña</label>
-            <label class="text-red-500">*</label>
-        </div>
-        <input
-          type="password"
-          id="password"
-          placeholder="Escribe la contraseña del foro"
-          formControlName="password"
-          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-  
-      <!-- Imagen de Fondo -->
-      <div>
-        <div class="flex items-center">
-            <label for="background_image" class="block text-lg font-medium text-gray-700">Imagen de Fondo (Opcional)</label>
-        </div>
-        <input
-          type="file"
-          id="background_image"
-          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          (change)="onBackgroundImageSelected($event)"
-        />
-      </div>
-  
-      <!-- Imagen -->
-      <div>
-        <div class="flex items-center">
-            <label for="image" class="block text-lg font-medium text-gray-700">Imagen (Opcional)</label>
-        </div>
-        <input
-          type="file"
-          id="image"
-          class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          (change)="onImageSelected($event)"
-        />
-      </div>
-  
-      <!-- Botón -->
-      <button
-        type="submit"
-        class="bg-[#3a00ae] text-white font-bold py-3 px-6 rounded w-full hover:bg-[#3a00ae]/80 transition-colors duration-300 cursor-pointer"
-        [disabled]="forumForm.invalid"
+      <select
+        id="education_level"
+        placeholder="Selecciona el nivel educativo"
+        formControlName="education_level"
+        class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
-        Crear Foro
-      </button>
-    </form>
-  </div>
-  
+        <option value="Preescolar">Preescolar</option>
+        <option value="Primaria">Primaria</option>
+      </select>
+    </div>
+
+    <!-- Grado -->
+    <div>
+      <div class="flex items-center">
+        <label for="grade" class="block text-base md:text-lg font-medium text-gray-700">Grado</label>
+        <label class="text-red-500">*</label>
+      </div>
+      <select
+        id="grade"
+        placeholder="Selecciona el grado"
+        formControlName="grade"
+        class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <div *ngIf="forumForm.get('education_level')?.value === 'Primaria'">
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+        </div>
+      </select>
+    </div>
+
+    <!-- Privacidad -->
+    <div>
+      <div class="flex items-center">
+        <label for="privacy" class="block text-base md:text-lg font-medium text-gray-700">Privacidad</label>
+        <label class="text-red-500">*</label>
+      </div>
+      <select
+        id="privacy"
+        placeholder="Selecciona la privacidad"
+        formControlName="privacy"
+        class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="Publico">Público</option>
+        <option value="Privado">Privado</option>
+      </select>
+    </div>
+
+    <!-- Contraseña -->
+    <div [hidden]="forumForm.get('privacy')?.value !== 'Privado'">
+      <div class="flex items-center">
+        <label for="password" class="block text-base md:text-lg font-medium text-gray-700">Contraseña</label>
+        <label class="text-red-500">*</label>
+      </div>
+      <input
+        type="password"
+        id="password"
+        placeholder="Escribe la contraseña del foro"
+        formControlName="password"
+        class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    <!-- Imagen de Fondo -->
+    <div>
+      <div class="flex items-center">
+        <label for="background_image" class="block text-base md:text-lg font-medium text-gray-700">Imagen de Fondo (Opcional)</label>
+      </div>
+      <input
+        type="file"
+        id="background_image"
+        class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        (change)="onBackgroundImageSelected($event)"
+      />
+    </div>
+
+    <!-- Imagen -->
+    <div>
+      <div class="flex items-center">
+        <label for="image" class="block text-base md:text-lg font-medium text-gray-700">Imagen (Opcional)</label>
+      </div>
+      <input
+        type="file"
+        id="image"
+        class="border border-gray-300 rounded px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        (change)="onImageSelected($event)"
+      />
+    </div>
+
+    <!-- Botón -->
+    <button
+      type="submit"
+      class="bg-[#3a00ae] text-white font-bold py-3 px-6 rounded w-full hover:bg-[#3a00ae]/80 transition-colors duration-300 cursor-pointer"
+      [disabled]="forumForm.invalid"
+    >
+      Crear Foro
+    </button>
+  </form>
+</div>
