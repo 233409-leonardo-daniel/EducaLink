@@ -1,0 +1,17 @@
+<app-navbar></app-navbar>
+<main class="flex justify-center">
+    <section class="bg-white rounded-lg shadow-md p-4 w-full space-y-4 md:w-1/2 mt-4">
+        <div *ngFor="let user of following" class="flex items-center justify-between hover:bg-gray-100 p-2 rounded-lg cursor-pointer" (click)="goProfile(user.id_user)">
+          <div class="flex items-center gap-2">
+            <img [src]="user.profile_image_url" alt="profile picture" class="w-10 h-10 rounded-xl hover:opacity-80 cursor-pointer"  (click)="goProfile(user.id_user)">
+            <p  (click)="goProfile(user.id_user)" class="hover:underline cursor-pointer">{{ user.name | titlecase }} {{ user.lastname | titlecase }}</p>
+          </div>
+          <div>
+            <i class="pi pi-chevron-right"></i>
+          </div>
+        </div>
+        <div *ngIf="following.length === 0">
+            <p class="text-center">No sigues a ningún usuario</p>
+        </div>
+    </section>
+</main>

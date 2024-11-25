@@ -55,4 +55,9 @@ export class RightSidePanelComponent implements OnInit{
     this.userService.setTempId(id_user);
     this.router.navigate(['/profile', id_user]);
   }
+
+  goFollowing(id_user: number) {
+    localStorage.setItem('userTemp', JSON.stringify(id_user));
+    this.router.navigate(['/user-following']);
+  }
 }

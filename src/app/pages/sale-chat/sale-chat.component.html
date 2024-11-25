@@ -6,10 +6,16 @@
     <h2 class="text-xl font-bold mb-4">Ventas</h2>
     <ul>
       <li *ngFor="let chat of chats" (click)="selectChat(chat.id_sale_chat)" class="cursor-pointer p-2 border-b hover:bg-gray-200">
-        <div class="flex items-center">
+        <div class="flex items-center" *ngIf="chat.seller.id_user !== user.id_user; else chatUser">
           <img [src]="chat.seller.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full mr-2">
           <span>{{ chat.seller.name }} {{ chat.seller.lastname }}</span>
         </div>
+        <ng-template #chatUser>
+          <div class="flex items-center">
+            <img [src]="chat.buyer.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full mr-2">
+            <span>{{ chat.buyer.name }} {{ chat.buyer.lastname }}</span>
+          </div>
+        </ng-template>
       </li>
     </ul>
   </div>

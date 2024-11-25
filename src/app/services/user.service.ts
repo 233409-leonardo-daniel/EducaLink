@@ -86,7 +86,6 @@ export class UserService {
   }
 
   getFollowers(id_user: number): Observable<IUserData[]> {
-    console.log('Getting followers for user', id_user);
     return this.http.get<IUserData[]>(`${this.url}/user/followers/${id_user}/`);
   }
 

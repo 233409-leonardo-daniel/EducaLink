@@ -20,6 +20,7 @@ import { SearchPageComponent } from './pages/search-page/search-page.component';
 import { CommentsComponent } from './pages/comments/comments.component';
 import { EditforumComponent } from './components/editforum/editforum.component';
 import { SaleChatComponent } from './pages/sale-chat/sale-chat.component';
+import { UserFollowingComponent } from './pages/user-following/user-following.component';
 
 
 export const routes: Routes = [
@@ -42,5 +43,6 @@ export const routes: Routes = [
     { path: 'editforum', component: EditforumComponent},
     { path: 'search', component: SearchPageComponent},
     { path: 'comments', component: CommentsComponent},
-    { path: 'sale-chat', component: SaleChatComponent}
+    { path: 'sale-chat', component: SaleChatComponent},
+    { path: 'user-following', component: UserFollowingComponent}
 ];
