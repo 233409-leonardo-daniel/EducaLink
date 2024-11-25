@@ -21,10 +21,10 @@ import { ToastrService } from 'ngx-toastr';
 export class PostComponent implements OnInit {
   items: MenuItem[] | undefined;
   user!: IUserData;
-  @Input() post!: IPost;
   
   constructor(private router: Router, private userService: UserService, private forumService: ForumService, private authService: AuthService, private postService: PostService, private toastr: ToastrService) { }
 
+  @Input() post!: IPost;
 
   @Output() postDeleted = new EventEmitter<number>();
 

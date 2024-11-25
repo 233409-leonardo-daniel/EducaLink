@@ -1,0 +1,24 @@
+/* Estilos para el componente de anuncio */
+.bg-white {
+    background-color: #ffffff;
+  }
+  
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  
+  .shadow-md {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mb-4 {
+    margin-bottom: 1rem;
+  }
+  
+  .w-full {
+    width: 100%;
+  }
+  
+  .object-cover {
+    object-fit: cover;
+  }

@@ -14,17 +14,21 @@ import { Router } from '@angular/router';
 import { IUserData } from '../../models/iuser-data';
 import { FollowingSideComponent } from '../../components/following-side/following-side.component';
 import { RightSidePanelComponent } from "../../components/right-side-panel/right-side-panel.component";
+import { AdService } from '../../services/ad.service';
+import { IAd } from '../../models/iad';
+import { AdComponent } from '../../components/ad/ad.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, PostInputComponent, PostComponent, GroupListComponent, NavbarComponent, FollowingSideComponent, RightSidePanelComponent],
+  imports: [CommonModule, PostInputComponent, PostComponent, NavbarComponent, RightSidePanelComponent, AdComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   providers: [PostService]
 })
 export class HomeComponent implements OnInit {
   posts: IPost[] = [];
+  ads: IAd[] = [];
   idForums: number[] = [];
   forums: IForum[] = [];
   user: IUserData = {} as IUserData;
@@ -34,7 +38,8 @@ export class HomeComponent implements OnInit {
     private readonly userService: UserService,
     private readonly router: Router,
     private readonly postService: PostService,
-    private readonly forumService: ForumService
+    private readonly forumService: ForumService,
+    private adService: AdService
   ) {}
 
   ngOnInit(): void {
@@ -46,6 +51,13 @@ export class HomeComponent implements OnInit {
       console.error('Usuario no autenticado');
       this.router.navigate(['/login']); 
     }
+    this.loadAds();
+    
+    setTimeout(() => {
+      console.log('Número de posts:', this.posts.length);
+      console.log('Número de ads:', this.ads.length);
+      console.log('Contenido de ads:', this.ads);
+    }, 2000);
   }
 
   filterByRecommended(user: IUserData): void {
@@ -69,6 +81,20 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
+  loadAds() {
+    this.adService.getAds().subscribe({
+      next: (data: IAd[]) => {
+        console.log(data);
+        this.ads = data;
+      },
+      error: (err) => {
+        console.error('Error al obtener anuncios:', err);
+      }
+    });
+  }
+
+
 
   filterByFollowed(): void {
     this.userService.getFollowing(this.user.id_user).subscribe({

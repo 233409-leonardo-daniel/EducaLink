@@ -1,0 +1,6 @@
+<div class="bg-white rounded-lg shadow-md p-4 mb-4 w-full">
+    <img [src]="ad.image_url" alt="{{ ad.title }}" class="w-full h-48 object-cover rounded-t-lg mb-4">
+    <h2 class="text-lg font-semibold mb-2">{{ ad.title }}</h2>
+    <p class="text-gray-600 text-sm mb-2">{{ ad.description }}</p>
+    <a [href]="ad.link" target="_blank" class="text-blue-600 font-semibold hover:underline">Ver más</a>
+</div>
