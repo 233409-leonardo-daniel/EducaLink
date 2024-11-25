@@ -29,7 +29,9 @@
     <div class="w-full lg:space-y-4 bg-transparent">
       <ng-container *ngFor="let post of posts; let i = index">
         <app-post [post]="post" (postDeleted)="onPostDeleted($event)"></app-post>
-        <app-ad *ngIf="(i + 1) % 5 === 0 && ads.length > 0" [ad]="ads[0]"></app-ad>
+        <ng-container *ngIf="(i + 1) % 5 === 0 && ads && ads.length > 0">
+          <app-ad [ad]="ads[Math.floor(i/5) % ads.length]"></app-ad>
+        </ng-container>
       </ng-container>
     </div>
   </section>

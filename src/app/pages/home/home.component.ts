@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
   forums: IForum[] = [];
   user: IUserData = {} as IUserData;
   idFollowed: number[] = [];
+  Math = Math;
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
@@ -46,18 +47,18 @@ export class HomeComponent implements OnInit {
     const userData = this.authService.getUser();
     if (userData) {
       this.user = userData;
+      this.loadAds();
+      setTimeout(() => {
+        console.log('Estado actual:');
+        console.log('Anuncios:', this.ads);
+        console.log('Primer anuncio:', this.ads[0]);
+        console.log('Posts:', this.posts.length);
+      }, 2000);
       this.filterByRecommended(userData);
     } else {
       console.error('Usuario no autenticado');
       this.router.navigate(['/login']); 
     }
-    this.loadAds();
-    
-    setTimeout(() => {
-      console.log('Número de posts:', this.posts.length);
-      console.log('Número de ads:', this.ads.length);
-      console.log('Contenido de ads:', this.ads);
-    }, 2000);
   }
 
   filterByRecommended(user: IUserData): void {
@@ -85,8 +86,11 @@ export class HomeComponent implements OnInit {
   loadAds() {
     this.adService.getAds().subscribe({
       next: (data: IAd[]) => {
-        console.log(data);
-        this.ads = data;
+        console.log('Anuncios recibidos:', data);
+        if (data && data.length > 0) {
+          this.ads = data;
+          console.log('Primer anuncio:', this.ads[0]);
+        }
       },
       error: (err) => {
         console.error('Error al obtener anuncios:', err);
