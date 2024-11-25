@@ -59,6 +59,7 @@ export class ChatComponent implements OnInit {
 
   selectChat(chatId: number) {
     this.selectedChatId = chatId;
+    
     const chat = this.chats.find(c => c.id_chat === chatId);
     if (chat) {
       const receiverId = chat.receiver.id_user;

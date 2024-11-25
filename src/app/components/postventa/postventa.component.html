@@ -4,6 +4,10 @@
         <h2 class="text-lg font-semibold mb-2">{{ salePost.title }}</h2>
         <p class="text-gray-600 text-sm mb-2">{{ salePost.description }}</p>
         <span class="text-blue-600 font-semibold mb-4">${{ salePost.price }}</span>
-        <button class="text-[#3A00AE] hover:underline">Ver más</button>
+        <div class="flex justify-between w-full">
+            <button class="text-[#3A00AE] hover:underline">Ver más</button>
+            <i class="pi pi-trash text-red-500 hover:text-red-700 cursor-pointer" (click)="deleteSale(salePost.id_sale_post)"
+            *ngIf="user.id_user == salePost.seller.id_user || user.user_type == 'Admin'"></i>
+        </div>
     </div>
 </div>

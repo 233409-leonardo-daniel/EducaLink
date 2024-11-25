@@ -1,8 +1,8 @@
 <app-navbar></app-navbar>
 
-<div class="flex h-[80vh]">
+<div class="flex h-svh w-3/4 mx-auto">
   <!-- Lista de contactos -->
-  <div class="w-1/3 p-4 border-r overflow-y-auto">
+  <div class="w-1/3 p-4 border-r overflow-y-auto bg-white">
     <h2 class="text-xl font-bold mb-4">Contactos</h2>
     <ul>
       <li *ngFor="let chat of chats" (click)="selectChat(chat.id_chat)" class="cursor-pointer p-2 border-b hover:bg-gray-200">

@@ -17,7 +17,8 @@ import { CommonModule } from '@angular/common';
 })
 export class CreateSalePostComponent {
   createPostForm: FormGroup;
-  image:File | null = null;
+  image: File | null = null;
+  imagePreview: string | ArrayBuffer | null = null;
 
   @ViewChild('imageInput') imageInput!: ElementRef;
 
@@ -55,7 +56,7 @@ export class CreateSalePostComponent {
       this.saleService.createSalePost(formData).subscribe({
         next: () => {
           this.toastr.success('Publicación creada exitosamente');
-          // this.router.navigate(['/sale']);
+          this.router.navigate(['/sale']);
         },
         error: (err) => {
           this.toastr.error('Error creando publicación', 'Error');
@@ -81,9 +82,13 @@ export class CreateSalePostComponent {
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-        const file = input.files[0];
-        this.image = file;
+    if (input.files && input.files[0]) {
+      this.image = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result;
+      };
+      reader.readAsDataURL(this.image);
     }
   }
   

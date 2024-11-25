@@ -3,7 +3,7 @@
     <section class="w-full md:w-1/2">
     <!-- Botón de Cancelar con flecha y texto -->
     <div class="flex items-center mb-4 mt-8 w-full ">
-        <button (click)="goToHome()" class="flex items-center text-purple-500 hover:text-purple-700">
+        <button (click)="goToHome()" class="flex items-center text-[#3A00AE] hover:underline hover:opacity-80">
             <!-- Ícono de flecha -->
 
             <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -14,10 +14,12 @@
     </div>
 
     <section class="bg-white w-full p-6 rounded-lg shadow-md">   
-        <form [formGroup]="createPostForm" (ngSubmit)="createPost()">
+        <form [formGroup]="createPostForm" (submit)="createPost()">
             <h1 class="text-2xl font-bold text-center">Crear tu publicación</h1>
             <div class="flex flex-col mt-6">
-                <p>Grupo</p>
+                <div class="flex items-center">
+                    <p>Grupo</p><p class="text-red-500">*</p>
+                </div>
                 <p-dropdown 
                     class="w-full"
                     formControlName="forum"
@@ -27,8 +29,10 @@
                 ></p-dropdown>
             </div>
             <div class="flex flex-col mt-4">
-                <p>Título</p>
-                <input type="text" formControlName="title" class="border border-gray-300 rounded-md p-2 w-full" required>
+                <div class="flex items-center">
+                    <p>Título</p><p class="text-red-500">*</p>
+                </div>
+                <input type="text" formControlName="title" class="border border-gray-300 rounded-md p-2 w-full" required placeholder="Escribe un título">
             </div>
             <div class="flex flex-col mt-4">    
                 <p>Etiqueta</p>
@@ -40,7 +44,10 @@
             </div>
 
             <div class="mt-4">
-                <p-editor formControlName="content" [style]="{ height: '150px' }">
+                <div class="flex items-center">
+                    <p>Contenido</p><p class="text-red-500">*</p>
+                </div>
+                <p-editor formControlName="content" [style]="{ height: '150px', 'font-size': '16px' }" placeholder="Escribe tu publicación">
                     <ng-template pTemplate="header">
                         <span class="ql-formats">
                             <button type="button" class="ql-bold" aria-label="Bold"></button>
@@ -51,7 +58,21 @@
                 </p-editor>
             </div>
 
-            <button class="w-full bg-purple-500 text-white rounded-md p-2 mt-4" [disabled]="createPostForm.invalid">Publicar</button>
+            <div class="mt-4">
+                <div class="flex items-center">
+                    <p>Archivos seleccionados:</p>
+                </div>
+                <ul>
+                    <li *ngFor="let file of selectedFiles; let i = index" class="flex justify-between items-center bg-gray-200 p-2 rounded-md">
+                        {{ file.name }} 
+                        <button (click)="removeFile(i)" class="text-red-500 ml-2">
+                            <i class="pi pi-trash"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <button class="w-full bg-[#3A00AE] hover:bg-[#3A00AE]/80 cursor-pointer transition-all duration-200 text-white rounded-md p-2 mt-4" [disabled]="createPostForm.invalid">Publicar</button>
         </form>
     </section>
     </section>

@@ -9,12 +9,12 @@ import { CommonModule } from '@angular/common';
 import { log } from 'console';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-create-forum',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './create-forum.component.html',
   styleUrl: './create-forum.component.css'
 })

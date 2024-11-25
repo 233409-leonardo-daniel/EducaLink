@@ -42,4 +42,8 @@ export class VentasComponent implements OnInit {
       });
     }
   }
+
+  onSaleDeleted(id_sale_post: number): void {
+    this.salePosts = this.salePosts.filter(post => post.id_sale_post !== id_sale_post);
+  }
 }

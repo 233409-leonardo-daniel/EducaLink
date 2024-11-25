@@ -37,8 +37,8 @@ export class SaleService {
     return this.http.put<ISalePost>(`${this.apiUrl}${id}/`, salePost);
   }
 
-  deleteSalePost(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}${id}/`);
+  deleteSalePost(id_sale_post: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}${id_sale_post}/`, this.authService.getHttpOptions());
   }
 
   getSalePostsByType(saleType: string): Observable<ISalePost[]> {

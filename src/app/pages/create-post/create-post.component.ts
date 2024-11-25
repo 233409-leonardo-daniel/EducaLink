@@ -60,12 +60,7 @@ export class CreatePostComponent {
         formData.append('files', file);
       });
 
-      this.postService.createPost(formData).pipe(
-        catchError((error) => {
-          this.toastr.error('Error al crear la publicación');
-          return of(error);
-        })
-      ).subscribe({
+      this.postService.createPost(formData).subscribe({
         next: () => {
           this.toastr.success('Publicación creada exitosamente');
           this.router.navigate(['/home']);

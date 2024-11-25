@@ -78,7 +78,7 @@
     <h1 class="text-3xl font-bold mb-6 text-center">Explora los diferentes artículos</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <ng-container *ngFor="let post of salePosts">
-        <app-postventa [salePost]="post"></app-postventa>
+        <app-postventa [salePost]="post" (saleDeleted)="onSaleDeleted($event)"></app-postventa>
       </ng-container>
     </div>
   </section>

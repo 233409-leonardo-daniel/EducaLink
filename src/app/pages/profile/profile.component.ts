@@ -90,6 +90,7 @@ export class ProfileComponent implements OnInit {
     this.postService.getPostsByUserWhereIsPrivateAndPublic(this.user.id_user).subscribe({
       next: (data: IPost[]) => {
         this.posts = data;
+        this.posts.sort((a, b) => new Date(b.publication_date).getTime() - new Date(a.publication_date).getTime());
       },
       error: (err) => {
         console.error('Error al obtener publicaciones del usuario:', err);
@@ -187,5 +188,9 @@ export class ProfileComponent implements OnInit {
     this.userService.setTempId(this.user.id_user);
     this.router.navigate(['/profile', this.user.id_user]);
     this.posts = this.posts.filter(post => post.id_post !== id_post);
+  }
+
+  onSaleDeleted(id_sale_post: number) {
+    this.salePosts = this.salePosts.filter(post => post.id_sale_post !== id_sale_post);
   }
 }
