@@ -29,6 +29,7 @@ import { AdComponent } from '../../components/ad/ad.component';
 export class HomeComponent implements OnInit {
   posts: IPost[] = [];
   ads: IAd[] = [];
+  shuffledAds: IAd[] = [];
   idForums: number[] = [];
   forums: IForum[] = [];
   user: IUserData = {} as IUserData;
@@ -83,13 +84,29 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  shuffleArray(array: any[]): any[] {
+    let currentIndex = array.length;
+    let randomIndex;
+
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [array[currentIndex], array[randomIndex]] = 
+      [array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
+  }
+
   loadAds() {
     this.adService.getAds().subscribe({
       next: (data: IAd[]) => {
         console.log('Anuncios recibidos:', data);
         if (data && data.length > 0) {
           this.ads = data;
-          console.log('Primer anuncio:', this.ads[0]);
+          this.shuffledAds = this.shuffleArray([...data]);
+          console.log('Anuncios mezclados:', this.shuffledAds);
         }
       },
       error: (err) => {

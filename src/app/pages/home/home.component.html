@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <main class="flex flex-col lg:flex-row justify-center lg:space-x-16">
-  <aside class="hidden lg:block w-1/4 p-4 bg-white shadow-md md:flex flex-col h-auto">
+  <aside class="hidden lg:block w-1/4 p-4 bg-white shadow-md md:flex flex-col h-auto" *ngIf="posts.length > 0">
     <h2 class="text-2xl font-bold mb-4 text-center">Busqueda Rápida</h2>
   
     <h3 class="text-lg font-semibold text-gray-600 mb-4 text-center">Filtros</h3>
@@ -29,8 +29,8 @@
     <div class="w-full lg:space-y-4 bg-transparent">
       <ng-container *ngFor="let post of posts; let i = index">
         <app-post [post]="post" (postDeleted)="onPostDeleted($event)"></app-post>
-        <ng-container *ngIf="(i + 1) % 5 === 0 && ads && ads.length > 0">
-          <app-ad [ad]="ads[Math.floor(i/5) % ads.length]"></app-ad>
+        <ng-container *ngIf="(i + 1) % 5 === 0 && shuffledAds && shuffledAds.length > 0">
+          <app-ad [ad]="shuffledAds[Math.floor(i/5) % shuffledAds.length]"></app-ad>
         </ng-container>
       </ng-container>
     </div>
