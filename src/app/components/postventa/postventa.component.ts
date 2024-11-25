@@ -8,11 +8,12 @@ import { AuthService } from '../../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { SaleService } from '../../services/sale.service';
 import { IUserData } from '../../models/iuser-data';
+import { SaleModalComponent } from '../sale-modal/sale-modal.component';
 
 @Component({
   selector: 'app-postventa',
   standalone: true,
-  imports: [CommonModule, MenuModule],
+  imports: [CommonModule, MenuModule, SaleModalComponent ],
   templateUrl: './postventa.component.html',
   styleUrls: ['./postventa.component.css']
 })
@@ -55,4 +56,15 @@ export class PostventaComponent implements OnInit{
     });
   }
   @Output() saleDeleted = new EventEmitter<number>();
+  isModalVisible: boolean = false;
+
+  // Método para abrir el modal
+  openModal(): void {
+    this.isModalVisible = true;
+  }
+
+  // Método para cerrar el modal
+  closeModal(): void {
+    this.isModalVisible = false;
+  }
 }

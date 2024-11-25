@@ -1,13 +1,28 @@
+
 <div class="bg-white rounded-lg shadow-lg p-4 w-full flex flex-col items-center">
     <img [src]="salePost.image_url" alt="{{ salePost.title }}" class="w-full h-48 object-cover rounded-t-lg mb-4">
     <div class="flex flex-col items-start w-full px-4">
-        <h2 class="text-lg font-semibold mb-2">{{ salePost.title }}</h2>
-        <p class="text-gray-600 text-sm mb-2">{{ salePost.description }}</p>
-        <span class="text-blue-600 font-semibold mb-4">${{ salePost.price }}</span>
+      <h2 class="text-lg font-semibold mb-2">{{ salePost.title }}</h2>
+      <p class="text-gray-600 text-sm mb-2">{{ salePost.description }}</p>
+      <span class="text-blue-600 font-semibold mb-4">${{ salePost.price }}</span>
         <div class="flex justify-between w-full">
-            <button class="text-[#3A00AE] hover:underline">Ver más</button>
+          <button
+        class="text-[#3A00AE] hover:underline"
+        (click)="openModal()"
+      >
+        Ver más
+      </button>
             <i class="pi pi-trash text-red-500 hover:text-red-700 cursor-pointer" (click)="deleteSale(salePost.id_sale_post)"
             *ngIf="user.id_user == salePost.seller.id_user || user.user_type == 'Admin'"></i>
         </div>
     </div>
-</div>
+  </div>
+  
+  <!-- Modal -->
+  <app-sale-modal
+    *ngIf="isModalVisible"
+    [postId]="salePost.id_sale_post"
+    [isVisible]="isModalVisible"
+    (closeModal)="closeModal()"
+  >
+  </app-sale-modal>
