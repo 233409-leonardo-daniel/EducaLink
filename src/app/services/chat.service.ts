@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { IChat } from '../models/ichat';
 import { IMessage } from '../models/imessage';
 import { AuthService } from '../auth/auth.service';
+import { ISaleMessage } from '../models/isale-message';
+import { ISaleChat } from '../models/isale-chat';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +39,25 @@ export class ChatService {
 
   createMessage(messageData: { message: string; chat_id: number }): Observable<IMessage> {
     return this.http.post<IMessage>(`${this.apiUrl}/message/${messageData.chat_id}/`, null, {
+        params: { message: messageData.message },
+        headers: this.authService.getHttpOptions().headers
+    });
+  }
+
+  createSaleChat(receiver_id: number): Observable<ISaleChat> {
+    return this.http.post<ISaleChat>(`${this.apiUrl}/sale_chat/${receiver_id}/`, {}, this.authService.getHttpOptions());
+  }
+
+  getSaleChatUsers(id_user: number): Observable<ISaleChat[]> {
+    return this.http.get<ISaleChat[]>(`${this.apiUrl}/sale_chat/user/${id_user}`,this.authService.getHttpOptions());
+  }
+
+  getSaleMessagesByChatId(chat_id: number): Observable<ISaleMessage[]> {
+    return this.http.get<ISaleMessage[]>(`${this.apiUrl}/sale_message/chat/${chat_id}`,this.authService.getHttpOptions());
+  }
+
+  createSaleMessage(messageData: { message: string; chat_id: number }): Observable<ISaleMessage> {
+    return this.http.post<ISaleMessage>(`${this.apiUrl}/sale_message/${messageData.chat_id}/`, null, {
         params: { message: messageData.message },
         headers: this.authService.getHttpOptions().headers
     });

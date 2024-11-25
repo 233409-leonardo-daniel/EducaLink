@@ -1,22 +1,26 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { SaleService } from '../../services/sale.service';
 import { UserService } from '../../services/user.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ISalePost } from '../../models/isale-post';
 import { IUserData } from '../../models/iuser-data';
 import { CommonModule } from '@angular/common';
+import { ChatService } from '../../services/chat.service';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-sale-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './sale-modal.component.html',
   styleUrls: ['./sale-modal.component.css'],
 })
 export class SaleModalComponent implements OnInit {
   @Input() postId!: number; 
   @Input() isVisible: boolean = false; 
-  @Output() closeModal = new EventEmitter<void>(); 
+  @Output() closeModal = new EventEmitter<void>();
+  user!: IUserData;
 
   salePost: ISalePost | null = null; 
   seller: IUserData | null = null; 
@@ -26,10 +30,14 @@ export class SaleModalComponent implements OnInit {
   constructor(
     private saleService: SaleService,
     private userService: UserService,
-    private router: Router
+    private authService: AuthService,
+    private chatService: ChatService,
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
+    this.user = this.authService.getUser() as IUserData;
     this.loadSalePost();
   }
 
@@ -65,11 +73,21 @@ export class SaleModalComponent implements OnInit {
     this.closeModal.emit();
   }
 
-  goToChat(): void {
-    if (this.seller) {
-      this.router.navigate(['/chat'], {
-        queryParams: { receiverId: this.seller.id_user },
-      });
-    }
+  goToChat(id_user: number): void {
+    this.chatService.createSaleChat(id_user).subscribe({
+      next: () => {
+        this.userService.setTempId(id_user);
+        this.router.navigate(['/sale-chat']);
+      },
+      error: (err) => {
+        if(err.status === 400) {
+          this.userService.setTempId(id_user);
+          this.router.navigate(['/sale-chat']);
+        } else {
+          this.toastr.error('Oops, ocurrio un error al crear el chat');
+          console.error('Error al crear el chat:', err);
+        }
+      }
+    });
   }
 }

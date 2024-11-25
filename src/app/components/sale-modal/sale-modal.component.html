@@ -43,10 +43,18 @@
         </div>
 
         <button
-          (click)="goToChat()"
-          class="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md hover:bg-blue-600 transition"
+          (click)="goToChat(seller.id_user)"
+          class="bg-[#3A00AE] text-white px-4 py-2 mt-4 rounded-md hover:bg-[#3A00AE]/80 transition-colors"
+          *ngIf="user.id_user != seller.id_user"
         >
           Ir al Chat
+        </button>
+        <button
+          routerLink="/sale-chat"
+          class="bg-[#3A00AE] text-white px-4 py-2 mt-4 rounded-md hover:bg-[#3A00AE]/80 transition-colors"
+          *ngIf="user.id_user == seller.id_user"
+        >
+          Ver tus chats
         </button>
       </div>
 
