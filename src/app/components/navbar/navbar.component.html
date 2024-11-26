@@ -112,6 +112,18 @@
         <span>Editar perfil</span>
       </button>
 
+      <button (click)="goMyForums(); sidebarVisible = false" 
+              class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-100">
+        <i class="pi pi-users text-[#3A00AE]"></i>
+        <span>Ver mis grupos</span>
+      </button>
+
+      <button (click)="goFollowing(); sidebarVisible = false" 
+              class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-100">
+        <i class="pi pi-eye text-[#3A00AE]"></i>
+        <span>Ver mis seguidos</span>
+      </button>
+
       <a [routerLink]="['/info']" 
          (click)="sidebarVisible = false"
          class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-100">

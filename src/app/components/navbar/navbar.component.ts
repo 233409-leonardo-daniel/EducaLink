@@ -79,6 +79,16 @@ export class NavbarComponent implements OnInit {
     this.menuOpen = false; 
   }
 
+  goMyForums() {
+    this.router.navigate(['/user-forums']);
+    this.menuOpen = false; 
+  }
+
+  goFollowing() {
+    this.router.navigate(['/user-following']);
+    this.menuOpen = false; 
+  }
+
   logout() {
     this.authService.logout().subscribe ({
       next: (data) => {
