@@ -31,17 +31,22 @@
            }"
            class="p-2 rounded-lg flex flex-col ">
        
-       <div *ngIf="message.sender.id_user !== user.id_user" class="flex items-center mb-2">
-          <img [src]="message.sender.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full mr-2">
-          <p>{{ message.message }}</p>
+       <div *ngIf="message.sender.id_user !== user.id_user" class="flex items-start gap-2 mb-2 max-w-[80%]">
+          <img [src]="message.sender.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full flex-shrink-0">
+          <div class="flex flex-col">
+            <p class="bg-gray-100 p-2 rounded-lg whitespace-pre-wrap break-all">{{ message.message }}</p>
+            <span class="text-xs text-gray-500 mt-1">{{ message.date_message | date: 'dd/MM/yyyy'}}</span>
+          </div>
        </div>
        
-       <div *ngIf="message.sender.id_user === user.id_user" class="flex items-center ml-auto mb-2">
-          <p>{{ message.message }}</p>
-          <img [src]="message.sender.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full ml-2">
+       <div *ngIf="message.sender.id_user === user.id_user" class="flex items-start gap-2 mb-2 max-w-[80%] ml-auto">
+          <div class="flex flex-col items-end">
+            <p class="bg-blue-100 p-2 rounded-lg whitespace-pre-wrap break-all">{{ message.message }}</p>
+            <span class="text-xs text-gray-500 mt-1">{{ message.date_message | date: 'dd/MM/yyyy'}}</span>
+          </div>
+          <img [src]="message.sender.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full flex-shrink-0">
        </div>
        
-        <span class="text-xs text-gray-500"> {{ message.date_message | date: 'dd/MM/yyyy'}}</span>
       </div>
     </div>
 

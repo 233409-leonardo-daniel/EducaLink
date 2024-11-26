@@ -51,3 +51,9 @@
         </div>
     </section>
 </main>
+
+<p-menu #filterMenuRef [model]="filterMenu" [popup]="true"></p-menu>
+
+<div class="fixed bottom-24 right-4 bg-[#3A00AE] rounded-full p-2 hover:cursor-pointer md:hidden" (click)="filterMenuRef.toggle($event)">
+  <i class="pi pi-filter text-white"></i>
+</div>

@@ -57,11 +57,11 @@
   </div>
 </nav>
 
-<!-- MOBILE PARTE CUIDADO AL MODIFICAR -->
+<!-- MOBILE PARTE -->
 <div class="md:hidden sticky top-0 left-0 w-full bg-white p-4 flex items-center justify-between z-10">
-  <a [routerLink]="['/profile']" routerLinkActive="router-link-active" class="flex items-center space-x-2">
+  <button (click)="toggleSidebar()" class="flex items-center space-x-2">
     <img [src]="profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full" />
-  </a>
+  </button>
   
   <div class="flex-1 flex justify-center mx-2">
     <div class="relative w-full max-w-xs">
@@ -82,6 +82,54 @@
     <i class="pi pi-plus-circle"></i>
   </button>
 </div>
+
+<!-- Añadir el Sidebar para móvil -->
+<p-sidebar [(visible)]="sidebarVisible" 
+           position="left" 
+           [showCloseIcon]="false"
+           styleClass="p-sidebar-md:hidden">
+  <div class="flex flex-col h-full">
+    <!-- Cabecera del perfil -->
+    <div class="flex items-center space-x-3 p-4 border-b">
+      <img [src]="profile_image_url" alt="Profile Picture" class="w-16 h-16 rounded-full" />
+      <div>
+        <h2 class="font-bold text-lg">{{ name }}</h2>
+        <p class="text-gray-600">{{ education_level }}</p>
+      </div>
+    </div>
+
+    <!-- Opciones del menú -->
+    <div class="flex-1 py-4">
+      <button (click)="goProfile(); sidebarVisible = false" 
+              class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-100">
+        <i class="pi pi-user text-[#3A00AE]"></i>
+        <span>Ver mi perfil</span>
+      </button>
+
+      <button (click)="editProfile(); sidebarVisible = false" 
+              class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-100">
+        <i class="pi pi-user-edit text-[#3A00AE]"></i>
+        <span>Editar perfil</span>
+      </button>
+
+      <a [routerLink]="['/info']" 
+         (click)="sidebarVisible = false"
+         class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-100">
+        <i class="pi pi-info-circle text-[#3A00AE]"></i>
+        <span>Ayuda</span>
+      </a>
+    </div>
+
+    <!-- Botón de cerrar sesión -->
+    <div class="border-t p-4">
+      <button (click)="logout()" 
+              class="w-full flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-gray-100">
+        <i class="pi pi-sign-out"></i>
+        <span>Cerrar sesión</span>
+      </button>
+    </div>
+  </div>
+</p-sidebar>
 
 <div class="fixed bottom-0 left-0 w-full bg-white shadow-inner flex justify-around py-2 text-[#3A00AE] md:hidden">
   <a [routerLink]="['/home']" routerLinkActive="router-link-active" class="flex flex-col items-center">

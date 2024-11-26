@@ -3,7 +3,7 @@ import { IPost } from './../../models/ipost';
 import { PostService } from './../../services/post.service';
 import { UserService } from './../../services/user.service';
 import { AuthService } from './../../auth/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PostInputComponent } from '../../components/post-input/post-input.component';
 import { PostComponent } from '../../components/post/post.component';
@@ -14,11 +14,24 @@ import { Router } from '@angular/router';
 import { IUserData } from '../../models/iuser-data';
 import { FollowingSideComponent } from '../../components/following-side/following-side.component';
 import { RightSidePanelComponent } from "../../components/right-side-panel/right-side-panel.component";
+import { DialogModule } from 'primeng/dialog';
+import { MenuItem } from 'primeng/api';
+import { Menu, MenuModule } from 'primeng/menu';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, PostInputComponent, PostComponent, GroupListComponent, NavbarComponent, FollowingSideComponent, RightSidePanelComponent],
+  imports: [
+    CommonModule, 
+    PostInputComponent, 
+    PostComponent, 
+    GroupListComponent, 
+    NavbarComponent, 
+    FollowingSideComponent, 
+    RightSidePanelComponent,
+    DialogModule,
+    MenuModule
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   providers: [PostService]
@@ -29,6 +42,24 @@ export class HomeComponent implements OnInit {
   forums: IForum[] = [];
   user: IUserData = {} as IUserData;
   idFollowed: number[] = [];
+  showFilterModal: boolean = false;
+  filterMenu: MenuItem[] = [
+    {
+      label: 'Recomendados para ti',
+      icon: 'pi pi-star',
+      command: () => this.filterByRecommended(this.user),
+      styleClass: 'text-[#3A00AE] font-bold'
+    },
+    {
+      label: 'De tus seguidos',
+      icon: 'pi pi-user',
+      command: () => this.filterByFollowed(),
+      styleClass: 'text-[#3A00AE] font-bold'
+    }
+  ];
+
+  @ViewChild('filterMenuRef') filterMenuRef!: Menu;
+
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
@@ -96,5 +127,9 @@ export class HomeComponent implements OnInit {
 
   onPostDeleted(id_post: number) {
     this.posts = this.posts.filter(post => post.id_post !== id_post);
+  }
+
+  openFilterMenu(event: Event): void {
+    this.filterMenuRef.toggle(event);
   }
 }

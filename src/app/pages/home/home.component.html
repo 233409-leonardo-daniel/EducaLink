@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
-<main class="flex flex-col lg:flex-row justify-center lg:space-x-16">
-  <aside class="hidden lg:block w-1/4 p-4 bg-white shadow-md md:flex flex-col min-h-screen">
+<main class="flex  lg:flex-row justify-center lg:space-x-16">
+  <aside class="hidden md:block w-1/4 p-4 bg-white shadow-md flex-col min-h-screen">
     <div class="sticky top-32">
         <h2 class="text-2xl font-bold mb-4 text-center">Busqueda Rápida</h2>
         <h3 class="text-lg font-semibold text-gray-600 mb-4 text-center"></h3>
@@ -35,3 +35,8 @@
     <app-right-side-panel  [user]="user" [forums]="forums"></app-right-side-panel> 
   </section>
 </main>
+<p-menu #filterMenuRef [model]="filterMenu" [popup]="true"></p-menu>
+
+<div class="fixed bottom-24 right-4 bg-[#3A00AE] rounded-full p-2 hover:cursor-pointer md:hidden" (click)="filterMenuRef.toggle($event)">
+  <i class="pi pi-filter text-white"></i>
+</div>
