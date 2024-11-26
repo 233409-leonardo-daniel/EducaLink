@@ -33,13 +33,17 @@
         </div>
         <!-- SECCIÓN DE PUBLICACIONES -->
         <section class="mt-10">
-            <p-selectButton 
-            [options]="options" 
-            [(ngModel)]="sectionSelected"
-            optionLabel="label"
-            optionValue="value"
-            class="custom-select-button"
-            ></p-selectButton>
+            <div>
+                <p-selectButton 
+                [options]="options" 
+                [(ngModel)]="sectionSelected"
+                optionLabel="label"
+                optionValue="value"
+                class="custom-select-button"
+                ></p-selectButton>
+            </div>
+
+            <!-- PUBLICACIONES -->
             <div class="flex flex-col mt-10" *ngIf="sectionSelected == 'posts'">
                 <ng-container *ngFor="let post of posts">
                     <app-post [post]="post" (postDeleted)="onPostDeleted($event)"></app-post>
@@ -48,10 +52,26 @@
         </section>
         <!-- SECCIÓN DE LAS VENTAS DEL USUARIO -->
         <section class="mt-10">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" *ngIf="sectionSelected == 'sales'">
-                <ng-container *ngFor="let post of salePosts">
-                    <app-postventa [salePost]="post" (saleDeleted)="onSaleDeleted($event)"></app-postventa>
-                </ng-container>
+
+            <div class="flex flex-col gap-4" *ngIf="sectionSelected == 'sales'">
+                <div class="card flex justify-content-center">
+                    <form [formGroup]="searchForm" (submit)="searchSale()">
+                        <p-autoComplete
+                            formControlName="selectedSale"
+                            [suggestions]="filteredSales"
+                            (completeMethod)="filterSale($event)"
+                            placeholder="Buscar un artículo"
+                            optionLabel="title" />
+                        <button type="submit" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
+                            <i class="pi pi-search"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div *ngFor="let post of salePosts">
+                        <app-postventa [salePost]="post" (saleDeleted)="onSaleDeleted($event)"></app-postventa>
+                    </div>
+                </div>
             </div>
         </section>
     </section>
