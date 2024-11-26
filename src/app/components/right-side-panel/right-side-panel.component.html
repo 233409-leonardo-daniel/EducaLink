@@ -6,7 +6,7 @@
             Ver mas
         </button>
         </div>
-        <ng-container *ngFor="let forum of forums | slice:0:5">
+        <ng-container *ngFor="let forum of forums | slice:0:3">
         <app-group-item [forum]="forum"></app-group-item>
         </ng-container>
     </div>
@@ -18,7 +18,7 @@
                     Ver mas
                 </button>
             </div>
-            <div class="flex items-center gap-2 mb-1" *ngFor="let user of following | slice:0:5">
+            <div class="flex items-center gap-2 mb-1" *ngFor="let user of following | slice:0:3">
                 <img [src]="user.profile_image_url" alt="profile picture" class="w-10 h-10 rounded-xl hover:opacity-80 cursor-pointer"  (click)="goProfile(user.id_user)">
                 <p  (click)="goProfile(user.id_user)" class="hover:underline cursor-pointer">{{ user.name | titlecase }} {{ user.lastname | titlecase }}</p>
             </div>

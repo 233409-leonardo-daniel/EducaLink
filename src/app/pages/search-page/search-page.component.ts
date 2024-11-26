@@ -11,6 +11,9 @@ import { IForum } from '../../models/iforum';
 import { IPost } from '../../models/ipost';
 import { IUserData } from '../../models/iuser-data';
 import { UserCardComponent } from "../../components/user-card/user-card.component";
+import { ISalePost } from '../../models/isale-post';
+import { PostventaComponent } from '../../components/postventa/postventa.component';
+import { GroupComponent } from "../../components/group/group.component";
 @Component({
   selector: 'app-search-page',
   standalone: true,
@@ -21,7 +24,8 @@ import { UserCardComponent } from "../../components/user-card/user-card.componen
     FormsModule,
     GroupItemComponent,
     PostComponent,
-    UserCardComponent],
+    UserCardComponent,
+    PostventaComponent, GroupComponent],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.css'
 })
@@ -30,31 +34,65 @@ export class SearchPageComponent implements OnInit{
   forums: IForum[] = [];
   users: IUserData[] = [];
   posts: IPost[] = [];
+  
   noResults = false;
-  currentSelection = 'forums';
+  currentSelection = 'all';
+  sales: ISalePost[] = [];
   constructor(private searchService: SearchService) {}
 
   ngOnInit() {
+    this.getAllResults();
+  }
+
+  getAllResults() {
     this.searchService.searchForumsByName(this.searchValue).subscribe((data: any) => {
       this.forums = data;
-      this.updateNoResults();
+      console.log(this.forums);
+      if (this.forums.length === 0) {
+        this.noResults = true;
+      } else {
+        this.noResults = false;
+      }
     });
     this.searchService.searchUsersByName(this.searchValue).subscribe((data: any) => {
       this.users = data;
-      this.updateNoResults();
+      if (this.users.length === 0) {
+        this.noResults = true;
+      } else {
+        this.noResults = false;
+      }
     });
+    this.searchService.searchSalesByTitle(this.searchValue).subscribe((data: any) => {
+      this.sales = data;
+      if (this.sales.length === 0) {
+        this.noResults = true;
+      } else {
+        this.noResults = false;
+      }
+    });
+    this.currentSelection = 'all';
+
     this.searchService.searchPostsByTitle(this.searchValue).subscribe((data: any) => {
       this.posts = data;
-      this.updateNoResults();
+      if (this.posts.length === 0) {
+        this.noResults = true;
+      } else {
+        this.noResults = false;
+      }
     });
   }
 
   filterByGroups() {
     this.searchService.searchForumsByName(this.searchValue).subscribe((data: any) => {
       this.forums = data;
-      this.noResults = false;
+      if (this.forums.length === 0) {
+        this.noResults = true;
+      } else {
+        this.noResults = false;
+      }
       this.users = [];
       this.posts = [];
+      this.sales = [];
       this.currentSelection = 'forums';
     });
   }
@@ -62,9 +100,14 @@ export class SearchPageComponent implements OnInit{
   filterByUsers() {
     this.searchService.searchUsersByName(this.searchValue).subscribe((data: any) => {
       this.users = data;
-      this.noResults = false;
+      if (this.users.length === 0) {
+        this.noResults = true;
+      } else {
+        this.noResults = false;
+      }
       this.forums = [];
       this.posts = [];
+      this.sales = [];
       this.currentSelection = 'users';
     });
   }
@@ -72,20 +115,50 @@ export class SearchPageComponent implements OnInit{
   filterByPosts() {
     this.searchService.searchPostsByTitle(this.searchValue).subscribe((data: any) => {
       this.posts = data;
-      this.noResults = false;
+      if (this.posts.length === 0) {
+        this.noResults = true;
+      } else {
+        this.noResults = false;
+      }
       this.forums = [];
       this.users = [];
+      this.sales = [];
       this.currentSelection = 'posts';
     });
 
   }
 
+  filterBySales() {
+    this.searchService.searchSalesByTitle(this.searchValue).subscribe((data: any) => {
+      this.sales = data;
+      if (this.sales.length === 0) {
+        this.noResults = true;
+      } else {
+        this.noResults = false;
+      }
+      this.forums = [];
+      this.users = [];
+      this.posts = [];
+      this.currentSelection = 'sales';
+    });
+  }
+
   filterByUsersAndForums() {
     this.searchService.searchUsersByName(this.searchValue).subscribe((data: any) => {
       this.users = data;
+      if (this.users.length === 0) {
+        this.noResults = true;
+      } else {
+        this.noResults = false;
+      }
     });
     this.searchService.searchForumsByName(this.searchValue).subscribe((data: any) => {
       this.forums = data;
+      if (this.forums.length === 0) {
+        this.noResults = true;
+      } else {
+        this.noResults = false;
+      }
     });
     this.posts = [];
     this.currentSelection = 'both';
@@ -94,7 +167,9 @@ export class SearchPageComponent implements OnInit{
   updateNoResults() {
     if (this.users.length === 0 && this.posts.length === 0 && this.forums.length === 0) {
       this.noResults = true;
-    } 
+    } else {
+      this.noResults = false;
+    }
   }
 
   updateSearch(search: string) {

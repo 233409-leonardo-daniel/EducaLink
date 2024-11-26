@@ -1,8 +1,9 @@
-<div class="flex justify-between cursor-pointer sm:w-full" (click)="goForum()" >
+<div class="flex justify-between cursor-pointer sm:w-full bg-white rounded-lg" (click)="goForum()" >
     <div class="flex items-center space-x-3">
-        <img [src]="forum.image_url" alt="imagen" class="w-14 h-14 rounded-xl">
+        <img [src]="forum.image_url" alt="imagen" class="w-10 h-10 rounded-full">
         <div>
             <h3 class="font-bold">{{ forum.name }}</h3>
+            <p class="text-sm text-gray-400">{{ creatorForum.name | titlecase }}</p>
             <p class="text-sm text-gray-400">{{ forum.privacy }}</p>
             <p class="text-sm text-gray-400">{{ forum.users_count }} miembros</p>
         </div>

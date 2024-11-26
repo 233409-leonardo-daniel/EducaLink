@@ -20,6 +20,12 @@
   </div>
 
   <div class="flex items-center text-[#3A00AE] space-x-10">
+    <a [routerLink]="['/home']" routerLinkActive="router-link-active">
+      <i class="pi pi-home text-2xl"></i>
+    </a>
+    <a [routerLink]="['/sale-chat']" routerLinkActive="router-link-active">
+      <i class="pi pi-dollar text-2xl"></i>
+    </a>
     <a [routerLink]="['/search-forum']" routerLinkActive="router-link-active">
       <i class="pi pi-users text-2xl"></i>
     </a>
@@ -43,9 +49,10 @@
     
     <!-- Menú desplegable -->
     <div *ngIf="menuOpen" class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md">
-      <a (click)="goProfile()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Ver mi perfil</a>
-      <a (click)="editProfile()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Editar perfil</a>
-      <a (click)="logout()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Cerrar sesión</a>
+      <a (click)="goProfile()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"><i class="pi pi-user"></i> Ver mi perfil</a>
+      <a (click)="editProfile()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"><i class="pi pi-user-edit"></i> Editar perfil</a>
+      <a [routerLink]="['/info']" routerLinkActive="router-link-active" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"><i class="pi pi-info-circle"></i> Ayuda</a>
+      <a (click)="logout()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"><i class="pi pi-sign-out"></i> Cerrar sesión</a>
     </div>
   </div>
 </nav>
@@ -80,6 +87,10 @@
   <a [routerLink]="['/home']" routerLinkActive="router-link-active" class="flex flex-col items-center">
     <i class="pi pi-home text-2xl"></i>
     <p class="text-xs">Inicio</p>
+  </a>
+  <a [routerLink]="['/sale-chat']" routerLinkActive="router-link-active" class="flex flex-col items-center">
+    <i class="pi pi-dollar text-2xl"></i>
+    <p class="text-xs">Intercambios</p>
   </a>
   <a [routerLink]="['/search-forum']" routerLinkActive="router-link-active" class="flex flex-col items-center">
     <i class="pi pi-users text-2xl"></i>

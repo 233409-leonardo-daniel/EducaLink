@@ -20,4 +20,8 @@ export class SearchService {
   searchPostsByTitle(title: string) {
     return this.http.get(`${this.url}/post/search/${title}`, this.authService.getHttpOptions());
   }
+
+  searchSalesByTitle(name: string) {
+    return this.http.get(`${this.url}/sale-post/search/${name}`, this.authService.getHttpOptions());
+  }
 }

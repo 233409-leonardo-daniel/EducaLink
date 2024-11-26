@@ -1,44 +1,60 @@
 <app-navbar (searchEvent)="updateSearch($event)"></app-navbar>
 <main class="flex flex-col lg:flex-row justify-center lg:space-x-16">
-    <aside class="hidden lg:block w-1/4 p-4 bg-white shadow-md md:flex flex-col h-screen sticky">
-        <h2 class="text-2xl font-bold mb-4 text-center">Filtros de Búsqueda</h2>
-        <h3 class="text-lg font-semibold text-gray-600 mb-4 text-center"></h3>
-        <ul class="space-y-4">
+    <aside class="hidden lg:block w-1/4 p-4 bg-white shadow-md md:flex flex-col min-h-screen">
+        <div class="sticky top-32">
+            <h2 class="text-2xl font-bold mb-4 text-center">Filtros de Búsqueda</h2>
+            <ul class="space-y-4">
             <li class="flex items-center justify-start space-x-2">
                 <i class="pi pi-users text-[#3A00AE]"></i>
-                <span class="text-[#3A00AE] cursor-pointer font-bold hover:underline" (click)="filterByGroups()">Grupos</span>
+                <span class="text-[#3A00AE] cursor-pointer font-bold text-2xl hover:underline" (click)="filterByGroups()">Grupos</span>
             </li>
-            <h3 class="text-lg font-semibold text-gray-600 mb-4 text-center"></h3>
             <li class="flex items-center justify-start space-x-2">
                 <i class="pi pi-user text-[#3A00AE]"></i>
-                <span class="text-[#3A00AE] cursor-pointer font-bold hover:underline" (click)="filterByUsers()">Usuarios</span>
+                <span class="text-[#3A00AE] cursor-pointer font-bold text-2xl hover:underline" (click)="filterByUsers()">Usuarios</span>
             </li>
-            <h3 class="text-lg font-semibold text-gray-600 mb-4 text-center"></h3>
             <li class="flex items-center justify-start space-x-2">
                 <i class="pi pi-id-card text-[#3A00AE]"></i>
-                <span class="text-[#3A00AE] cursor-pointer font-bold hover:underline" (click)="filterByPosts()">Publicaciones</span>
+                <span class="text-[#3A00AE] cursor-pointer font-bold text-2xl hover:underline" (click)="filterByPosts()">Publicaciones</span>
             </li>
             <li class="flex items-center justify-between">
-                <span class="text-[#3A00AE] cursor-pointer font-bold hover:underline" (click)="filterByUsersAndForums()">Ambos</span>
-            </li>
-        </ul>
+                <span class="text-[#3A00AE] cursor-pointer font-bold text-2xl hover:underline" (click)="getAllResults()">
+                    <i class="pi pi-filter-slash"></i>
+                    Todos</span>
+                </li>
+            </ul>
+        </div>
     </aside>
     <section class="flex-grow p-4 py-16">
         <h1 class="text-2xl font-bold mb-4">Resultados de Búsqueda</h1>
-        <div *ngIf="noResults">
-            <h2 class="text-xl font-bold">No se encontraron resultados</h2>
-        </div>
-        <div *ngIf="currentSelection === 'both'">
-            <div *ngIf="forums.length > 0">
-                <h2 class="text-xl font-bold">Grupos</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <app-group-item *ngFor="let forum of forums" [forum]="forum"></app-group-item>
+        <div *ngIf="currentSelection === 'all'">
+            <div class="flex flex-col space-y-20">
+                <div *ngIf="forums.length > 0" class="space-y-4">
+                    <hr>
+                    <h2 class="text-2xl font-bold">Grupos</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <app-group-item *ngFor="let forum of forums" [forum]="forum"  class="bg-white rounded-lg p-4"></app-group-item>
+                    </div>
                 </div>
-            </div>
-            <div *ngIf="users.length > 0">
-                <h2 class="text-xl font-bold">Usuarios</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <app-user-card *ngFor="let user of users" [user]="user"></app-user-card>
+                <div *ngIf="users.length > 0" class="space-y-4">
+                    <hr>
+                    <h2 class="text-2xl font-bold">Usuarios</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <app-user-card *ngFor="let user of users" [user]="user"></app-user-card>
+                    </div>
+                </div>
+                <div *ngIf="sales.length > 0" class="space-y-4">
+                    <hr>
+                    <h2 class="text-2xl font-bold">Ventas</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <app-postventa *ngFor="let sale of sales" [salePost]="sale"></app-postventa>
+                    </div>
+                </div>
+                <div *ngIf="posts.length > 0" class="space-y-4">
+                    <hr>
+                    <h2 class="text-2xl font-bold">Publicaciones</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <app-post *ngFor="let post of posts" [post]="post"></app-post>
+                    </div>
                 </div>
             </div>
         </div>

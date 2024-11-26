@@ -1,26 +1,22 @@
 <app-navbar></app-navbar>
 <main class="flex flex-col lg:flex-row justify-center lg:space-x-16">
-  <aside class="hidden lg:block w-1/4 p-4 bg-white shadow-md md:flex flex-col h-auto">
-    <h2 class="text-2xl font-bold mb-4 text-center">Busqueda Rápida</h2>
-  
-    <h3 class="text-lg font-semibold text-gray-600 mb-4 text-center">Filtros</h3>
-    <ul class="space-y-4 ">
-      <li class="flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-          <i class="pi pi-star text-[#3A00AE]"></i>
-          <span class="text-[#3A00AE] font-bold hover:underline cursor-pointer" (click)="filterByRecommended(user)">Recomendados para ti</span>
-        </div>
-        <i class="pi pi-angle-right text-gray-400"></i>
-      </li>
-      <li class="flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-          <i class="pi pi-user text-[#3A00AE]"></i>
-          <span class="text-[#3A00AE] font-bold hover:underline cursor-pointer" (click)="filterByFollowed()">De tus seguidos</span>
-        </div>
-        <i class="pi pi-angle-right text-gray-400"></i>
-      </li>
-    </ul>
-  </aside>
+  <aside class="hidden lg:block w-1/4 p-4 bg-white shadow-md md:flex flex-col min-h-screen">
+    <div class="sticky top-32">
+        <h2 class="text-2xl font-bold mb-4 text-center">Busqueda Rápida</h2>
+        <h3 class="text-lg font-semibold text-gray-600 mb-4 text-center"></h3>
+        <ul class="space-y-4">
+        <li class="flex items-center justify-start space-x-2">
+            <i class="pi pi-star text-[#3A00AE]"></i>
+            <span class="text-[#3A00AE] cursor-pointer font-bold text-2xl hover:underline" (click)="filterByRecommended(user)">Recomendados para ti</span>
+        </li>
+        <h3 class="text-lg font-semibold text-gray-600 mb-4 text-center"></h3>
+        <li class="flex items-center justify-start space-x-2">
+            <i class="pi pi-user text-[#3A00AE]"></i>
+            <span class="text-[#3A00AE] cursor-pointer font-bold text-2xl hover:underline" (click)="filterByFollowed()">De tus seguidos</span>
+        </li>
+        </ul>
+    </div>
+</aside>
   <section class="flex flex-col items-center space-y-4 w-full lg:w-1/2">
     <div class="hidden lg:block w-full ">
       <app-post-input></app-post-input>
@@ -36,6 +32,6 @@
     <div class="mt-4">
       <app-following-side></app-following-side>
     </div> -->
-    <app-right-side-panel [forums]="forums" [user]="user"></app-right-side-panel> 
+    <app-right-side-panel  [user]="user" [forums]="forums"></app-right-side-panel> 
   </section>
 </main>

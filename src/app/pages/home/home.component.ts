@@ -52,6 +52,7 @@ export class HomeComponent implements OnInit {
     this.forumService.getForumsByUser(user.id_user).subscribe({
       next: (data: IForum[]) => {
         this.forums = data;
+        console.log(this.forums);
         this.idForums = data.map((forum: IForum) => forum.id_forum);
         console.log(this.idForums);
         this.postService.getPostsByForumExcludeUser(this.idForums, user.id_user).subscribe({
