@@ -1,23 +1,23 @@
 <app-navbar></app-navbar>
-<main class="flex justify-center mt-14">
-  <section class="w-[50%]">
+<main class="flex justify-center mt-14 px-4 lg:px-0">
+  <section class="w-full md:w-3/4 lg:w-1/2">
     <div class="flex flex-col bg-white">
       <div class="bg-[#3F008F]">
-        <img [src]="forum.background_image_url" alt="Imagen de fondo" class="w-full h-60 object-cover">
+        <img [src]="forum.background_image_url" alt="Imagen de fondo" class="w-full h-48 md:h-60 object-cover">
       </div>
-      <div class="flex px-10 py-10">
-        <div>
-          <img [src]="forum.image_url" alt="Imagen del foro" class="w-[100px] h-[100px] rounded-full">
+      <div class="flex flex-col md:flex-row px-6 py-6 md:px-10 md:py-10">
+        <div class="flex-shrink-0 mb-4 md:mb-0">
+          <img [src]="forum.image_url" alt="Imagen del foro" class="w-24 h-24 md:w-[100px] md:h-[100px] rounded-full">
         </div>
-        <div class="flex flex-col justify-center px-10">
-          <h1 class="text-2xl font-bold">{{ forum.name }}</h1>
+        <div class="flex flex-col justify-center md:px-10">
+          <h1 class="text-xl md:text-2xl font-bold">{{ forum.name }}</h1>
           <p class="text-[#6D6D6D]">Creado por {{ forum.creator.name | titlecase }} {{ forum.creator.lastname | titlecase }}</p>
           <p class="text-[#6D6D6D]">{{ members.length }} miembros</p>
           <p class="text-[#6D6D6D]">Nivel Educativo: {{ forum.education_level }}</p>
           <p class="text-[#6D6D6D]">{{ forum.description }}</p>
         </div>
       </div>
-      <div class="flex justify-end p-4 h-min gap-4">
+      <div class="flex flex-wrap justify-end p-4 gap-2 md:gap-4">
         <button *ngIf="current_id == forum.id_user" (click)="editForum()" class="bg-[#3F008F] hover:bg-[#6e2ec2] text-white font-bold py-2 px-4 rounded">
           <i class="pi pi-pen-to-square"></i> Editar
         </button>
@@ -34,24 +34,24 @@
     </div>
     <!-- SECCIÓN DE PUBLICACIONES -->
     <section class="mt-10">
-      <h1 class="text-5xl font-bold">Publicaciones</h1>
-      <div class="flex flex-col mt-10" *ngIf="isCurrentUserMember || forum.privacy == 'Publico'">
+      <h1 class="text-2xl md:text-3xl lg:text-5xl font-bold">Publicaciones</h1>
+      <div class="flex flex-col mt-6 md:mt-10" *ngIf="isCurrentUserMember || forum.privacy == 'Publico'">
         <ng-container *ngFor="let post of posts">
           <app-post [post]="post"></app-post>
         </ng-container>
       </div>
       <div *ngIf="!isCurrentUserMember && forum.privacy == 'Privado'">
-        <p class="text-2xl font-bold">Necesitas unirte al grupo para ver las publicaciones</p>
+        <p class="text-xl md:text-2xl font-bold">Necesitas unirte al grupo para ver las publicaciones</p>
       </div>
     </section>
   </section>
   <!-- Sección para mostrar miembros u otra información -->
-  <section class="hidden lg:block px-16 w-[500px]">
-    <h2 class="text-2xl font-bold">Miembros ({{members.length}})</h2>
+  <section class="hidden lg:block px-4 lg:px-16 w-full lg:w-[500px] mt-8 lg:mt-0">
+    <h2 class="text-xl md:text-2xl font-bold">Miembros ({{members.length}})</h2>
     <ul class="mt-4 space-y-4 bg-white p-4 rounded-lg" *ngIf="isCurrentUserMember || forum.privacy == 'Publico'">
       <li *ngFor="let member of members" class="flex items-center justify-between rounded-lg">
         <div class="flex items-center cursor-pointer" (click)="goProfile(member.id_user)">
-          <img [src]="member.profile_image_url" alt="{{ member.name }}" class="w-12 h-12 rounded-full mr-4">
+          <img [src]="member.profile_image_url" alt="{{ member.name }}" class="w-10 h-10 md:w-12 md:h-12 rounded-full mr-4">
           <div class="flex flex-col">
             <p class="font-bold">{{ member.name }} {{ member.lastname }}</p>
             <p class="text-[#6D6D6D]">{{ member.education_level }}</p>
@@ -65,17 +65,17 @@
       </li>
     </ul>
     <div *ngIf="!isCurrentUserMember && forum.privacy == 'Privado'">
-      <p class="text-2xl font-bold">Necesitas unirte al grupo para ver los miembros</p>
+      <p class="text-xl md:text-2xl font-bold">Necesitas unirte al grupo para ver los miembros</p>
     </div>
   </section>
 </main>
 
-<p-dialog header="Unirse al grupo" [(visible)]="visible" [style]="{ width: '25rem' }">
-  <div class="flex align-items-center gap-3 mb-3 mt-1">
-    <label for="password" class="font-semibold w-6rem">Contraseña</label>
+<p-dialog header="Unirse al grupo" [(visible)]="visible" [style]="{ width: '90%', maxWidth: '25rem' }">
+  <div class="flex items-center gap-3 mb-3 mt-1">
+    <label for="password" class="font-semibold w-24">Contraseña</label>
     <input pInputText id="password" class="flex-auto" autocomplete="off" [(ngModel)]="password" />
   </div>
-  <div class="flex justify-content-end justify-between gap-2">
+  <div class="flex justify-between gap-2">
     <p-button label="Cancel" severity="secondary" (onClick)="visible = false" />
     <p-button label="Save" (onClick)="joinForum(forum.id_forum, password)" />
   </div>
