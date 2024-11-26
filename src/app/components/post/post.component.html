@@ -3,7 +3,7 @@
   <!-- Encabezado del Post -->
   <div class="flex flex-col md:flex-row justify-between mb-4">
     <div class="flex space-x-4 items-center">
-      <img [src]="post.user.profile_image_url" alt="Profile picture" class="w-16 h-16 md:w-28 md:h-28 rounded-xl hover:cursor-pointer hover:opacity-80" (click)="goProfile(post.user.id_user)">
+      <img [src]="post.user.profile_image_url" loading="lazy"  alt="Profile picture" class="w-16 h-16 md:w-28 md:h-28 rounded-xl hover:cursor-pointer hover:opacity-80" (click)="goProfile(post.user.id_user)">
       <div>
         <h3 class="text-lg md:text-2xl font-semibold hover:underline cursor-pointer" (click)="goProfile(post.user.id_user)">{{ post.user.name | titlecase }} {{ post.user.lastname | titlecase }}</h3>
         <p class="text-sm text-gray-500 hover:underline cursor-pointer" (click)="goProfile(post.user.id_user)">Profesor de {{ post.user.education_level | titlecase }}</p>

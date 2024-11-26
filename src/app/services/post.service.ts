@@ -7,6 +7,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IForum } from '../models/iforum';
 import { IUserData } from '../models/iuser-data';
 import { IComment } from '../models/icomment';
+import { shareReplay, timeout, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,8 @@ export class PostService {
   private url = 'http://98.85.11.22:8000';
   // private url = 'http://localhost:8000';
   private tempId: number = 0;
+  private cache = new Map<string, Observable<IPost[]>>();
+
   constructor(private http: HttpClient, readonly authService: AuthService) {}
 
   // Método para obtener los encabezados dinámicamente
@@ -83,8 +87,24 @@ export class PostService {
     return this.http.delete(`${this.url}/post/${id_post}/`, this.getHttpOptions());
   }
 
-  getPostsByForumExcludeUser(list: number[], user_id: number): Observable<IPost[]> {
-    const requests = list.map((forum_id) => this.http.get<IPost>(`${this.url}/post/forum/${forum_id}/exclude/${user_id}`, this.getHttpOptions()));
-    return forkJoin([...requests]);
+  getPostsByForumExcludeUser(forumId: number, userId: number): Observable<IPost[]> {
+    const cacheKey = `forum-${forumId}-user-${userId}`;
+    
+    if (!this.cache.has(cacheKey)) {
+      const request = this.http.get<IPost[]>(
+        `${this.url}/post/forum/${forumId}/exclude/${userId}`, 
+        this.getHttpOptions()
+      ).pipe(
+        shareReplay(1),
+        timeout(5000),
+        catchError(error => {
+          console.error(`Error loading posts for forum ${forumId}:`, error);
+          return of([]); // Retorna un array vacío en caso de error
+        })
+      );
+      this.cache.set(cacheKey, request);
+    }
+    
+    return this.cache.get(cacheKey)!;
   }
 }
