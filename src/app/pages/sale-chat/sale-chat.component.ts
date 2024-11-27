@@ -17,6 +17,7 @@ import { ISaleChat } from '../../models/isale-chat';
   imports: [CommonModule, FormsModule, NavbarComponent, ReactiveFormsModule],
   templateUrl: './sale-chat.component.html',
   styleUrl: './sale-chat.component.css'
+  
 })
 export class SaleChatComponent implements OnInit {
   chats: ISaleChat[] = [];
@@ -27,6 +28,7 @@ export class SaleChatComponent implements OnInit {
   selectedChatId: number | null = null;
   user: IUserData = {} as IUserData;
   messageForm: FormGroup;
+  isContactsMenuOpen = false;
   constructor(
     private chatService: ChatService,
     private userService: UserService,
