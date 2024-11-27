@@ -19,7 +19,13 @@
     </div>
   </div>
 
-  <div class="flex items-center text-[#3A00AE] space-x-10">
+  <div class="flex items-center text-[#3A00AE] space-x-10 ">
+    <a [routerLink]="['/home']" routerLinkActive="router-link-active">
+      <i class="pi pi-home text-2xl"></i>
+    </a>
+    <a [routerLink]="['/sale-chat']" routerLinkActive="router-link-active">
+      <i class="pi pi-dollar text-2xl"></i>
+    </a>
     <a [routerLink]="['/search-forum']" routerLinkActive="router-link-active">
       <i class="pi pi-users text-2xl"></i>
     </a>
@@ -43,18 +49,19 @@
     
     <!-- Menú desplegable -->
     <div *ngIf="menuOpen" class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md">
-      <a (click)="goProfile()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Ver mi perfil</a>
-      <a (click)="editProfile()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Editar perfil</a>
-      <a (click)="logout()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Cerrar sesión</a>
+      <a (click)="goProfile()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"><i class="pi pi-user"></i> Ver mi perfil</a>
+      <a (click)="editProfile()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"><i class="pi pi-user-edit"></i> Editar perfil</a>
+      <a [routerLink]="['/info']" routerLinkActive="router-link-active" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"><i class="pi pi-info-circle"></i> Ayuda</a>
+      <a (click)="logout()" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"><i class="pi pi-sign-out"></i> Cerrar sesión</a>
     </div>
   </div>
 </nav>
 
-<!-- MOBILE PARTE CUIDADO AL MODIFICAR -->
+<!-- MOBILE PARTE -->
 <div class="md:hidden sticky top-0 left-0 w-full bg-white p-4 flex items-center justify-between z-10">
-  <a [routerLink]="['/profile']" routerLinkActive="router-link-active" class="flex items-center space-x-2">
+  <button (click)="toggleSidebar()" class="flex items-center space-x-2">
     <img [src]="profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full" />
-  </a>
+  </button>
   
   <div class="flex-1 flex justify-center mx-2">
     <div class="relative w-full max-w-xs">
@@ -76,10 +83,74 @@
   </button>
 </div>
 
-<div class="fixed bottom-0 left-0 w-full bg-white shadow-inner flex justify-around py-2 text-[#3A00AE] md:hidden">
+<!-- Añadir el Sidebar para móvil -->
+<p-sidebar [(visible)]="sidebarVisible" 
+           position="left" 
+           [showCloseIcon]="false"
+           styleClass="p-sidebar-md:hidden">
+  <div class="flex flex-col h-full">
+    <!-- Cabecera del perfil -->
+    <div class="flex items-center space-x-3 p-4 border-b">
+      <img [src]="profile_image_url" alt="Profile Picture" class="w-16 h-16 rounded-full" />
+      <div>
+        <h2 class="font-bold text-lg">{{ name }}</h2>
+        <p class="text-gray-600">{{ education_level }}</p>
+      </div>
+    </div>
+
+    <!-- Opciones del menú -->
+    <div class="flex-1 py-4">
+      <button (click)="goProfile(); sidebarVisible = false" 
+              class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-100">
+        <i class="pi pi-user text-[#3A00AE]"></i>
+        <span>Ver mi perfil</span>
+      </button>
+
+      <button (click)="editProfile(); sidebarVisible = false" 
+              class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-100">
+        <i class="pi pi-user-edit text-[#3A00AE]"></i>
+        <span>Editar perfil</span>
+      </button>
+
+      <button (click)="goMyForums(); sidebarVisible = false" 
+              class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-100">
+        <i class="pi pi-users text-[#3A00AE]"></i>
+        <span>Ver mis grupos</span>
+      </button>
+
+      <button (click)="goFollowing(); sidebarVisible = false" 
+              class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-100">
+        <i class="pi pi-eye text-[#3A00AE]"></i>
+        <span>Ver mis seguidos</span>
+      </button>
+
+      <a [routerLink]="['/info']" 
+         (click)="sidebarVisible = false"
+         class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-100">
+        <i class="pi pi-info-circle text-[#3A00AE]"></i>
+        <span>Ayuda</span>
+      </a>
+    </div>
+
+    <!-- Botón de cerrar sesión -->
+    <div class="border-t p-4">
+      <button (click)="logout()" 
+              class="w-full flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-gray-100">
+        <i class="pi pi-sign-out"></i>
+        <span>Cerrar sesión</span>
+      </button>
+    </div>
+  </div>
+</p-sidebar>
+
+<div class="fixed bottom-0 left-0 w-full bg-white shadow-inner flex justify-around py-2 text-[#3A00AE] md:hidden z-16">
   <a [routerLink]="['/home']" routerLinkActive="router-link-active" class="flex flex-col items-center">
     <i class="pi pi-home text-2xl"></i>
     <p class="text-xs">Inicio</p>
+  </a>
+  <a [routerLink]="['/sale-chat']" routerLinkActive="router-link-active" class="flex flex-col items-center">
+    <i class="pi pi-dollar text-2xl"></i>
+    <p class="text-xs">Intercambios</p>
   </a>
   <a [routerLink]="['/search-forum']" routerLinkActive="router-link-active" class="flex flex-col items-center">
     <i class="pi pi-users text-2xl"></i>

@@ -1,61 +1,108 @@
 <app-navbar></app-navbar>
 
-<div class="flex h-svh w-3/4 mx-auto">
-  <!-- Lista de contactos -->
-  <div class="w-1/3 p-4 border-r overflow-y-auto bg-white">
-    <h2 class="text-xl font-bold mb-4">Contactos</h2>
-    <ul>
-      <li *ngFor="let chat of chats" (click)="selectChat(chat.id_chat)" class="cursor-pointer p-2 border-b hover:bg-gray-200">
-        <div class="flex items-center">
-          <img [src]="chat.receiver.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full mr-2">
-          <span>{{ chat.receiver.name }} {{ chat.receiver.lastname }}</span>
-        </div>
-      </li>
-    </ul>
-  </div>
+<div class="flex flex-col h-screen w-full fixed">
+  <!-- Botón de menú para dispositivos móviles -->
+  <button
+    class="md:hidden p-2 bg-[#F5F5F7] text-[#3A00AE] rounded-full shadow-md self-start my-2 fixed top-[72px] left-0 z-50 focus:outline-none"
+    (click)="isContactsMenuOpen = !isContactsMenuOpen"
+    *ngIf="!isContactsMenuOpen"
+  >
+    ☰
+  </button>
 
-  <!-- Área de mensajes -->
-  <div class="w-2/3 flex flex-col p-4">
-    <h2 class="text-xl font-bold mb-4">
-      Mensajes con: 
-      <span *ngIf="currentChatUser">{{ currentChatUser.name }} {{ currentChatUser.lastname }}</span>
-      <span *ngIf="!currentChatUser">Seleccione un contacto</span>
-    </h2>
-
-    <!-- Contenedor de mensajes -->
-    <div class="flex-1 overflow-y-auto space-y-2 p-2 border rounded-lg max-h-[60vh]">
-      <div *ngFor="let message of messages" 
-           [ngClass]="{
-             'self-end text-right bg-blue-100 ml-auto': message.sender.id_user === user.id_user,
-             'self-start text-left bg-gray-100 mr-auto': message.sender.id_user !== user.id_user
-           }"
-           class="p-2 rounded-lg flex flex-col ">
-       
-       <div *ngIf="message.sender.id_user !== user.id_user" class="flex items-center mb-2">
-          <img [src]="message.sender.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full mr-2">
-          <p>{{ message.message }}</p>
-       </div>
-       
-       <div *ngIf="message.sender.id_user === user.id_user" class="flex items-center ml-auto mb-2">
-          <p>{{ message.message }}</p>
-          <img [src]="message.sender.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full ml-2">
-       </div>
-       
-        <span class="text-xs text-gray-500"> {{ message.date_message | date: 'dd/MM/yyyy'}}</span>
-      </div>
+  <!-- Contenedor principal -->
+  <div class="flex flex-1 sticky ">
+    <!-- Lista de contactos (menú lateral) -->
+    <div
+      class="fixed top-0 left-0 h-screen bg-white w-3/4 max-w-xs p-4 border-r shadow-lg z-40 transform transition-transform duration-300 ease-in-out
+             md:static md:w-1/3 md:h-screen md:transform-none"
+      [ngClass]="{ '-translate-x-full': !isContactsMenuOpen, 'translate-x-0': isContactsMenuOpen }"
+    >
+      <h2 class="text-xl font-bold mb-4 flex items-center justify-between">
+        Contactos
+        <button
+          class="md:hidden p-2 bg-gray-200 rounded-full focus:outline-none"
+          (click)="isContactsMenuOpen = false"
+        >
+          ✕
+        </button>
+      </h2>
+      <ul class="overflow-y-auto h-full">
+        <li
+          *ngFor="let chat of chats"
+          (click)="selectChat(chat.id_chat); isContactsMenuOpen = false"
+          class="cursor-pointer p-2 border-b hover:bg-gray-200"
+        >
+          <div class="flex items-center">
+            <img
+              [src]="chat.receiver.profile_image_url"
+              alt="Profile Picture"
+              class="w-10 h-10 rounded-full mr-2"
+            />
+            <span>{{ chat.receiver.name }} {{ chat.receiver.lastname }}</span>
+          </div>
+        </li>
+      </ul>
     </div>
 
-    <!-- Barra de entrada de mensajes -->
-    <div *ngIf="selectedChatId !== null" class="flex items-center mt-4 space-x-2">
-      <form [formGroup]="messageForm" (ngSubmit)="sendMessage(selectedChatId)" class="flex items-center space-x-2 w-full">
-        <input formControlName="message" 
-             placeholder="Escribe un mensaje..." 
-             class="flex-1 p-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" />
-        <button type="submit" 
-                class="p-2 bg-[#3a00ae] text-white rounded-lg hover:opacity-80 w-1/6">
-          Enviar
-        </button>
-      </form>
+    <!-- Área de mensajes -->
+    <div class="flex-1 md:w-2/3 flex flex-col p-4 ml-auto">
+      <h2 class="text-xl font-bold mb-4 ml-8">
+        Mensajes con:
+        <span *ngIf="currentChatUser">
+          {{ currentChatUser.name }} {{ currentChatUser.lastname }}
+        </span>
+        <span *ngIf="!currentChatUser">Seleccione un contacto</span>
+      </h2>
+
+      <!-- Contenedor de mensajes -->
+      <div class="flex-1 overflow-y-auto space-y-2 p-2 border rounded-lg max-h-[60vh]">
+        <div *ngFor="let message of messages" 
+             [ngClass]="{
+               'self-end text-right bg-blue-100 ml-auto': message.sender.id_user === user.id_user,
+               'self-start text-left bg-gray-100 mr-auto': message.sender.id_user !== user.id_user
+             }"
+             class="p-2 rounded-lg flex flex-col">
+         
+          <div *ngIf="message.sender.id_user !== user.id_user" class="flex items-start gap-2 mb-2 max-w-[80%]">
+            <img [src]="message.sender.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full flex-shrink-0">
+            <div class="flex flex-col">
+              <p class="bg-gray-100 p-2 rounded-lg whitespace-pre-wrap break-all">{{ message.message }}</p>
+              <span class="text-xs text-gray-500 mt-1">{{ message.date_message | date: 'dd/MM/yyyy' }}</span>
+            </div>
+          </div>
+          
+          <div *ngIf="message.sender.id_user === user.id_user" class="flex items-start gap-2 mb-2 max-w-[80%] ml-auto">
+            <div class="flex flex-col items-end">
+              <p class="bg-blue-100 p-2 rounded-lg whitespace-pre-wrap break-all">{{ message.message }}</p>
+              <span class="text-xs text-gray-500 mt-1">{{ message.date_message | date: 'dd/MM/yyyy' }}</span>
+            </div>
+            <img [src]="message.sender.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full flex-shrink-0">
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- Barra de entrada de mensajes -->
+      <div *ngIf="selectedChatId !== null" class="flex items-center mt-4 space-x-2">
+        <form
+          [formGroup]="messageForm"
+          (ngSubmit)="sendMessage(selectedChatId)"
+          class="flex items-center space-x-2 w-full"
+        >
+          <input
+            formControlName="message"
+            placeholder="Escribe un mensaje..."
+            class="flex-1 p-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+          />
+          <button
+            type="submit"
+            class="p-2 bg-[#3a00ae] text-white rounded-lg hover:opacity-80 w-1/6"
+          >
+            Enviar
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 </div>

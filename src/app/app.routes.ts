@@ -6,7 +6,6 @@ import { CreatePostComponent } from './pages/create-post/create-post.component';
 import { MygroupsComponent } from './pages/mygroups/mygroups.component';
 import { RegistergroupComponent } from './pages/registergroup/registergroup.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { MyprofileComponent } from './pages/myprofile/myprofile.component';
 import { VentasComponent } from './pages/ventas/ventas.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { ForumComponent } from './pages/forum/forum.component';
@@ -31,7 +30,6 @@ export const routes: Routes = [
     { path: 'registergroup', component: RegistergroupComponent },
     { path: 'mygroup', component: MygroupsComponent },
     { path: 'profile/:id_user', component: ProfileComponent },
-    { path: 'myprofile', component: MyprofileComponent },
     { path: 'sale', component: VentasComponent },
     { path: 'chat', component: ChatComponent },
     { path: 'forum', component: ForumComponent },

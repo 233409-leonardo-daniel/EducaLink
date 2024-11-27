@@ -27,6 +27,7 @@ export class ChatComponent implements OnInit {
   selectedChatId: number | null = null;
   user: IUserData = {} as IUserData;
   messageForm: FormGroup;
+  isContactsMenuOpen = false;
 
   constructor(
     private chatService: ChatService,

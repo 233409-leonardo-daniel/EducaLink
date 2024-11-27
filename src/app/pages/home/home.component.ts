@@ -3,7 +3,7 @@ import { IPost } from './../../models/ipost';
 import { PostService } from './../../services/post.service';
 import { UserService } from './../../services/user.service';
 import { AuthService } from './../../auth/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PostInputComponent } from '../../components/post-input/post-input.component';
 import { PostComponent } from '../../components/post/post.component';
@@ -14,6 +14,9 @@ import { Router } from '@angular/router';
 import { IUserData } from '../../models/iuser-data';
 import { FollowingSideComponent } from '../../components/following-side/following-side.component';
 import { RightSidePanelComponent } from "../../components/right-side-panel/right-side-panel.component";
+import { DialogModule } from 'primeng/dialog';
+import { MenuItem } from 'primeng/api';
+import { Menu, MenuModule } from 'primeng/menu';
 import { AdService } from '../../services/ad.service';
 import { IAd } from '../../models/iad';
 import { AdComponent } from '../../components/ad/ad.component';
@@ -21,7 +24,17 @@ import { AdComponent } from '../../components/ad/ad.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, PostInputComponent, PostComponent, NavbarComponent, RightSidePanelComponent, AdComponent],
+  imports: [
+    CommonModule, 
+    PostInputComponent, 
+    PostComponent, 
+    
+    NavbarComponent, 
+    
+    RightSidePanelComponent,
+    DialogModule,
+    MenuModule
+  , AdComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   providers: [PostService]
@@ -34,6 +47,24 @@ export class HomeComponent implements OnInit {
   forums: IForum[] = [];
   user: IUserData = {} as IUserData;
   idFollowed: number[] = [];
+  showFilterModal: boolean = false;
+  filterMenu: MenuItem[] = [
+    {
+      label: 'Recomendados para ti',
+      icon: 'pi pi-star',
+      command: () => this.filterByRecommended(this.user),
+      styleClass: 'text-[#3A00AE] font-bold'
+    },
+    {
+      label: 'De tus seguidos',
+      icon: 'pi pi-user',
+      command: () => this.filterByFollowed(),
+      styleClass: 'text-[#3A00AE] font-bold'
+    }
+  ];
+
+  @ViewChild('filterMenuRef') filterMenuRef!: Menu;
+
   Math = Math;
   constructor(
     private readonly authService: AuthService,
@@ -66,6 +97,7 @@ export class HomeComponent implements OnInit {
     this.forumService.getForumsByUser(user.id_user).subscribe({
       next: (data: IForum[]) => {
         this.forums = data;
+        console.log(this.forums);
         this.idForums = data.map((forum: IForum) => forum.id_forum);
         console.log(this.idForums);
         this.postService.getPostsByForumExcludeUser(this.idForums, user.id_user).subscribe({
@@ -142,5 +174,9 @@ export class HomeComponent implements OnInit {
 
   onPostDeleted(id_post: number) {
     this.posts = this.posts.filter(post => post.id_post !== id_post);
+  }
+
+  openFilterMenu(event: Event): void {
+    this.filterMenuRef.toggle(event);
   }
 }

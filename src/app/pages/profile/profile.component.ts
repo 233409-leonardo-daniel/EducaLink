@@ -20,13 +20,20 @@ import { SaleService } from '../../services/sale.service';
 import { CreateSalePostComponent } from "../create-sale-post/create-sale-post.component";
 import { PostventaComponent } from '../../components/postventa/postventa.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, Validators } from '@angular/forms';
 import { ForumService } from '../../services/forum.service';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+
+interface AutoCompleteCompleteEvent {
+  originalEvent: Event;
+  query: string;
+}
 
 @Component({
   selector: 'app-profile',
   standalone: true, 
-  imports: [NavbarComponent, GroupListComponent, CommonModule, PostComponent, RouterLink, PostventaComponent, SelectButtonModule, FormsModule],
+  imports: [NavbarComponent, GroupListComponent, CommonModule, PostComponent, RouterLink, PostventaComponent, SelectButtonModule, FormsModule, ReactiveFormsModule, AutoCompleteModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
@@ -41,11 +48,14 @@ export class ProfileComponent implements OnInit {
   isCurrentUserFollowing = false;
   salePosts: ISalePost[] = [];
   sectionSelected = 'posts';
+  constSalePosts: ISalePost[] = [];
   options = [
     { label: 'Publicaciones', value: 'posts' },
     { label: 'Ventas', value: 'sales' }
   ];
-
+  searchForm: FormGroup;
+  filteredSales: ISalePost[] = [];
+  originalSalePosts: ISalePost[] = [];
   stateOptions: any[] = [{ label: 'Publicaciones', value: 'posts' },{ label: 'Ventas', value: 'sales' }];
   value: string = 'off';
   constructor(
@@ -57,7 +67,11 @@ export class ProfileComponent implements OnInit {
     private chatService: ChatService,
     private saleService: SaleService,
     private forumService: ForumService
-  ) {}
+  ) {
+    this.searchForm = new FormGroup({
+      selectedSale: new FormControl<string>('', Validators.required)
+    });
+  }
 
   ngOnInit() {
     // Obtener usuario actual desde el servicio AuthService
@@ -73,6 +87,35 @@ export class ProfileComponent implements OnInit {
           console.error('Error al obtener los datos del usuario:', err);
         }
       });
+    }
+  }
+
+  filterSale(event: AutoCompleteCompleteEvent) {
+    let filtered: ISalePost[] = [];
+    let query = event.query;
+    for (let i = 0; i < this.originalSalePosts.length; i++) {
+      let sale = this.originalSalePosts[i];
+      if (sale.title.toLowerCase().includes(query.toLowerCase())) {
+        filtered.push(sale);
+      }
+    }
+    this.filteredSales = filtered;
+  }
+
+  searchSale() {
+    if (this.searchForm.value.selectedSale) {
+      if (typeof this.searchForm.value.selectedSale === 'object') {
+        this.salePosts = [this.searchForm.value.selectedSale];
+      } 
+      else {
+        const searchTerm = this.searchForm.value.selectedSale.toLowerCase();
+        this.salePosts = this.originalSalePosts.filter(sale => 
+          sale.title.toLowerCase().includes(searchTerm)
+        );
+      }
+    } else {
+      // Si no hay término de búsqueda, restaurar todos los posts
+      this.salePosts = [...this.originalSalePosts];
     }
   }
 
@@ -99,8 +142,8 @@ export class ProfileComponent implements OnInit {
 
     this.saleService.getSalePostsByUser(this.user.id_user).subscribe({
       next: (data: ISalePost[]) => {
-        console.log(data);
         this.salePosts = data;
+        this.originalSalePosts = [...data];
       },
       error: (err) => {
         console.error('Error al obtener ventas del usuario:', err);

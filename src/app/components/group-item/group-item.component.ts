@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { AuthService } from '../../auth/auth.service';
 import { IForum } from '../../models/iforum';
 import { CommonModule } from '@angular/common';
+import { IUserData } from '../../models/iuser-data';
 
 @Component({
   selector: 'app-group-item',
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
 })
 export class GroupItemComponent implements OnInit {
   @Input() forum : IForum = {} as IForum;
+  @Input() creatorForum : IUserData = {} as IUserData;
 
   isCurrentUserProfile = false;
 

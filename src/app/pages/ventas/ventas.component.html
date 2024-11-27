@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <main class="flex flex-col lg:flex-row p-4">
-  <!-- Aside para filtros -->
-  <aside class="w-full lg:w-1/4 p-4 bg-white rounded-lg shadow-md">
+  <!-- Aside para filtros - oculto en móvil -->
+  <aside class="hidden lg:block w-1/4 p-4 bg-white rounded-lg shadow-md">
     <h2 class="text-2xl font-bold mb-4 text-center">Ventas</h2>
     <button 
       [routerLink]="['/salepost']" 
@@ -83,3 +83,10 @@
     </div>
   </section>
 </main>
+
+<!-- Menú de filtros móvil -->
+<p-menu #filterMenuRef [model]="filterMenu" [popup]="true"></p-menu>
+
+<div class="fixed bottom-24 right-4 bg-[#3A00AE] rounded-full p-2 hover:cursor-pointer md:hidden" (click)="filterMenuRef.toggle($event)">
+  <i class="pi pi-filter text-white"></i>
+</div>

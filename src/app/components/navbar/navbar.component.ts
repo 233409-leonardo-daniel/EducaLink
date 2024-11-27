@@ -6,11 +6,19 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { SidebarModule } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [
+    RouterLink, 
+    CommonModule, 
+    FormsModule,
+    SidebarModule,
+    ButtonModule
+  ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
@@ -21,6 +29,7 @@ export class NavbarComponent implements OnInit {
   education_level: string = '';
   profile_image_url: string = '';
   search: string = '';
+  sidebarVisible: boolean = false;
 
   constructor(readonly authService: AuthService, readonly userService: UserService, private router: Router, private toastr : ToastrService) {
 
@@ -70,6 +79,16 @@ export class NavbarComponent implements OnInit {
     this.menuOpen = false; 
   }
 
+  goMyForums() {
+    this.router.navigate(['/user-forums']);
+    this.menuOpen = false; 
+  }
+
+  goFollowing() {
+    this.router.navigate(['/user-following']);
+    this.menuOpen = false; 
+  }
+
   logout() {
     this.authService.logout().subscribe ({
       next: (data) => {
@@ -80,5 +99,9 @@ export class NavbarComponent implements OnInit {
       }
     });
     this.menuOpen = false; 
+  }
+
+  toggleSidebar() {
+    this.sidebarVisible = !this.sidebarVisible;
   }
 }
