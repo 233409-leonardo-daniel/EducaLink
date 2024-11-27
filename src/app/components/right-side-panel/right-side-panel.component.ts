@@ -29,6 +29,7 @@ export class RightSidePanelComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
+    this.user = this.authService.getUser() as IUserData;
     console.log('User en RightSidePanel:', this.user);
     this.loadFollowing();
   }

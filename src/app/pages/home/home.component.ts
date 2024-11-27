@@ -17,6 +17,9 @@ import { RightSidePanelComponent } from "../../components/right-side-panel/right
 import { DialogModule } from 'primeng/dialog';
 import { MenuItem } from 'primeng/api';
 import { Menu, MenuModule } from 'primeng/menu';
+import { AdService } from '../../services/ad.service';
+import { IAd } from '../../models/iad';
+import { AdComponent } from '../../components/ad/ad.component';
 
 @Component({
   selector: 'app-home',
@@ -25,19 +28,21 @@ import { Menu, MenuModule } from 'primeng/menu';
     CommonModule, 
     PostInputComponent, 
     PostComponent, 
-    GroupListComponent, 
+    
     NavbarComponent, 
-    FollowingSideComponent, 
+    
     RightSidePanelComponent,
     DialogModule,
     MenuModule
-  ],
+  , AdComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   providers: [PostService]
 })
 export class HomeComponent implements OnInit {
   posts: IPost[] = [];
+  ads: IAd[] = [];
+  shuffledAds: IAd[] = [];
   idForums: number[] = [];
   forums: IForum[] = [];
   user: IUserData = {} as IUserData;
@@ -60,18 +65,27 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('filterMenuRef') filterMenuRef!: Menu;
 
+  Math = Math;
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
     private readonly router: Router,
     private readonly postService: PostService,
-    private readonly forumService: ForumService
+    private readonly forumService: ForumService,
+    private adService: AdService
   ) {}
 
   ngOnInit(): void {
     const userData = this.authService.getUser();
     if (userData) {
       this.user = userData;
+      this.loadAds();
+      setTimeout(() => {
+        console.log('Estado actual:');
+        console.log('Anuncios:', this.ads);
+        console.log('Primer anuncio:', this.ads[0]);
+        console.log('Posts:', this.posts.length);
+      }, 2000);
       this.filterByRecommended(userData);
     } else {
       console.error('Usuario no autenticado');
@@ -101,6 +115,39 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+
+  shuffleArray(array: any[]): any[] {
+    let currentIndex = array.length;
+    let randomIndex;
+
+    while (currentIndex != 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [array[currentIndex], array[randomIndex]] = 
+      [array[randomIndex], array[currentIndex]];
+    }
+
+    return array;
+  }
+
+  loadAds() {
+    this.adService.getAds().subscribe({
+      next: (data: IAd[]) => {
+        console.log('Anuncios recibidos:', data);
+        if (data && data.length > 0) {
+          this.ads = data;
+          this.shuffledAds = this.shuffleArray([...data]);
+          console.log('Anuncios mezclados:', this.shuffledAds);
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener anuncios:', err);
+      }
+    });
+  }
+
+
 
   filterByFollowed(): void {
     this.userService.getFollowing(this.user.id_user).subscribe({
