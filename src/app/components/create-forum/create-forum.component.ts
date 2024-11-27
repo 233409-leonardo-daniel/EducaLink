@@ -38,7 +38,7 @@ export class CreateForumComponent {
       education_level: ['Preescolar', [Validators.required]],
       privacy: ['Publico', [Validators.required]],
       password: [''], // Validación condicional
-      grade: ['0', [Validators.required]]
+      grade: ['1', [Validators.required, Validators.min(1), Validators.max(6)]]
     });
 
     // Validación dinámica para la contraseña
@@ -116,7 +116,7 @@ export class CreateForumComponent {
         next: (response) => {
           this.toastr.success('Foro creado exitosamente');
           this.forumService.setTempId(response.id_forum);
-          // this.router.navigate(['/forum']);
+          this.router.navigate(['/forum']);
         },
         error: (error) => {
           console.error('Error al crear el foro:', error);

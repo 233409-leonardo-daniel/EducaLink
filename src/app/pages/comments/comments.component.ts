@@ -46,6 +46,7 @@ export class CommentsComponent implements OnInit {
     if (this.tempId !== 0) {
         this.postService.getCommentsByPostId(this.tempId).subscribe((comments: IComment[]) => {
             this.comments = comments;
+            console.log(this.comments);
             this.comments.sort((a, b) => new Date(b.comment_date).getTime() - new Date(a.comment_date).getTime());
             console.log(this.comments);
         });

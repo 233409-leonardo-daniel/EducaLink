@@ -110,7 +110,7 @@ export class VentasComponent implements OnInit {
   }
 
   filterByCategory(category: string): void {
-    if (category === 'Todos') {
+    if (category === 'Otros') {
       this.salePosts = [...this.originalPosts]; // Mostrar todos los posts.
     } else {
       this.saleService.getSalePostsByType(category).subscribe(data => {

@@ -29,9 +29,8 @@ export class GroupComponent implements OnInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.userService.getForumSuggestions().subscribe((data) => {
-        console.log(data);
-        this.forums = data;
+      this.forumService.getAvailableForumsWithDoubleFilters(this.userService.getData().id_user, this.userService.getData().grade, this.userService.getData().education_level).subscribe((data) => {
+        this.forums = data.filter(forum => forum.privacy == 'Publico');
       });
     } else {
       console.warn('Not running in the browser, skipping data loading in GroupComponent');
@@ -45,6 +44,7 @@ export class GroupComponent implements OnInit {
     } else {
       this.forumService.joinForum(id_forum, password).subscribe({
       next: () => {
+        this.forums = this.forums.filter(forum => forum.id_forum != id_forum);
         this.toastr.success('Unido al grupo');
       },
       error: (err) => {

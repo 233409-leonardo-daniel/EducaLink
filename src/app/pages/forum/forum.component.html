@@ -13,7 +13,7 @@
           <h1 class="text-xl md:text-2xl font-bold">{{ forum.name }}</h1>
           <p class="text-[#6D6D6D]">Creado por {{ forum.creator.name | titlecase }} {{ forum.creator.lastname | titlecase }}</p>
           <p class="text-[#6D6D6D]">{{ members.length }} miembros</p>
-          <p class="text-[#6D6D6D]">Nivel Educativo: {{ forum.education_level }}</p>
+          <p class="text-[#6D6D6D]">Nivel Educativo: {{ forum.education_level }} - Grado: {{ forum.grade }}</p>
           <p class="text-[#6D6D6D]">{{ forum.description }}</p>
         </div>
       </div>
@@ -37,7 +37,7 @@
       <h1 class="text-2xl md:text-3xl lg:text-5xl font-bold">Publicaciones</h1>
       <div class="flex flex-col mt-6 md:mt-10" *ngIf="isCurrentUserMember || forum.privacy == 'Publico'">
         <ng-container *ngFor="let post of posts">
-          <app-post [post]="post"></app-post>
+          <app-post [post]="post" (postDeleted)="onPostDeleted($event)"></app-post>
         </ng-container>
       </div>
       <div *ngIf="!isCurrentUserMember && forum.privacy == 'Privado'">

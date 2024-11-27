@@ -31,22 +31,18 @@ export class LoginComponent {
 
   onSubmit(): void {    
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value.username, this.loginForm.value.password).pipe(
-        catchError((error) => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Correo o contraseña incorrectos' });
-          return of(error);
-        })
-      ).subscribe(res => {
-        if (res.token_data) {
+      this.authService.login(this.loginForm.value.username, this.loginForm.value.password).subscribe({
+        next: (res) => {
           this.authService.setToken(res.access_token);
+          this.authService.setIsLoggedIn(true);
           this.userService.setData(res.token_data);
           this.authService.setUser(res.token_data);
           this.router.navigate(['/home']);
-        } else {
-          console.log(res);
-          
+        },
+        error: (error) => {
+          this.toastr.error('Correo o contraseña incorrectos');
         }
-      });
+      })
     } else {
       this.toastr.error('Formulario inválido');
     }

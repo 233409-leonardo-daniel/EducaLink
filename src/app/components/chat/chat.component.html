@@ -33,7 +33,7 @@
           (click)="selectChat(chat.id_chat); isContactsMenuOpen = false"
           class="cursor-pointer p-2 border-b hover:bg-gray-200"
         >
-          <div class="flex items-center">
+          <div class="flex items-center" *ngIf="chat.receiver.id_user !== user.id_user; else chatUser">
             <img
               [src]="chat.receiver.profile_image_url"
               alt="Profile Picture"
@@ -41,6 +41,12 @@
             />
             <span>{{ chat.receiver.name }} {{ chat.receiver.lastname }}</span>
           </div>
+          <ng-template #chatUser>
+            <div class="flex items-center">
+              <img [src]="chat.sender.profile_image_url" alt="Profile Picture" class="w-10 h-10 rounded-full mr-2">
+              <span>{{ chat.sender.name }} {{ chat.sender.lastname }}</span>
+            </div>
+          </ng-template>
         </li>
       </ul>
     </div>

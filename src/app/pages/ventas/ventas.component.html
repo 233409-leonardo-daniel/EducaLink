@@ -1,9 +1,10 @@
 <app-navbar></app-navbar>
-<main class="flex flex-col lg:flex-row p-4">
+<main class="flex flex-col lg:flex-row justify-center lg:space-x-16">
   <!-- Aside para filtros - oculto en móvil -->
-  <aside class="hidden lg:block w-1/4 p-4 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold mb-4 text-center">Ventas</h2>
-    <button 
+  <aside class="hidden md:block w-1/4 p-4 bg-white shadow-md flex-col min-h-screen">
+    <div class="sticky top-32">
+      <h2 class="text-2xl font-bold mb-4 text-center">Ventas</h2>
+      <button 
       [routerLink]="['/salepost']" 
       class="w-full bg-[#3A00AE] text-white py-2 rounded-md mb-6 font-semibold">
       Iniciar venta
@@ -69,8 +70,9 @@
       </li>
       <li class="flex items-center justify-between">
         <button class="text-[#3A00AE] font-bold hover:underline w-full text-left" (click)="filterByCategory('Otros')">Otros</button>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
   </aside>
 
   <!-- Sección de posts -->

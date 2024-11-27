@@ -74,7 +74,7 @@ export class SearchForumComponent implements OnInit {
   }
 
   filterByRecommended() {
-    this.forumService.getAvailableForumsWithEducationLevelFilter(this.user.id_user, this.user.education_level).subscribe({
+    this.forumService.getAvailableForumsWithDoubleFilters(this.user.id_user, this.user.grade, this.user.education_level).subscribe({
       next: (forums) => {
         this.forums = forums;
       },

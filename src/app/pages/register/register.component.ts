@@ -8,6 +8,7 @@ import { UserService } from '../../services/user.service';
 import { log } from 'console';
 import { catchError, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class RegisterComponent {
     readonly authService: AuthService,
     readonly router: Router,
     readonly messageService: MessageService,
-    readonly userService: UserService
+    readonly userService: UserService,
+    readonly toastr: ToastrService
   ) {
     this.registerForm = new FormGroup({
       name: new FormControl('', Validators.required),
@@ -63,36 +65,24 @@ export class RegisterComponent {
   }
 
   setData(): void {
-    this.authService
-      .register(this.registerForm.value)
-      .pipe(
-        catchError((error) => {
-          if (error.status === 400) {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'El correo ya está registrado',
-            });
-          } else {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Algo salió mal',
-            });
-          }
-          return of(error);
-        })
-      )
-      .subscribe(() => {
-        this.authService
-          .login(this.registerForm.value.mail, this.registerForm.value.password)
-          .subscribe((res) => {
-            this.authService.setToken(res.access_token);
-            this.userService.setData(res.token_data);
-            localStorage.setItem('user', JSON.stringify(res.token_data));
-            this.router.navigate(['/registergroup']);
-          });
-      });
+    this.authService.register(this.registerForm.value).subscribe({
+      next: () => {
+        this.authService.login(this.registerForm.value.mail, this.registerForm.value.password).subscribe((res) => {
+          this.authService.setToken(res.access_token);
+          this.userService.setData(res.token_data);
+          this.authService.setIsLoggedIn(true);
+          localStorage.setItem('user', JSON.stringify(res.token_data));
+          this.router.navigate(['/registergroup']);
+        });
+      },
+      error: (error) => {
+        if (error.status === 400) {
+          this.toastr.error('El correo ya está registrado', 'Error');
+        } else {
+          this.toastr.error('Algo salió mal', 'Error');
+        }
+      }
+    });
   }
 
   @Output() closeModal = new EventEmitter<void>();

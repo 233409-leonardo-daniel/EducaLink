@@ -21,9 +21,12 @@
     </div>
     <button
       (click)="joinGroup(forum.id_forum)"
-      class="bg-[#3a00ae] text-white px-4 py-2 rounded hover:bg-blue-700"
+      class="bg-[#3a00ae] text-white px-4 py-2 rounded hover:bg-[#3a00ae]/80 transition-colors duration-300"
     >
       Unirse
     </button>
+  </div>
+  <div *ngIf="forums.length == 0">
+    <h2 class="text-2xl font-bold mb-4">No hay grupos disponibles</h2>
   </div>
 </div>

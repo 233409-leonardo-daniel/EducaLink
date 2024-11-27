@@ -35,6 +35,9 @@
     <a [routerLink]="['/chat']" routerLinkActive="router-link-active">
       <i class="pi pi-comments text-2xl"></i>
     </a>
+    <a [routerLink]="['/ads']" routerLinkActive="router-link-active" *ngIf="user.user_type == 'Admin'">
+      <i class="pi pi-megaphone text-2xl"></i>
+    </a>
   </div>
 
   <div class="relative" (click)="toggleMenu()">
@@ -123,6 +126,14 @@
         <i class="pi pi-eye text-[#3A00AE]"></i>
         <span>Ver mis seguidos</span>
       </button>
+
+      <button (click)="goAds(); sidebarVisible = false" *ngIf="user.user_type == 'Admin'" 
+              class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-100">
+        <i class="pi pi-megaphone text-[#3A00AE]"></i>
+        <span>Anuncios</span>
+      </button>
+
+
 
       <a [routerLink]="['/info']" 
          (click)="sidebarVisible = false"

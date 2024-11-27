@@ -35,6 +35,10 @@ export class AuthService {
     }
   }
 
+  setIsLoggedIn(value: boolean) {
+    this.isLoggedIn = value;
+  }
+
   getOptions() {
     return this.options;
   }

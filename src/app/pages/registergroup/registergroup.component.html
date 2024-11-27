@@ -1,6 +1,6 @@
 <header class="bg-[#3a00ae] shadow-lg">
     <div class="flex justify-center items-center">
-      <img src="assets/logo.png" alt="EducaLink" class="h-[70px]" />
+      <img src="assets/logo.png" alt="EducaLink" class="h-[100px]" />
     </div>
   </header>
   
@@ -8,10 +8,10 @@
     <div class="w-4/5  grid-cols-1 sm:grid-cols-3 gap-4">
       <app-group></app-group>
     </div>
-    <div class="w-4/5">
+    <div class="w-3/5 fixed bottom-4">
       <button
         (click)="finalizar()"
-        class="w-full bg-[#3a00ae] text-white py-2 rounded mt-4"
+        class="w-full bg-[#3a00ae] hover:bg-[#3a00ae]/80 transition-colors duration-300 text-white py-2 rounded mt-4"
       >
         Finalizar
       </button>

@@ -20,27 +20,30 @@ import { CommentsComponent } from './pages/comments/comments.component';
 import { EditforumComponent } from './components/editforum/editforum.component';
 import { SaleChatComponent } from './pages/sale-chat/sale-chat.component';
 import { UserFollowingComponent } from './pages/user-following/user-following.component';
+import { authGuard } from './auth/auth.guard';
+import { AdsComponent } from './pages/ads/ads.component';
 
 
 export const routes: Routes = [
     { path: '', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
-    { path: 'home', component: HomeComponent },
-    { path: 'createpost', component: CreatePostComponent },
-    { path: 'registergroup', component: RegistergroupComponent },
-    { path: 'mygroup', component: MygroupsComponent },
-    { path: 'profile/:id_user', component: ProfileComponent },
-    { path: 'sale', component: VentasComponent },
-    { path: 'chat', component: ChatComponent },
-    { path: 'forum', component: ForumComponent },
-    { path: 'salepost', component: CreateSalePostComponent },
-    { path: 'user-forums', component: UserForumsComponent },
-    { path: 'editprofile', component: EditProfileComponent},
-    { path: 'createforum', component: NewforumComponent},
-    { path: 'search-forum', component: SearchForumComponent},
-    { path: 'editforum', component: EditforumComponent},
-    { path: 'search', component: SearchPageComponent},
-    { path: 'comments', component: CommentsComponent},
-    { path: 'sale-chat', component: SaleChatComponent},
-    { path: 'user-following', component: UserFollowingComponent}
+    { path: 'home', component: HomeComponent, canActivate: [authGuard] },
+    { path: 'createpost', component: CreatePostComponent, canActivate: [authGuard] },
+    { path: 'registergroup', component: RegistergroupComponent, canActivate: [authGuard] },
+    { path: 'mygroup', component: MygroupsComponent, canActivate: [authGuard] },
+    { path: 'profile/:id_user', component: ProfileComponent, canActivate: [authGuard] },
+    { path: 'sale', component: VentasComponent, canActivate: [authGuard] },
+    { path: 'chat', component: ChatComponent, canActivate: [authGuard] },
+    { path: 'forum', component: ForumComponent, canActivate: [authGuard] },
+    { path: 'salepost', component: CreateSalePostComponent, canActivate: [authGuard] },
+    { path: 'user-forums', component: UserForumsComponent, canActivate: [authGuard] },
+    { path: 'editprofile', component: EditProfileComponent, canActivate: [authGuard] },
+    { path: 'createforum', component: NewforumComponent, canActivate: [authGuard] },
+    { path: 'search-forum', component: SearchForumComponent, canActivate: [authGuard] },
+    { path: 'editforum', component: EditforumComponent, canActivate: [authGuard] },
+    { path: 'search', component: SearchPageComponent, canActivate: [authGuard] },
+    { path: 'comments', component: CommentsComponent, canActivate: [authGuard] },
+    { path: 'sale-chat', component: SaleChatComponent, canActivate: [authGuard] },
+    { path: 'user-following', component: UserFollowingComponent, canActivate: [authGuard] },
+    { path: 'ads', component: AdsComponent, canActivate: [authGuard] }
 ];

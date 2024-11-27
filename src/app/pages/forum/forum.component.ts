@@ -176,4 +176,8 @@ export class ForumComponent implements OnInit {
   showDialog() {
     this.visible = true;
   }
+
+  onPostDeleted(postId: number): void {
+    this.posts = this.posts.filter(post => post.id_post !== postId);
+  }
 }

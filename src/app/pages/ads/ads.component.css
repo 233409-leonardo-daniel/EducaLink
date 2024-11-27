@@ -1,0 +1,22 @@
+/* Estilos para el modal */
+:host ::ng-deep .p-dialog .p-dialog-header {
+    background-color: #3F008F;
+    color: white;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content {
+    padding: 2rem;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-footer {
+    padding: 1rem 2rem;
+}
+
+/* Estilo para el botón cancelar */
+:host ::ng-deep button.p-button-text {
+    color: white;
+}
+
+:host ::ng-deep button.p-button-text:hover {
+    background-color: #5a6268 !important;
+}

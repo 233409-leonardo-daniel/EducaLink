@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AdService {
-  // private url = 'http://98.85.11.22:8000';
-  private url = 'http://localhost:8000';
+  private url = 'http://98.85.11.22:8000';
+  // private url = 'http://localhost:8000';
 
   getAds(): Observable<IAd[]> {
     return this.http.get<IAd[]>(`${this.url}/ads/`, this.getHttpOptions());
@@ -23,6 +23,9 @@ export class AdService {
     });
   } 
 
+  deleteAd(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.url}/ads/${id}`, this.getHttpOptions());
+  }
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 

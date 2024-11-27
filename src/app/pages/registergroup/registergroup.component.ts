@@ -7,11 +7,12 @@ import { Router } from '@angular/router';
 import { ForumService } from '../../services/forum.service';
 import { AuthService } from '../../auth/auth.service';
 import { IUserData } from '../../models/iuser-data';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-registergroup',
   standalone: true,
-  imports: [GroupComponent],
+  imports: [GroupComponent, CommonModule],
   templateUrl: './registergroup.component.html',
   styleUrl: './registergroup.component.css'
 })
@@ -24,7 +25,7 @@ export class RegistergroupComponent implements OnInit{
   ngOnInit(): void {
     this.user = this.authService.getUser() as IUserData;
     this.forumService.getAvailableForumsWithDoubleFilters(this.user.id_user, this.user.grade, this.user.education_level).subscribe((data) => {
-      this.forums = data;
+      this.forums = data.filter(forum => forum.privacy == 'Publico');
     });
   }
 

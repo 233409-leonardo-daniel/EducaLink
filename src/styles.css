@@ -110,3 +110,160 @@ body {
 .p-autocomplete {
     flex: 1;
 }
+
+/* Estilos para inputs de PrimeNG */
+.p-float-label {
+    position: relative;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.p-float-label input {
+    width: 100%;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    padding: 1rem 1rem 0.75rem;
+    height: 3.5rem;
+    color: #1a1a1a;
+    outline: none;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.p-float-label input:focus {
+    border-color: #3F008F;
+    box-shadow: 0 0 0 2px rgba(63, 0, 143, 0.1);
+}
+
+.p-float-label label {
+    position: absolute;
+    pointer-events: none;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    color: #64748b;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+.p-float-label input:focus ~ label,
+.p-float-label input.p-filled ~ label {
+    top: 0.25rem;
+    left: 0.75rem;
+    font-size: 0.75rem;
+    background-color: white;
+    padding: 0 0.25rem;
+    color: #3F008F;
+    transform: translateY(0);
+}
+
+/* Estilo para el input de tipo file */
+input[type="file"] {
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.375rem;
+    padding: 0.5rem;
+    width: 100%;
+    color: #1a1a1a;
+}
+
+/* Estilo para el botón */
+.custom-button {
+    background-color: #3F008F;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.custom-button:hover {
+    background-color: #2d0066;
+}
+
+.custom-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(63, 0, 143, 0.2);
+}
+
+/* Estilos para inputs inválidos */
+.p-float-label input.ng-dirty.ng-invalid {
+    border-color: #dc3545;
+}
+
+.p-float-label input.ng-dirty.ng-invalid:focus {
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.1);
+}
+
+.p-float-label input.ng-dirty.ng-invalid ~ label {
+    color: #dc3545;
+}
+
+/* Mantener el color del label cuando el input está enfocado y es inválido */
+.p-float-label input.ng-dirty.ng-invalid:focus ~ label {
+    color: #dc3545;
+}
+
+/* Estilos responsivos para la tabla */
+@media screen and (max-width: 640px) {
+    .p-datatable .p-datatable-tbody > tr > td {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .p-datatable .p-datatable-thead > tr > th {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    /* Ajustar botones en móvil */
+    .custom-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    /* Ajustar inputs en móvil */
+    .p-float-label input {
+        height: 3rem;
+        font-size: 0.875rem;
+    }
+
+    /* Ajustar el padding del modal en móvil */
+    .p-dialog .p-dialog-content {
+        padding: 1rem;
+    }
+
+    /* Ajustar el espacio entre elementos del formulario */
+    form.flex.flex-col {
+        gap: 1rem;
+    }
+}
+
+/* Estilos para el scroll horizontal en tablas en móvil */
+.p-datatable-wrapper {
+    overflow-x: auto;
+}
+
+/* Ajustar el header del modal */
+:host ::ng-deep .p-dialog-custom .p-dialog-header {
+    padding: 1rem;
+}
+
+/* Ajustar el footer del modal */
+:host ::ng-deep .p-dialog-custom .p-dialog-footer {
+    padding: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Hacer los botones del footer responsive */
+:host ::ng-deep .p-dialog-custom .p-dialog-footer button {
+    flex: 1;
+    min-width: fit-content;
+}

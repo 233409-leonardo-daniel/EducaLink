@@ -89,6 +89,11 @@ export class NavbarComponent implements OnInit {
     this.menuOpen = false; 
   }
 
+  goAds() {
+    this.router.navigate(['/ads']);
+    this.menuOpen = false; 
+  }
+
   logout() {
     this.authService.logout().subscribe ({
       next: (data) => {
