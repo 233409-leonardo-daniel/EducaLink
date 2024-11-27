@@ -22,6 +22,9 @@ import { SaleChatComponent } from './pages/sale-chat/sale-chat.component';
 import { UserFollowingComponent } from './pages/user-following/user-following.component';
 import { authGuard } from './auth/auth.guard';
 import { AdsComponent } from './pages/ads/ads.component';
+import { HelpComponent } from './pages/help/help.component';
+import { HelpSectionComponent } from './components/help-section/help-section.component';
+import { InfoComponent } from './components/info/info.component';
 
 
 export const routes: Routes = [
@@ -45,5 +48,8 @@ export const routes: Routes = [
     { path: 'comments', component: CommentsComponent, canActivate: [authGuard] },
     { path: 'sale-chat', component: SaleChatComponent, canActivate: [authGuard] },
     { path: 'user-following', component: UserFollowingComponent, canActivate: [authGuard] },
-    { path: 'ads', component: AdsComponent, canActivate: [authGuard] }
+    { path: 'ads', component: AdsComponent, canActivate: [authGuard] }, 
+    { path: 'info', component: HelpComponent, canActivate: [authGuard]  }, 
+    { path: 'help-section', component: HelpSectionComponent, canActivate: [authGuard] },
+    { path: 'categories/:category', component: InfoComponent, canActivate: [authGuard]  }
 ];

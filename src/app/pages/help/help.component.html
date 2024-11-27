@@ -1,0 +1,53 @@
+<app-navbar></app-navbar>
+<div class="bg-white min-h-screen flex flex-col items-center">
+    <!-- Header Section -->
+    <div class="bg-[#3A00AE] w-full flex flex-col items-center py-10">
+      <h1 class="text-4xl font-bold text-center text-white mt-2">
+        ¿Cómo podemos ayudarte hoy?
+      </h1>
+      <p class="text-white mt-4 text-center">
+        Te damos la bienvenida al Centro de ayuda de EducaLink
+      </p>
+      
+    </div>
+  
+    <!-- Main Section -->
+    <div class="flex flex-col md:flex-row gap-6 mt-8 justify-center w-full px-4">
+      <!-- Moderation Help -->
+      <div
+        class="flex flex-col items-center bg-white shadow-lg rounded-lg p-6 w-full md:w-[300px]"
+      >
+        <img
+          src="assets/moderacion.png"
+          alt="Moderation Icon"
+          class="w-16 h-16"
+        />
+        <h2 class="font-bold text-black text-xl mt-4">
+          Ayuda para la moderación
+        </h2>
+        <p class="text-gray-600 text-center mt-2">
+          Información y respuestas a preguntas sobre cómo moderar comunidades en EducaLink.
+        </p>
+      </div>
+  
+      <!-- Redditor Help -->
+      <div
+        class="flex flex-col items-center bg-white shadow-lg rounded-lg p-6 w-full md:w-[300px] cursor-pointer"
+        [routerLink]="['/help-section']"
+      >
+        <img
+          src="assets/log.png"
+          alt=" Icon"
+          class="w-16 h-16"
+        />
+        <h2 class="font-bold text-black text-xl mt-4">
+          Ayuda para los EduacaLinks
+        </h2>
+        <p class="text-gray-600 text-center mt-2">
+          Asistencia e información sobre cómo administrar tu cuenta de EducaLink y
+          usar la plataforma.
+        </p>
+      </div>
+    </div>
+  </div>
+  

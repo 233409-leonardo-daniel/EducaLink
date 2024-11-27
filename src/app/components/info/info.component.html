@@ -1,0 +1,37 @@
+<div class="bg-[#F8F9FA] min-h-screen">
+    <!-- Navbar -->
+    <app-navbar></app-navbar>
+  
+    <!-- Header -->
+    <div class="bg-[#3A00AE] py-8 px-4">
+      <div class="max-w-5xl mx-auto">
+        <p class="text-white text-sm font-semibold">
+          Reddit Help › {{ category | titlecase }}
+        </p>
+        <h1 class="text-3xl font-bold text-white mt-2">{{ category | titlecase }}</h1>
+        <p class="text-white mt-2">
+          Información sobre la categoría seleccionada: {{ category }}.
+        </p>
+      </div>
+    </div>
+  
+    <!-- Tree Select Sections -->
+    <div class="max-w-5xl mx-auto mt-8 px-4">
+      <form [formGroup]="formGroup">
+        <p-treeSelect
+          class="md:w-20rem w-full"
+          containerStyleClass="w-full border-gray-300 shadow-sm"
+          formControlName="selectedNodes"
+          [options]="nodes"
+          placeholder="Selecciona un tema"
+          (onNodeSelect)="onNodeSelect($event)">
+        </p-treeSelect>
+      </form>
+      
+      <!-- Mostrar descripción del nodo seleccionado -->
+      <div *ngIf="selectedDescription" class="mt-4 p-4 bg-white shadow rounded">
+        <h2 class="text-lg font-bold mb-2">Descripción</h2>
+        <p>{{ selectedDescription }}</p>
+      </div>
+    </div>
+  </div>
